@@ -1,7 +1,8 @@
 express = require 'express'
 cp = require 'child_process'
 app = express();
-main = cp.fork './main-controller'
+port = process.env.PORT || 80
+main = cp.fork "./main-controller.js", [port]
 rooms = []
 
 app.get '/', (request, response) ->
@@ -26,6 +27,5 @@ app.get '/\*', (request, response) ->
     rooms.push room
     main.send room
 
-port = process.env.PORT || 80
 app.listen port, ->
   console.log "ayy, process running on port " + port 
