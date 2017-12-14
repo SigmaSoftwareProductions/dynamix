@@ -11,16 +11,16 @@ app.get '/teapot', (request, response) ->
   response.sendStatus 418
 
 app.get '/dynamix-client.js', (request, response) ->
-  response.sendFile "/Users/karangurazada/Documents/Node/dynamix-client.js"
+  response.sendFile "./dynamix-client.js"
 
 app.get '/jquery-3.2.1.js', (request, response) ->
-  response.sendFile "/Users/karangurazada/Documents/Node/jquery-3.2.1.js"
+  response.sendFile "./jquery-3.2.1.js"
 
 app.get '/favicon.ico', (request, response) ->
-  response.sendFile "/Users/karangurazada/Downloads/kubuntu.png"
+  response.sendFile "./favicon.ico"
 
 app.get '/\*', (request, response) ->
-  response.sendFile "/Users/karangurazada/Documents/Node/neilufi.html"
+  response.sendFile "./neilufi.html"
   room = request.originalUrl.substring(1)
   if (rooms.indexOf(room) == -1)
     rooms.push room
