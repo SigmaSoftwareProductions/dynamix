@@ -26,5 +26,6 @@ app.get '/\*', (request, response) ->
     rooms.push room
     main.send room
 
-app.listen 2000, ->
-  console.log("Node app is running at localhost:2000")
+port = process.env.PORT || 80
+app.listen port, ->
+  console.log "ayy, process running on port " + port " ;)" 
