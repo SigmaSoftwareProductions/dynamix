@@ -2,7 +2,7 @@ express = require 'express'
 cp = require 'child_process'
 app = express();
 port = process.env.PORT || 80
-main = cp.fork "./main-controller.js", [port]
+main = cp.fork "./main-controller.js", [app]
 rooms = []
 
 app.get '/', (request, response) ->
