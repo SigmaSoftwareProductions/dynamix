@@ -28,4 +28,4 @@ app.get '/\*', (request, response) ->
 
 port = process.env.PORT || 80
 app.listen port, ->
-  console.log "ayy, process running on port " + port " ;)" 
+  console.log "ayy, process running on port " + port 
