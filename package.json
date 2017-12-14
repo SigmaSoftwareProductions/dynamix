@@ -1,0 +1,35 @@
+{
+  "name": "dynamix",
+  "version": "1.0.0",
+  "description": "dynamic virtual quizbowl environment",
+  "main": "dynamix-client.js",
+  "engines": {
+    "node": "8.9.1"
+  },
+  "dependencies": {
+    "coffeescript": "^2.0.3",
+    "express": "^4.16.2",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.13.6",
+    "ws": "^3.3.2"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.12.7"
+  },
+  "scripts": {
+    "start": "coffee --compile *.coffee; node dynamix-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SigmaSoftwareProductions/dynamix.git"
+  },
+  "keywords": [
+    "stuff"
+  ],
+  "author": "SigmaSoftwareProductions",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SigmaSoftwareProductions/dynamix/issues"
+  },
+  "homepage": "https://github.com/SigmaSoftwareProductions/dynamix#readme"
+}
