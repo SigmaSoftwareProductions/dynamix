@@ -1,4 +1,4 @@
-'1;95;0cconsole.log 'online'
+console.log 'online'
 
 {Room} = require './room'
 wsx = require 'ws'
