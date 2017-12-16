@@ -4,6 +4,8 @@ console.log 'online'
 wsx = require 'ws'
 mongodb = require 'mongodb'
 
+console.log process.argv[2]
+
 wss = new wsx.Server process.argv[2]
 console.log "server: " + wss
 
