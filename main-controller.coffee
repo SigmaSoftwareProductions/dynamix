@@ -6,7 +6,7 @@ mongodb = require 'mongodb'
 
 console.log process.argv[2]
 
-wss = new wsx.Server process.argv[2]
+wss = new wsx.SocketServer({ process.argv[2] })
 console.log "server: " + wss
 
 q = 'The von Neumann form of this concept is given in terms of the trace of a density matrix times its log. The Sackur-Tetrode equation gives this quantity extensively, avoiding the Gibbs paradox. Defined as the Boltzmann constant times natural log of the number of microstates, it is multiplied by temperature in the expression for Gibbs free energy. Maxwell\'s hypothetical demon purports to lowers this quantity. Symbolized by the letter S, its tendency to increase is dictated by the second law of thermodynamics. For 10 points, name this quantity, a measure of a system\'s disorder.'
