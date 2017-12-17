@@ -17,7 +17,7 @@
     "coffee-script": "^1.12.7"
   },
   "scripts": {
-    "start": "coffee --compile *.coffee; node dynamix-server.js; node main-controller.js"
+    "start": "coffee --compile *.coffee; node main-controller.js"
   },
   "repository": {
     "type": "git",

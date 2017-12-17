@@ -10,10 +10,28 @@ http = require 'http'
 express = require 'express'
 
 app = express()
-app.listen process.env.PORT || 2020, ->
-  console.log 'server online'
+port = process.env.PORT || 2020
+app.get '/', (request, response) ->
+  response.send 'hi'
 
-console.log JSON.stringify(process.argv[2])
+app.get '/teapot', (request, response) ->
+  response.sendStatus 418
+
+app.get '/dynamix-client.js', (request, response) ->
+  response.sendFile __dirname+"/dynamix-client.js"
+
+app.get '/jquery-3.2.1.js', (request, response) ->
+  response.sendFile __dirname+"/jquery-3.2.1.js"
+
+app.get '/favicon.ico', (request, response) ->
+  response.sendFile __dirname+"/favicon.ico"
+
+app.get '/\*', (request, response) ->
+  response.sendFile __dirname+"/neilufi.html"
+
+app.listen port, ->
+  console.log "ayy, static server running on port " + port
+
 wss = new (wsx.Server)(server: app)
 console.log "wss online"
 
