@@ -1,10 +1,6 @@
 express = require 'express'
-cp = require 'child_process'
 app = express();
-port = process.env.PORT || 80
-main = cp.fork "./main-controller.js",[http.Server(app)]
-console.log app
-rooms = []
+port = process.env.PORT || 2000
 
 app.get '/', (request, response) ->
   response.send 'hi'
@@ -23,10 +19,6 @@ app.get '/favicon.ico', (request, response) ->
 
 app.get '/\*', (request, response) ->
   response.sendFile __dirname+"/neilufi.html"
-  room = request.originalUrl.substring(1)
-  if (rooms.indexOf(room) == -1)
-    rooms.push room
-    main.send room
 
 app.listen port, ->
-  console.log "ayy, process running on port " + port 
+  console.log "ayy, static server running on port " + port 

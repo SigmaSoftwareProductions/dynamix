@@ -3,9 +3,16 @@ console.log 'online'
 {Room} = require './room'
 wsx = require 'ws'
 mongodb = require 'mongodb'
+mongoose = require 'mongoose'
+crypto = require 'crypto'
+util = require 'util'
+http = require 'http'
+express = require 'express'
+
+app = express()
 
 console.log JSON.stringify(process.argv[2])
-wss = new (wsx.Server)(server: process.argv[2])
+wss = new (wsx.Server)(server: app)
 
 console.log "server: " + wss
 
