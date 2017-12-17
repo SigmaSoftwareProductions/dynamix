@@ -1,4 +1,6 @@
 express = require 'express'
+cp = require 'child_process'
+cp.fork __dirname+'/main-controller.js'
 app = express();
 port = process.env.PORT || 2000
 
