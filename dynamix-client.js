@@ -1,6 +1,6 @@
 $(document).ready(function () {
     room = window.location.pathname.substring(1);
-    var ws = new WebSocket("ws://"+window.location.href, [room]);
+    var ws = new WebSocket("wss://"+window.location.href, [room]);
     $("#left").prepend('<input type="text" placeholder="name" id="namebox" class="form-control">');
     var name = document.getElementById("namebox").value;
     $(document).keypress(function () {
