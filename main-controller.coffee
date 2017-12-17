@@ -5,7 +5,7 @@ wsx = require 'ws'
 mongodb = require 'mongodb'
 
 console.log JSON.stringify(process.argv[2])
-wss = new SocketServer([process.argv[2]])
+wss = new wsx.Server(server: process.argv[2])
 
 console.log "server: " + wss
 
