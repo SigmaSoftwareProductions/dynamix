@@ -8,6 +8,7 @@ crypto = require 'crypto'
 util = require 'util'
 http = require 'http'
 express = require 'express'
+http = require 'http'
 
 app = express()
 port = process.env.PORT || 2020
@@ -32,7 +33,7 @@ app.get '/\*', (request, response) ->
 app.listen port, ->
   console.log "ayy, static server running on port " + port
 
-wss = new (wsx.Server)(server: app)
+wss = new (wsx.Server)(server: http.createServer(app))
 console.log "wss online"
 
 q = 'The von Neumann form of this concept is given in terms of the trace of a density matrix times its log. The Sackur-Tetrode equation gives this quantity extensively, avoiding the Gibbs paradox. Defined as the Boltzmann constant times natural log of the number of microstates, it is multiplied by temperature in the expression for Gibbs free energy. Maxwell\'s hypothetical demon purports to lowers this quantity. Symbolized by the letter S, its tendency to increase is dictated by the second law of thermodynamics. For 10 points, name this quantity, a measure of a system\'s disorder.'
