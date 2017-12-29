@@ -1,6 +1,6 @@
 $(document).ready(function () {
     room = window.location.pathname.substring(1);
-    var ws = new WebSocket("wss://frozen-plains-52974.herokuapp.com"/*, [room]*/);
+    var ws = new WebSocket("wss://frozen-plains-52974.herokuapp.com/x/y/z"/*, [room]*/);
     $("#left").prepend('<input type="text" placeholder="name" id="namebox" class="form-control">');
     var name = document.getElementById("namebox").value;
     $(document).keypress(function () {
