@@ -55,6 +55,7 @@ wss.broadcast = (data, room) ->
 
 wss.on 'connection', (ws) ->
   console.log 'connection established'
+  ws.send 'hello there folks!'
   ws.on 'message', (msg) ->
     msg = JSON.parse msg
     res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
