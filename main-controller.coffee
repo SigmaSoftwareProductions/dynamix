@@ -41,17 +41,10 @@ q = 'The von Neumann form of this concept is given in terms of the trace of a de
 rooms = []
 names = []
 
-{Room} = require './room'
-
-process.on 'message', (msg) ->
-  rooms.push(new Room ({name: msg.toString(), status: "public", owner: "entropy"}))
-  names.push(msg)
-
-wss.broadcast = (data, room) ->
+wss.broadcast = (data) ->
   wss.clients.forEach (ws) ->
-    if (ws.readyState == wsx.OPEN && ws.protocols = [room])
+    if (ws.readyState == wsx.OPEN)
       ws.send(data)
-
 
 wss.on 'connection', (ws) ->
   console.log 'connection established'
