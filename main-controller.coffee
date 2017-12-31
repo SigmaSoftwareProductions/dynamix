@@ -28,7 +28,8 @@ wss.on 'connection', (ws) ->
   ws.send 'hello there folks!'
   ws.on 'message', (msg) ->
     msg = JSON.parse msg
-    res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
+    res = rooms[names.indexOf(msg.room)].handle(msg.msgContent) if !msg.greeting?
+    rooms.add msg.room if msg.greeting?
     if (res == "correct")
       wss.broadcast "correct by " + msg.person
     else if (res == "wrong")
