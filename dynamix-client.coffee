@@ -1,9 +1,6 @@
 $(document).ready ->
   room = window.location.pathname.substring(1)
   ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
-  setTimeout(->
-    ws.send({greeting: 'hello', room: room})
-  , 600)
   $('#right').prepend '<input type="text" placeholder="name" id="namebox" class="form-control">'
   $(document).keypress ->
     name = document.getElementById('namebox').value
@@ -51,6 +48,6 @@ $(document).ready ->
   ws.onmessage = (event) ->
     console.log event.data
     $('#main').prepend '<div class="container-fluid">' + event.data + '</div>'
-    return
 
-  return
+  ws.onopen = (event) ->
+    ws.send({greeting: 'hello', room: room})
