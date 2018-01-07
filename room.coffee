@@ -14,7 +14,7 @@ class Room
   handle: (msg) ->
     return "correct" if msg.category == 'buzz' && msg.msx == 'entropy'
     return "wrong" if msg.category == 'buzz' && msg.msx != 'entropy'
-    return ("chat " + msg.msx) if msg.category == 'chat'
+    return {type:'chat',content:msg.msx} if msg.category == 'chat'
     return "next" if msg.category == "next"
 
 exports.Room = Room if exports?

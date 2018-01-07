@@ -30,10 +30,10 @@ wss.on 'connection', (ws) ->
     console.log msg
     msg = JSON.parse msg
     res = rooms[names.indexOf(msg.room)].handle(msg.msgContent) if !msg.greeting?
-    rooms.add msg.room if msg.greeting?
+    rooms.push msg.room if msg.greeting?
     if (res == "correct")
       wss.broadcast "correct by " + msg.person
     else if (res == "wrong")
       wss.broadcast "neg by " + msg.person
     else if (res.substring(0, 4) == "chat")
-      wss.broadcast "chat by " + msg.person + " saying " + res.substring(5)
+      wss.broadcast JSON.Stringify {type:'chat',person:msg.person,content:'meh'}
