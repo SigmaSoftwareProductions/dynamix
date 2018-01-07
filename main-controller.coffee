@@ -27,6 +27,7 @@ wss.on 'connection', (ws) ->
   console.log 'connection established'
   ws.send 'hello there folks!'
   ws.on 'message', (msg) ->
+    console.log msg
     msg = JSON.parse msg
     res = rooms[names.indexOf(msg.room)].handle(msg.msgContent) if !msg.greeting?
     rooms.add msg.room if msg.greeting?

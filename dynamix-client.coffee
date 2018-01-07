@@ -50,4 +50,5 @@ $(document).ready ->
     $('#main').prepend '<div class="container-fluid">' + event.data + '</div>'
 
   ws.onopen = (event) ->
+    alert JSON.stringify({greeting: 'hello', room: room})
     ws.send(JSON.stringify({greeting: 'hello', room: room}))
