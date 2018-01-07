@@ -35,5 +35,5 @@ wss.on 'connection', (ws) ->
       wss.broadcast "correct by " + msg.person
     else if (res == "wrong")
       wss.broadcast "neg by " + msg.person
-    else if (res.substring(0, 4) == "chat")
+    else if (res.type == "chat")
       wss.broadcast JSON.Stringify {type:'chat',person:msg.person,content:'meh'}
