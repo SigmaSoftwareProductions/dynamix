@@ -25,8 +25,8 @@ wss.broadcast = (data) ->
 
 wss.on 'connection', (ws) ->
   ws.on 'message', (msg) ->
-  	rooms.push new Room ({name: msg.room, status: "standard", owner: "communist party"}) if msg.greeting? && names.indexOf(msg.room) == -1
-  	names.push msg.room if msg.greeting && names.indexOf(msg.room) == -1
+  	rooms.push(new Room ({name: msg.room, status: "standard", owner: "communist party"})) if msg.greeting? && names.indexOf(msg.room) == -1
+  	names.push(msg.room) if msg.greeting && names.indexOf(msg.room) == -1
   	console.log msg
     msg = JSON.parse msg
     res = rooms[names.indexOf(msg.room)].handle(msg.content)
