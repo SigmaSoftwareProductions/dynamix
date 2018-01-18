@@ -19,17 +19,17 @@ rooms = []
 names = []
 
 wss.broadcast = (data) ->
-  	wss.clients.forEach (ws) ->
-   		if (ws.readyState == wsx.OPEN)
-      		ws.send(data)
+	wss.clients.forEach (ws) ->
+		if (ws.readyState == wsx.OPEN)
+			ws.send(data)
 
 wss.on 'connection', (ws) ->
-  	ws.on 'message', (msg) ->
-  		if (msg.greeting? && names.indexOf(msg.room) == -1)
-  			rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party"}))
-  			names.push(msg.room)
-  		console.log msg
-    		msg = JSON.parse msg
-    		res = rooms[names.indexOf(msg.room)].handle(msg.content)
-    		ws.broadcast(res)
-    		console.log res
+	ws.on 'message', (msg) ->
+		if (msg.greeting? && names.indexOf(msg.room) == -1)
+			rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party"}))
+			names.push(msg.room)
+		console.log msg
+		msg = JSON.parse msg
+		res = rooms[names.indexOf(msg.room)].handle(msg.content)
+		ws.broadcast(res)
+		console.log res
