@@ -19,7 +19,7 @@ class Question
 		@tournament = question.tournament
 		@powerloc = question.powerloc
 		
-get_question: (id) ->
+get_question = (id) ->
 	url = 'mongodb://dynamix:dynamix@ds153577.mlab.com:53577/dynamix'
 	mdb.MongoClient.connect url, (err, db) -> 
 		throw err if err?
