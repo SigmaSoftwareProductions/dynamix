@@ -3,12 +3,12 @@ mdb = require 'mongodb'
 Schema = mongoose.Schema
 
 qschema = new Schema ({
-	id: int,
+	id: Number,
 	text: String,
 	answers: Array,
 	prompts: Array,
 	tournament: String,
-	powerloc: int # 0 if no power, otherwise corresponds to before nth word
+	powerloc: Number # 0 if no power, otherwise corresponds to before nth word
 })
 
 class Question
