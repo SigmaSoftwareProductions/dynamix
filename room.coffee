@@ -11,7 +11,7 @@ class Room
     @people = [];
     @default_distribution = { "History": 20, "Science": 20, "Literature": 15, "Art": 15, "Religion + Myth": 10, "Geography": 5, "Philosophy + Social Sci": 10, "Trash": 5 }
     @distribution = @default_distribution
-    @q = 0h010000000
+    @q = 0x010000000
 
   handle: (msg) ->
     return "correct" if msg.category == 'buzz' && msg.msx == 'entropy'
