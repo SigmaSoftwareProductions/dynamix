@@ -28,8 +28,9 @@ wss.on 'connection', (ws) ->
         if (msg.greeting? && names.indexOf(msg.room) == -1)
             rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party"}))
             names.push(msg.room)   
-            console.log msg
-            msg = JSON.parse msg
-            res = rooms[names.indexOf(msg.room)].handle(msg.content)
-            ws.broadcast(res)
-            console.log res
+            
+        console.log msg
+        msg = JSON.parse msg
+        res = rooms[names.indexOf(msg.room)].handle(msg.content)
+        ws.broadcast(res)
+        console.log res
