@@ -15,7 +15,7 @@ $(document).ready ->
           person: name
           msgContent: {
             category: 'chat'
-            value: document.getElementById('chatbox').value)
+            value: document.getElementById('chatbox').value
 	  }
 	})
         $('#chatbox').remove()
