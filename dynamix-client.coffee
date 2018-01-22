@@ -27,7 +27,7 @@ $(document).ready ->
                         person: name
                         category: 'buzz'
                         value: document.getElementById('buzzbox').value
-	               }
+                    }
                 })
                 $('#buzzbox').remove()
       
