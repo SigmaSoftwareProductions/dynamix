@@ -11,12 +11,12 @@ $(document).ready ->
     if event.which == 13
       if document.getElementById('chatbox') != null
         ws.send JSON.stringify({
-          room: room
-          person: name
-          msgContent: {
-            category: 'chat'
+        room: room,
+        person: name,
+        msgContent: {
+            category: 'chat',
             value: document.getElementById('chatbox').value
-	  }
+        }
 	})
         $('#chatbox').remove()
       
