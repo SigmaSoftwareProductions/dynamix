@@ -11,14 +11,14 @@ $(document).ready ->
         if event.which == 13
             if document.getElementById('chatbox') != null
                 ws.send JSON.stringify({
-                room: room,
-                person: name,
-                msgContent: {
-                    category: 'chat',
-                    value: document.getElementById('chatbox').value
-                }
-            })
-            $('#chatbox').remove()
+                    room: room,
+                    person: name,
+                    msgContent: {
+                        category: 'chat',
+                        value: document.getElementById('chatbox').value
+                    }
+                })
+                $('#chatbox').remove()
       
             else if document.getElementById('buzzbox') != null
                 ws.send JSON.stringify({
@@ -35,7 +35,7 @@ $(document).ready ->
                 name = document.getElementById('namebox').value
     
         else if document.activeElement.tagName != 'BODY'
-	# do nothing! yay
+            # do nothing! yay
     
         else if event.which == 32
             $('#main').prepend '<input type="text" placeholder="buzz" id="buzzbox" class="form-control">'
