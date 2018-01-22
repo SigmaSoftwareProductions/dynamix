@@ -26,7 +26,7 @@ $(document).ready ->
                     msgContent: {
                         person: name
                         category: 'buzz'
-                        value: document.getElementById('buzzbox').value)
+                        value: document.getElementById('buzzbox').value
 	               }
                 })
                 $('#buzzbox').remove()
