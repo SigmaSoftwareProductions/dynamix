@@ -26,8 +26,9 @@ wss.on 'connection', (ws) ->
         console.log msg
         msg = JSON.parse msg
         if (msg.greeting? && names.indexOf(msg.room) == -1)
-            rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party"}))
+            rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party"})) # maybe the first person there should own it? idk
             names.push(msg.room)
+        rooms[names.indexOf(msg.room)].people.push msg.msgContent.person if (msg.greeting?)    
         res = rooms[names.indexOf(msg.room)].handle(msg.content)
         ws.broadcast(res)
         console.log res
