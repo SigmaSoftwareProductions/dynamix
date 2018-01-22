@@ -13,10 +13,14 @@ class Room
         @q = 0x010000000
 
     handle: (msg) ->   
-        return {room:@name, msgContent:{category:"buzz", value:"correct", person:msg.person}} if msg.category == 'buzz' && msg.value == 'entropy'
-        return {room:@name, msgContent:{category:"buzz", value:"wrong", person:msg.person}} else if msg.category == 'buzz' && msg.value != 'entropy'
-        return {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}} else if msg.category == 'chat'
-        return {room:@name, msgContent:{category:"next", value:"shouldn't be read"}} else if msg.category == "next"
+        if msg.category == 'buzz' && msg.value == 'entropy'
+            return {room:@name, msgContent:{category:"buzz", value:"correct", person:msg.person}} 
+        else if msg.category == 'buzz' && msg.value != 'entropy'
+            return {room:@name, msgContent:{category:"buzz", value:"wrong", person:msg.person}}
+        else if msg.category == 'chat'
+            return {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
+        else if msg.category == "next"
+            return {room:@name, msgContent:{category:"next", value:"shouldn't be read"}} 
   	
     """
         addPlayer: (person) ->
