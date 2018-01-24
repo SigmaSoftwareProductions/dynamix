@@ -21,10 +21,10 @@ $(document).ready ->
             if document.getElementById('chatbox') != null
                 ws.send JSON.stringify({
                     room: room,
-                    person: name,
                     msgContent: {
                         category: 'chat',
-                        value: document.getElementById('chatbox').value
+                        value: document.getElementById('chatbox').value,
+                        person: name
                     }
                 })
                 $('#chatbox').remove()
@@ -72,11 +72,10 @@ $(document).ready ->
             ), 120
 
     ws.onmessage = (event) ->
-        console.log event.data
+        alert(event.data)
         if !JSON.parse(event.data).room = room
             return
         x = JSON.parse(event.data).msgContent
-        alert (x)
         if x.category == 'chat'
             x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value
         else if x.category == 'buzz'

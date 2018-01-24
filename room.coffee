@@ -13,6 +13,7 @@ class Room
         @q = 0x010000000
 
     handle: (msg) ->   
+        console.log msg
         if msg.category == 'greeting'
             return {room:@name, msgContent:{category:"entry", person:msg.person}} 
         if msg.category == 'buzz' && msg.value == 'entropy'
