@@ -60,8 +60,16 @@ $(document).ready ->
             ), 120
 
     ws.onmessage = (event) ->
-        console.log event.data
-        $('#main').prepend '<div class="container-fluid">' + event.data + '</div>'
+        if !event.data.room = room
+            return
+        x = event.data.msgContent
+        if x.category == 'chat'
+            x = x.person + ' ' + x.value
+        else if x.category == 'buzz'
+            x = x.person + ' ' + x.value + ' ' + x.ver
+        else if x.category == 'entry'
+            x = x.person + ' joined the room'
+        $('#main').prepend '<div class="container-fluid">' + x + '</div>'
 
     ws.onopen = (event) ->
         ws.send(JSON.stringify({greeting:'hello world!', room:room, msgContent:{person:name, category:"greeting"}}))

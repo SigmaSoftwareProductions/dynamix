@@ -13,10 +13,12 @@ class Room
         @q = 0x010000000
 
     handle: (msg) ->   
+        if msg.category == 'greeting'
+            return {room:@name, msgContent:{category:"entry", person:msg.person}} 
         if msg.category == 'buzz' && msg.value == 'entropy'
-            return {room:@name, msgContent:{category:"buzz", value:"correct", person:msg.person}} 
+            return {room:@name, msgContent:{category:"buzz", value:msg.value, ver:"correct" person:msg.person}} 
         else if msg.category == 'buzz' && msg.value != 'entropy'
-            return {room:@name, msgContent:{category:"buzz", value:"wrong", person:msg.person}}
+            return {room:@name, msgContent:{category:"buzz", value:msg.value, ver:"wrong", person:msg.person}}
         else if msg.category == 'chat'
             return {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
         else if msg.category == "next"
