@@ -2,11 +2,13 @@ $(document).ready ->
 
     room = window.location.pathname.substring(1)
     ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
+    name = JSON.parse(document.cookie).username || "comrade popov"
     $('#right').prepend '<input type="text" placeholder="name" id="namebox" class="form-control">'
 
     $(document).keypress ->
 
         name = document.getElementById('namebox').value
+        document.cookie = JSON.stringify({username:name})
 
         if event.which == 13
             if document.getElementById('chatbox') != null
@@ -33,6 +35,8 @@ $(document).ready ->
       
             else
                 name = document.getElementById('namebox').value
+            
+            $('body').focus()
     
         else if document.activeElement.tagName != 'BODY'
             # do nothing! yay
