@@ -16,7 +16,9 @@ class Room
         console.log msg
         if msg.category == 'greeting'
             return {room:@name, msgContent:{category:"entry", person:msg.person}} 
-        if msg.category == 'buzz' && msg.value == 'entropy'
+        else if msg.category == 'farewell'
+            return {room:@name, msgContent:{category:"exit", person:msg.person}} 
+        else if msg.category == 'buzz' && msg.value == 'entropy'
             return {room:@name, msgContent:{category:"buzz", value:msg.value, ver:"correct", person:msg.person}} 
         else if msg.category == 'buzz' && msg.value != 'entropy'
             return {room:@name, msgContent:{category:"buzz", value:msg.value, ver:"wrong", person:msg.person}}

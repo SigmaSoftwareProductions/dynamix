@@ -82,11 +82,17 @@ $(document).ready ->
             x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value + ' ' + x.ver
         else if x.category == 'entry'
             x = '<span style="font-weight: bold;">' + x.person + '</span> joined the room'
+        else if x.category == 'entry'
+            x = '<span style="font-weight: bold;">' + x.person + '</span> left the room'
         $('#main').prepend '<div class="container-fluid">' + x + '</div>'
 
     ws.onopen = (event) ->
         ws.send(JSON.stringify({greeting:'hello world!', room:room, msgContent:{person:name, category:'greeting'}}))
         pinger = setInterval ping, 45000
+        
+    ws.onclose = (event) ->
+        clearInterval pinger
+        ws.send(JSON.stringify({farewell:'goodbye world!', room:room, msgContent:{person:name, category:'farewell'}}))
         
     ping = ->
         ws.send("ping")
