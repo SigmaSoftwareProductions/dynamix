@@ -29,6 +29,6 @@ wss.on 'connection', (ws) ->
             rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party"})) # maybe the first person there should own it? idk
             names.push(msg.room)
         rooms[names.indexOf(msg.room)].people.push msg.msgContent.person if (msg.greeting?)    
-        res = rooms[names.indexOf(msg.room)].handle(msg.content)
+        res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
         ws.broadcast(res)
         console.log res
