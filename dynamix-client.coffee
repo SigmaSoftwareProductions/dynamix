@@ -72,8 +72,8 @@ $(document).ready ->
             ), 120
 
     ws.onmessage = (event) ->
-        alert(event.data)
-        if !JSON.parse(event.data).room = room
+        return if event.data == 'pong'
+        if !JSON.parse(event.data).room == room
             return
         x = JSON.parse(event.data).msgContent
         if x.category == 'chat'
@@ -85,4 +85,8 @@ $(document).ready ->
         $('#main').prepend '<div class="container-fluid">' + x + '</div>'
 
     ws.onopen = (event) ->
-        ws.send(JSON.stringify({greeting:'hello world!', room:room, msgContent:{person:name, category:"greeting"}}))
+        ws.send(JSON.stringify({greeting:'hello world!', room:room, msgContent:{person:name, category:'greeting'}}))
+        setInterval ('ping()', 45000)
+        
+    ping = ->
+        ws.send("ping")

@@ -22,7 +22,10 @@ wss.broadcast = (data) ->
             ws.send(data)
 
 wss.on 'connection', (ws) ->
-    ws.on 'message', (msg) ->   
+    ws.on 'message', (msg) ->
+        if msg == 'ping'
+            ws.send('pong')
+            return   
         msg = JSON.parse msg
         if (msg.greeting? && names.indexOf(msg.room) == -1)
             rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party"})) # maybe the first person there should own it? idk
