@@ -1,8 +1,14 @@
 $(document).ready ->
 
     room = window.location.pathname.substring(1)
+    try
+        name = JSON.parse(document.cookie).username
+    catch error
+        name = 'comrade popov'
+    finally
+        #
+    
     ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
-    name = JSON.parse(document.cookie).username || "comrade popov"
     $('#right').prepend '<input type="text" placeholder="name" id="namebox" class="form-control">'
 
     $(document).keypress ->
