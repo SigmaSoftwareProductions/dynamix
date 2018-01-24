@@ -60,9 +60,9 @@ $(document).ready ->
             ), 120
 
     ws.onmessage = (event) ->
-        if !event.data.room = room
+        if !JSON.parse(event.data).room = room
             return
-        x = event.data.msgContent
+        x = JSON.parse(event.data).msgContent
         if x.category == 'chat'
             x = x.person + ' ' + x.value
         else if x.category == 'buzz'
