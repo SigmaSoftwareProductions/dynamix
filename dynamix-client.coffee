@@ -86,7 +86,7 @@ $(document).ready ->
 
     ws.onopen = (event) ->
         ws.send(JSON.stringify({greeting:'hello world!', room:room, msgContent:{person:name, category:'greeting'}}))
-        setInterval ('ping()', 45000)
+        pinger = setInterval ('ping()', 45000)
         
     ping = ->
         ws.send("ping")
