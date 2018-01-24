@@ -76,13 +76,13 @@ $(document).ready ->
         if !JSON.parse(event.data).room = room
             return
         x = JSON.parse(event.data).msgContent
-        alert (x.person)
+        alert (x)
         if x.category == 'chat'
-            x = x.person + ' ' + x.value
+            x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value
         else if x.category == 'buzz'
-            x = x.person + ' ' + x.value + ' ' + x.ver
+            x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value + ' ' + x.ver
         else if x.category == 'entry'
-            x = x.person + ' joined the room'
+            x = '<span style="font-weight: bold;">' + x.person + '</span> joined the room'
         $('#main').prepend '<div class="container-fluid">' + x + '</div>'
 
     ws.onopen = (event) ->
