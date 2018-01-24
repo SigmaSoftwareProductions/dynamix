@@ -13,9 +13,6 @@ $(document).ready ->
 
     $(document).keypress ->
 
-        name = document.getElementById('namebox').value
-        document.cookie = JSON.stringify({username:name})
-
         if event.which == 13
             if document.getElementById('chatbox') != null
                 ws.send JSON.stringify({
@@ -41,6 +38,7 @@ $(document).ready ->
       
             else
                 name = document.getElementById('namebox').value
+                document.cookie = JSON.stringify({username:name})
             
             $('body').focus()
     
@@ -70,10 +68,11 @@ $(document).ready ->
             ), 120
 
     ws.onmessage = (event) ->
+        console.log event.data
         if !JSON.parse(event.data).room = room
             return
         x = JSON.parse(event.data).msgContent
-        alert (x)
+        alert (x.person)
         if x.category == 'chat'
             x = x.person + ' ' + x.value
         else if x.category == 'buzz'
