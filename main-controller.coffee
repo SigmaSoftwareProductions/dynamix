@@ -30,5 +30,5 @@ wss.on 'connection', (ws) ->
             names.push(msg.room)
         rooms[names.indexOf(msg.room)].people.push msg.msgContent.person if (msg.greeting?)    
         res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
-        ws.broadcast(res)
+        wss.broadcast(res)
         console.log res
