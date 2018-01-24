@@ -6,12 +6,16 @@ $(document).ready ->
     catch error
         name = 'comrade popov'
     finally
-        #
+        if name == ''
+            name = 'comrade popov'
     
     ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
     $('#right').prepend '<input type="text" placeholder="name" id="namebox" class="form-control">'
 
     $(document).keypress ->
+        
+        if name == ''
+            name = 'comrade popov'
 
         if event.which == 13
             if document.getElementById('chatbox') != null
