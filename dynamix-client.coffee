@@ -73,6 +73,7 @@ $(document).ready ->
         if !JSON.parse(event.data).room = room
             return
         x = JSON.parse(event.data).msgContent
+        alert (x)
         if x.category == 'chat'
             x = x.person + ' ' + x.value
         else if x.category == 'buzz'
