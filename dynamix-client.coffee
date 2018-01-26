@@ -10,6 +10,7 @@ $(document).ready ->
             name = 'comrade popov'
     
     ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
+    $('#right').prepend '<ul id="users"></ul>'
     $('#right').prepend '<input type="text" placeholder="name" id="namebox" class="form-control">'
 
     $(document).keypress ->
@@ -77,22 +78,26 @@ $(document).ready ->
             return
         x = JSON.parse(event.data).msgContent
         if x.category == 'chat'
-            x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value
+            x = '<span style='font-weight: bold;'>' + x.person + '</span> ' + x.value
         else if x.category == 'buzz'
-            x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value + ' ' + x.ver
+            x = '<span style='font-weight: bold;'>' + x.person + '</span> ' + x.value + ' ' + x.ver
         else if x.category == 'entry'
-            x = '<span style="font-weight: bold;">' + x.person + '</span> joined the room'
+            y = x.users
+            x = '<span style='font-weight: bold;'>' + x.person + '</span> joined the room'
+        else if x.category == 'exit'
+            y = x.users
+            x = '<span style='font-weight: bold;'>' + x.person + '</span> joined the room'
         else if x.category == 'entry'
-            x = '<span style="font-weight: bold;">' + x.person + '</span> left the room'
-        $('#main').prepend '<div class="container-fluid">' + x + '</div>'
+            x = '<span style='font-weight: bold;'>' + x.person + '</span> left the room'
+        $('#main').prepend '<div class='container-fluid'>' + x + '</div>'
+        if y?
+            $('#users').empty()
+            for name in y
+                $('#users').append '<li>name</li>'
 
     ws.onopen = (event) ->
         ws.send(JSON.stringify({greeting:'hello world!', room:room, msgContent:{person:name, category:'greeting'}}))
         pinger = setInterval ping, 45000
         
-    ws.onclose = (event) ->
-        clearInterval pinger
-        ws.send(JSON.stringify({farewell:'goodbye world!', room:room, msgContent:{person:name, category:'farewell'}}))
-        
     ping = ->
-        ws.send("ping")
+        ws.send('ping')
