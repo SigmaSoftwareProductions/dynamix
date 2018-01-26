@@ -45,7 +45,7 @@ $(document).ready ->
                 oname = name
                 name = document.getElementById('namebox').value
                 document.cookie = JSON.stringify({username:name})
-                ws.send({room:room, msgContent:{category:"name change", value:name, old:oname})
+                ws.send({room:room, msgContent:{category:"name change", value:name, old:oname}})
             
             $('body').focus()
     
