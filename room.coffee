@@ -12,7 +12,7 @@ class Room
         @distribution = @default_distribution
         @q = 0x010000000
 
-    handle: (msg) ->   
+    @handle: (msg) ->   
         console.log msg
         if msg.category == 'greeting'
             @addPerson msg.person
@@ -29,10 +29,10 @@ class Room
         else if msg.category == "next"
             return {room:@name, msgContent:{category:"next", value:"shouldn't be read"}} 
 
-    addPlayer: (person) ->
+    @addPlayer: (person) ->
         @people.push person
   	
-    removePerson: (person) ->
+    @removePerson: (person) ->
         @people.splice @people.indexOf(person), 1 if @people.indexOf(person) != -1
 
 exports.Room = Room if exports?
