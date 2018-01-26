@@ -39,4 +39,4 @@ wss.on 'connection', (ws) ->
         wss.broadcast(JSON.stringify(res))
     ws.on 'close', () ->
         res = rooms[names.indexOf(room)].handle({farewell:"farewell!", person:name})
-        wss.broadcast(JSON.stringigy(res)) 
+        wss.broadcast(JSON.stringify(res)) 
