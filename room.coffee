@@ -13,7 +13,6 @@ class Room
         @q = 0x010000000
 
     handle: (msg) ->   
-        console.log msg
         if msg.category == 'greeting'
             @addPerson(msg.person)
             return {room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
