@@ -15,10 +15,10 @@ class Room
     handle: (msg) ->   
         console.log msg
         if msg.category == 'greeting'
-            addPerson msg.person
+            @addPerson(msg.person)
             return {room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
         else if msg.category == 'farewell'
-            removePerson msg.person
+            @removePerson(msg.person)
             return {room:@name, msgContent:{category:"exit", person:msg.person, users:@people}} 
         else if msg.category == 'buzz' && msg.value == 'entropy'
             return {room:@name, msgContent:{category:"buzz", value:msg.value, ver:"correct", person:msg.person}} 
