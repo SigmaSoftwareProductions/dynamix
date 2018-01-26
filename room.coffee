@@ -29,10 +29,10 @@ class Room
         else if msg.category == "next"
             return {room:@name, msgContent:{category:"next", value:"shouldn't be read"}} 
 
-        @addPlayer: (person) ->
+        addPlayer: (person) ->
             @people.push person
   	
-        @removePerson: (person) ->
+        removePerson: (person) ->
             @people.splice @people.indexOf(person), 1 if @people.indexOf(person) != -1
 
 exports.Room = Room if exports?
