@@ -89,7 +89,7 @@ $(document).ready ->
             x = '<span style="font-weight: bold;">' + x.person + '</span> joined the room'
         else if x.category == 'entry'
             x = '<span style="font-weight: bold;">' + x.person + '</span> left the room'
-        $('#main').prepend '<div class='container-fluid'>' + x + '</div>'
+        $('#main').prepend '<div class="container-fluid">' + x + '</div>'
         if y?
             $('#users').empty()
             for name in y
