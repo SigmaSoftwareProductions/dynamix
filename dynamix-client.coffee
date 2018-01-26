@@ -76,8 +76,7 @@ $(document).ready ->
 
     ws.onmessage = (event) ->
         return if event.data == 'pong'
-        if !JSON.parse(event.data).room == room
-            return
+        return if JSON.parse(event.data).room != room
         x = JSON.parse(event.data).msgContent
         if x.category == 'chat'
             x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value
