@@ -29,7 +29,7 @@ class Room
         else if msg.category == "next"
             return {room:@name, msgContent:{category:"next", value:"shouldn't be read"}} 
 
-    addPlayer: (person) ->
+    addPerson: (person) ->
         @people.push person
   	
     removePerson: (person) ->
