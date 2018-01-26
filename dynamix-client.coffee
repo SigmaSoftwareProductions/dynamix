@@ -42,8 +42,10 @@ $(document).ready ->
                 $('#buzzbox').remove()
       
             else
+                oname = name
                 name = document.getElementById('namebox').value
                 document.cookie = JSON.stringify({username:name})
+                ws.send({room:room, msgContent:{category:"name change", value:name, old:oname})
             
             $('body').focus()
     
@@ -87,13 +89,16 @@ $(document).ready ->
         else if x.category == 'exit'
             y = x.users
             x = '<span style="font-weight: bold;">' + x.person + '</span> joined the room'
+        else if x.category == 'name change'
+            y = x.users
+            x = '<span style="font-weight: bold;">' + x.old + '</span> changed name to <span style="font-weight: bold;">' + x.value + "</span>"
         else if x.category == 'entry'
             x = '<span style="font-weight: bold;">' + x.person + '</span> left the room'
         $('#main').prepend '<div class="container-fluid">' + x + '</div>'
         if y?
             $('#users').empty()
             for name in y
-                $('#users').append '<li>name</li>'
+                $('#users').append '<li>'+name+'</li>'
 
     ws.onopen = (event) ->
         ws.send(JSON.stringify({greeting:'hello world!', room:room, msgContent:{person:name, category:'greeting'}}))
