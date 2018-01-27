@@ -10,7 +10,7 @@ $(document).ready ->
             name = 'comrade popov'
     
     ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
-    $('#right').prepend '<ul id="users">Users</ul>'
+    $('#right').prepend '<ul id="users">users</ul>'
     $('#right').prepend '<input type="text" placeholder="name" id="namebox" class="form-control">'
 
     $(document).keypress ->
@@ -84,18 +84,16 @@ $(document).ready ->
             x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value + ' ' + x.ver
         else if x.category == 'entry'
             y = x.users
-            x = '<span style="font-weight: bold;">' + x.person + '</span> joined the room'
+            x = '<span style="font-style: italic;">' + x.person + ' joined the room</span>'
         else if x.category == 'exit'
             y = x.users
-            x = '<span style="font-weight: bold;">' + x.person + '</span> joined the room'
+            x = '<span style="font-style: italic;">' + x.person + ' left the room</span>'
         else if x.category == 'name change'
             y = x.users
-            x = '<span style="font-weight: bold;">' + x.old + '</span> changed name to <span style="font-weight: bold;">' + x.value + "</span>"
-        else if x.category == 'entry'
-            x = '<span style="font-weight: bold;">' + x.person + '</span> left the room'
+            x = '<span style="font-style: italic;">' + x.old + ' changed name to ' + x.value + '</span>'
         else if x.category == 'kick'
             y = x.users;
-            x = '<span style="font-weight: bold;">' + x.person + '</span> was kicked from the room'
+            x = '<span style="font-style: italic;">' + x.person + ' was kicked from the room</span>'
             
         $('#main').prepend '<div class="container-fluid">' + x + '</div>'
         if y?
