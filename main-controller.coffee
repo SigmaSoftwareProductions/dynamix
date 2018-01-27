@@ -41,5 +41,5 @@ wss.on 'connection', (ws) ->
         
     ws.on 'close', () ->
         console.log 'conn closed to ' + name
-        res = rooms[names.indexOf(room)].handle({category:"farewell!", person:name})
+        res = rooms[names.indexOf(room)].handle({category:"farewell", person:name})
         wss.broadcast(JSON.stringify(res)) 
