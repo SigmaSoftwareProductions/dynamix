@@ -100,8 +100,9 @@ $(document).ready ->
         $('#main').prepend '<div class="container-fluid">' + x + '</div>'
         if y?
             $('#users').empty()
-            for name in y
-                $('#users').append '<li>'+name+'</li>'
+            $('#users').append 'users'
+            for user in y
+                $('#users').append '<li>'+user+'</li>'
 
     ws.onopen = (event) ->
         ws.send(JSON.stringify({greeting:'hello world!', room:room, msgContent:{person:name, category:'greeting'}}))
