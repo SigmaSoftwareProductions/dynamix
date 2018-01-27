@@ -79,20 +79,24 @@ $(document).ready ->
         return if JSON.parse(event.data).room != room
         x = JSON.parse(event.data).msgContent
         if x.category == 'chat'
-            x = '<span style="font-weight: bold;">"' + x.person + '"</span> ' + x.value
+            x = '<span style="font-weight: bold;>"' + x.person + '</span> ' + x.value
         else if x.category == 'buzz'
-            x = '<span style="font-weight: bold;">"' + x.person + '"</span> ' + x.value + ' ' + x.ver
+            x = '<span style="font-weight: bold;>"' + x.person + '</span> ' + x.value + ' ' + x.ver
         else if x.category == 'entry'
             y = x.users
-            x = '<span style="font-weight: bold;">"' + x.person + '"</span> joined the room'
+            x = '<span style="font-weight: bold;">' + x.person + '</span> joined the room'
         else if x.category == 'exit'
             y = x.users
-            x = '<span style="font-weight: bold;">"' + x.person + '"</span> joined the room'
+            x = '<span style="font-weight: bold;">' + x.person + '</span> joined the room'
         else if x.category == 'name change'
             y = x.users
-            x = '<span style="font-weight: bold;">"' + x.old + '"</span> changed name to <span style="font-weight: bold;">' + x.value + "</span>"
+            x = '<span style="font-weight: bold;">' + x.old + '</span> changed name to <span style="font-weight: bold;">' + x.value + "</span>"
         else if x.category == 'entry'
-            x = '<span style="font-weight: bold;">"' + x.person + '"</span> left the room'
+            x = '<span style="font-weight: bold;">' + x.person + '</span> left the room'
+        else if x.category == 'kick'
+            y = x.users;
+            x = '<span style="font-weight: bold;">' + x.person + '</span> was kicked from the room'
+            
         $('#main').prepend '<div class="container-fluid">' + x + '</div>'
         if y?
             $('#users').empty()
@@ -102,6 +106,9 @@ $(document).ready ->
     ws.onopen = (event) ->
         ws.send(JSON.stringify({greeting:'hello world!', room:room, msgContent:{person:name, category:'greeting'}}))
         pinger = setInterval ping, 45000
+        
+    ws.onclose = (event) ->
+        $('#main').prepend '<div class="container-fluid">you have been disconnected from the server</div>'
         
     ping = ->
         ws.send('ping')

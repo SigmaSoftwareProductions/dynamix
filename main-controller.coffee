@@ -37,6 +37,8 @@ wss.on 'connection', (ws) ->
         room = msg.room if (msg.greeting?)    
         res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
         wss.broadcast(JSON.stringify(res))
+        ws.close if res.kick?
+        
     ws.on 'close', () ->
         console.log 'conn closed to ' + name
         res = rooms[names.indexOf(room)].handle({farewell:"farewell!", person:name})
