@@ -10,7 +10,7 @@ $(document).ready ->
             name = 'comrade popov'
     
     ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
-    $('#right').prepend '<ul id="users">users</ul>'
+    $('#right').prepend '<ul class="list-group" id="users">users</ul>'
     $('#right').prepend '<input type="text" placeholder="name" id="namebox" class="form-control">'
 
     $(document).keypress ->
@@ -100,7 +100,7 @@ $(document).ready ->
             $('#users').empty()
             $('#users').append 'users'
             for user in y
-                $('#users').append '<li>'+user+'</li>'
+                $('#users').append '<li class="list-group-item">'+user+'</li>'
 
     ws.onopen = (event) ->
         ws.send(JSON.stringify({greeting:'hello world!', room:room, msgContent:{person:name, category:'greeting'}}))
