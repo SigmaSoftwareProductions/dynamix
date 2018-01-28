@@ -1,20 +1,26 @@
-#right {
-    width: 25%;
-    height: 100%;
-    position: sticky;
-    position: -webkit-sticky;
-    float: right;
-    float: top;
-}
-#top {
-    width: 75%;
-    height: auto;
-    min-height: 15%;
-    position: sticky;
-    position: -webkit-sticky;
-}
-#main {
-    width: 75%;
-    min-height: 100%;
-    height: auto;
-}
+<!doctype html>
+<html>
+	<head>
+		<title>
+			Dynamix
+		</title>
+		<script src="jquery-3.2.1.js">
+		</script>
+		<script src="dynamix-client.js">
+		</script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="dynamix.css">
+		<link rel="icon" href="favicon.ico">
+	</head>
+	<body>
+        <div id="top">
+		<p><span style="font-size: 24px;">dynamix</span> virtual quizbowl environment</p>
+		</div>
+		<div id="left">
+		</div>
+		<div id="right">
+        </div>
+		<div id="main">
+		</div>
+	</body>
+</html>
