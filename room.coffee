@@ -14,7 +14,7 @@ class Room
 
     handle: (msg) ->   
         for k, v of msg
-            // return {kick: 'go away xss', room: @name, msgContent: {category: 'kick', person:'an xsser'}} if v.includes "<" and v.includes ">"
+            # return {kick: 'go away xss', room: @name, msgContent: {category: 'kick', person:'an xsser'}} if v.includes "<" and v.includes ">"
         if msg.category == 'greeting'
             @addPerson(msg.person)
             return {room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
