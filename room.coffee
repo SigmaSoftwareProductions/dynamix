@@ -40,6 +40,6 @@ class Room
         @people.push person
   	
     removePerson: (person) ->
-        @people.splice @people.indexOf(person), 1 if @people.indexOf(person) != -1
+        @people.splice (@people.indexOf(person), 1) if (@people.indexOf(person) != -1)
 
 exports.Room = Room if exports?
