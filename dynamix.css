@@ -4,8 +4,10 @@
 		<title>
 			Dynamix
 		</title>
-		<script src="jquery-3.2.1.js">
-		</script>
+		<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
 		<script src="dynamix-client.js">
 		</script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -15,8 +17,6 @@
 	<body>
         <div id="top">
 		<p><span style="font-size: 24px;">dynamix</span> virtual quizbowl environment</p>
-		</div>
-		<div id="left">
 		</div>
 		<div id="right">
         </div>
