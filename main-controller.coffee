@@ -38,6 +38,7 @@ wss.on 'connection', (ws) ->
         res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
         wss.broadcast(JSON.stringify(res))
         ws.close() if res.kick?
+        name = res.value if res.old?
         
     ws.on 'close', () ->
         console.log 'conn closed to ' + name
