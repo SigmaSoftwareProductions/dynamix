@@ -13,7 +13,7 @@ class Room
         @distribution = @default_distribution
         @q = 0x010000000
         
-    static htmlEncode = (str) ->
+    @htmlEncode = (str) ->
         str.replace /[&<>"']/g, ($0) ->
         "&" + {"&":"amp", "<":"lt", ">":"gt", '"':"quot", "'":"#39"}[$0] + ";"
 
