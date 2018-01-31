@@ -39,6 +39,7 @@ wss.on 'connection', (ws) ->
         wss.broadcast(JSON.stringify(res))
         ws.close() if res.kick?
         name = res.value if res.old?
+        console.log name if res.old?
         
     ws.on 'close', () ->
         console.log 'conn closed to ' + name
