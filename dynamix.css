@@ -8,7 +8,7 @@ div {
     margin: 10px;
 }
 #right {
-    width: 23%;
+    width: 22%;
     height: 100%;
     position: sticky;
     position: -webkit-sticky;
@@ -26,9 +26,12 @@ div {
     float: top;
 }
 #main {
-    width: 75%;
-    min-height: 100%;
+    width: 74%;
     height: 100%;
     flex-flow: column;
     margin: 1%;
+    float: top;
+}
+input {
+    width: auto;
 }

@@ -23,6 +23,8 @@ class Room
             return {room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
         else if msg.category == 'farewell'
             @removePerson(msg.person)
+            console.log 'removing ' + msg.person
+            console.log @people
             return {room:@name, msgContent:{category:"exit", person:msg.person, users:@people}}
         else if msg.category == 'name change'
             @removePerson(msg.old)

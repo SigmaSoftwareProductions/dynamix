@@ -46,14 +46,14 @@ $(document).ready ->
                 name = document.getElementById('namebox').value
                 document.cookie = JSON.stringify({username:name})
                 ws.send(JSON.stringify({room:room, msgContent:{category:"name change", value:name, old:oname}}))
-            
+            $('.input').remove()
             $('body').focus()
     
         else if document.activeElement.tagName != 'BODY'
             # do nothing! yay
     
         else if event.which == 32
-            $('#main').prepend '<input type="text" placeholder="buzz" id="buzzbox" class="form-control">'
+            $('#main').prepend '<div class="container-fluid input"><input type="text" placeholder="buzz" id="buzzbox" class="form-control"></div>'
             setTimeout (->
                 $('#buzzbox').focus()
             ), 120
@@ -69,7 +69,7 @@ $(document).ready ->
             })
             
         else if event.which == 47
-            $('#main').prepend '<input type="text" placeholder="chat" id="chatbox" class="form-control">'
+            $('#main').prepend '<div class="container-fluid input"><input type="text" placeholder="chat" id="chatbox" class="form-control"></div>'
             setTimeout (->
                 $('#chatbox').focus()
             ), 120
