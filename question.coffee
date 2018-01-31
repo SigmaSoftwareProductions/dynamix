@@ -14,7 +14,7 @@ qschema = new Schema ({
 })
 
 class Question
-	constructor: (id) ->
+    constructor: (id) ->
         question = get_question (id)
         @id = question.id
         @text = question.text

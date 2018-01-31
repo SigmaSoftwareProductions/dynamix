@@ -8,16 +8,18 @@ class Room
         @access = args.status
         @owner = args.owner
         @people = [];
-        @default_distribution = { "History": 20, "Science": 20, "Literature": 15, "Art": 15, "Religion + Myth": 10, "Geography": 5, "Philosophy + Social Sci": 10, "Trash": 5 }
+        @default_distribution = {"History": 20, "Science": 20, "Literature": 15, "Art": 15, "Religion + Myth": 10, "Geography": 5, "Philosophy + Social Sci": 10, "Trash": 5 }
+        @point_system = {"Power": 15, "Normal": 10, "Neg": -5}
         @distribution = @default_distribution
         @q = 0x010000000
+        
+    static htmlEncode = (str) ->
+        str.replace /[&<>"']/g, ($0) ->
+        "&" + {"&":"amp", "<":"lt", ">":"gt", '"':"quot", "'":"#39"}[$0] + ";"
 
     handle: (msg) ->
         for k, v of msg
-            v = v.replace(/</g, '&lt;')
-            v = v.replace(/>/g, '&gt;')
-            q = new RegExp '"', 'g'
-            v = v.replace(q, '&quot;')
+            v = htmlEncode v
         if msg.category == 'greeting'
             @addPerson(msg.person)
             return {room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
