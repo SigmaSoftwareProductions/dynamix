@@ -34,12 +34,11 @@ wss.on 'connection', (ws) ->
             rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party"})) # maybe the first person there should own it? idk
             names.push(msg.room)
         name = msg.msgContent.person if (msg.greeting?)
+        name = msg.msgContent.value if (msg.msgContent.old?)
         room = msg.room if (msg.greeting?)    
         res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
         wss.broadcast(JSON.stringify(res))
         ws.close() if res.kick?
-        name = res.value if res.old?
-        console.log name if res.old?
         
     ws.on 'close', () ->
         console.log 'conn closed to ' + name
