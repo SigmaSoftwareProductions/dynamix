@@ -16,7 +16,7 @@ class Room
         for k, v of msg
             v = v.replace(/</g, '&lt;')
             v = v.replace(/>/g, '&gt;')
-            q = new RegExp '"', g
+            q = new RegExp '"', 'g'
             v = v.replace(q, '&quot;')
         if msg.category == 'greeting'
             @addPerson(msg.person)
