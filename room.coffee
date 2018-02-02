@@ -8,12 +8,14 @@ class Room
         @access = args.status
         @owner = args.owner
         @people = [];
-        @default_distribution = {"History": 20, "Science": 20, "Literature": 15, "Art": 15, "Religion + Myth": 10, "Geography": 5, "Philosophy + Social Sci": 10, "Trash": 5 }
+        @default_distribution = {"Science": 20, "History": 20, "Literature": 15, "Art": 15, "Religion + Myth": 10, "Geography": 5, "Philosophy + Social Sci": 10, "Trash": 5 }
         @point_system = {"Power": 15, "Normal": 10, "Neg": -5}
         @distribution = @default_distribution
-        @q = 0x010000000
+        @qid = 0x000000000 # first tossup ever, not actually science tho
+        @q = new Question (@qid)
+        @word = 0
         
-    @htmlEncode = (str) ->
+    @htmlEncode = (str) -> # beware, messy regexes ahead
         str.replace /[&<>"']/g, ($0) ->
         "&" + {"&":"amp", "<":"lt", ">":"gt", '"':"quot", "'":"#39"}[$0] + ";"
 
@@ -23,6 +25,10 @@ class Room
         if msg.category == 'greeting'
             @addPerson(msg.person)
             return {room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
+        else if msg.category == 'word'
+            @word++
+            return {room:@name, msgContent:{category:'word', value:@q.text[word]}} if word != @q.text.length
+            return {room:@name, msgContent:{category:'word', value:'%#eof#%'}} 
         else if msg.category == 'farewell'
             @removePerson(msg.person)
             console.log 'removing ' + msg.person
@@ -32,13 +38,14 @@ class Room
             @removePerson(msg.old)
             @addPerson(msg.value)
             return {room:@name, msgContent:{category:"name change", old: msg.old, value: msg.value, users:@people}} 
-        else if msg.category == 'buzz' && msg.value == 'entropy'
-            return {room:@name, msgContent:{category:"buzz", value:msg.value, ver:"correct", person:msg.person}} 
-        else if msg.category == 'buzz' && msg.value != 'entropy'
-            return {room:@name, msgContent:{category:"buzz", value:msg.value, ver:"wrong", person:msg.person}}
+        else if msg.category == 'buzz'
+            return {room:@name, msgContent:{category:"buzz", value:msg.value, ver:msg.match, person:msg.person}} 
         else if msg.category == 'chat'
             return {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
         else if msg.category == "next"
+            @word = 0
+            @qid = Question.getNextQuestionId()
+            @q = new Question (@qid)
             return {room:@name, msgContent:{category:"next", value:"shouldn't be read"}} 
 
     addPerson: (person) ->
