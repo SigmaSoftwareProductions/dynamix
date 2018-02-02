@@ -21,7 +21,7 @@ class Room
 
     handle: (msg) ->
         for k, v of msg
-            v = htmlEncode v
+            v = Room.htmlEncode v
         if msg.category == 'greeting'
             @addPerson(msg.person)
             return {room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
