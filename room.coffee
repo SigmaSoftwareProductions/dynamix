@@ -25,10 +25,6 @@ class Room
         for r in rx
             text=text.replace r[0], r[1]
         return text
-        
-  for r in replacements
-    text=text.replace r[0], r[1]
-  text
 
     handle: (msg) ->
         for k, v of msg
