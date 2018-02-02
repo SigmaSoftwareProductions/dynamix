@@ -15,7 +15,7 @@ qschema = new Schema ({
 
 class Question
     constructor: (id) ->
-        question = getQuestion (id)
+        question = @getQuestion (id)
         @id = question.id
         @text = question.text.split ' '
         @mins = question.mins
