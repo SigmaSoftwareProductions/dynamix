@@ -15,9 +15,20 @@ class Room
         @q = new Question (@qid)
         @word = 0
         
-    @htmlEncode = (str) -> # beware, messy regexes ahead
-        str.replace /[&<>"']/g, ($0) ->
-        "&" + {"&":"amp", "<":"lt", ">":"gt", '"':"quot", "'":"#39"}[$0] + ";"
+    @htmlEncode = (text) -> # beware, messy regexes ahead
+        replacements = [
+            [/&/g, '&amp;']
+            [/</g, '&lt;']
+            [new RegExp('"', 'g'), '&quot;']
+            [/'/g, '&#039;']
+        ]
+        for r in replacements
+            text=text.replace r[0], r[1]
+        return text
+        
+  for r in replacements
+    text=text.replace r[0], r[1]
+  text
 
     handle: (msg) ->
         for k, v of msg
