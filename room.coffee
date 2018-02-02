@@ -16,13 +16,13 @@ class Room
         @word = 0
         
     @htmlEncode = (text) -> # beware, messy regexes ahead
-        replacements = [
+        rx = [
             [/&/g, '&amp;']
             [/</g, '&lt;']
             [new RegExp("'", 'g'), '"']
             [new RegExp('"', 'g'), '&quot;']
         ]
-        for r in replacements
+        for r in rx
             text=text.replace r[0], r[1]
         return text
         
