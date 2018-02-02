@@ -20,7 +20,7 @@ class Room
             [/&/g, '&amp;']
             [/</g, '&lt;']
             [new RegExp('"', 'g'), '&quot;']
-            [/'/g, '&#039;']
+            [/'/g, '&\#039;']
         ]
         for r in replacements
             text=text.replace r[0], r[1]
