@@ -19,8 +19,8 @@ class Room
         replacements = [
             [/&/g, '&amp;']
             [/</g, '&lt;']
+            [new RegExp("'", 'g'), '"']
             [new RegExp('"', 'g'), '&quot;']
-            [/'/g, '&\#039;']
         ]
         for r in replacements
             text=text.replace r[0], r[1]
