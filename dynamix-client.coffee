@@ -8,7 +8,7 @@ $(document).ready ->
     finally
         if name == ''
             name = 'comrade popov'
-    
+    speed = 120 # time distance between two words
     ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
     $('#right').prepend '<ul class="list-group" id="users">users</ul>'
     $('#right').prepend '<input type="text" placeholder="name" id="namebox" class="form-control">'
@@ -53,7 +53,7 @@ $(document).ready ->
             # do nothing! yay
     
         else if event.which == 32
-            $('#main').prepend '<div class="container-fluid input"><input type="text" placeholder="buzz" id="buzzbox" class="form-control"></div>'
+            $('#question').after '<div class="container-fluid input"><input type="text" placeholder="buzz" id="buzzbox" class="form-control"></div>'
             setTimeout (->
                 $('#buzzbox').focus()
             ), 120
@@ -69,7 +69,7 @@ $(document).ready ->
             })
             
         else if event.which == 47
-            $('#main').prepend '<div class="container-fluid input"><input type="text" placeholder="chat" id="chatbox" class="form-control"></div>'
+            $('#question').after '<div class="container-fluid input"><input type="text" placeholder="chat" id="chatbox" class="form-control"></div>'
             setTimeout (->
                 $('#chatbox').focus()
             ), 120
@@ -78,7 +78,13 @@ $(document).ready ->
         return if event.data == 'pong'
         return if JSON.parse(event.data).room != room
         x = JSON.parse(event.data).msgContent
-        if x.category == 'chat'
+        if x.category == 'you have been chosen'
+            setInterval getNextWord, speed
+            x = null
+        else if x.category == 'word'
+            $('#question').append x.value
+            x = null
+        else if x.category == 'chat'
             x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value
         else if x.category == 'buzz'
             x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value + ' ' + x.ver
@@ -95,7 +101,7 @@ $(document).ready ->
             y = x.users;
             x = '<span style="font-style: italic;">' + x.person + ' was kicked from the room</span>'
             
-        $('#main').prepend '<div class="container-fluid">' + x + '</div>'
+        $('#question').after '<div class="container-fluid">' + x + '</div>' if x?
         if y?
             $('#users').empty()
             $('#users').append 'users'
@@ -107,7 +113,15 @@ $(document).ready ->
         pinger = setInterval ping, 45000
         
     ws.onclose = (event) ->
-        $('#main').prepend '<div class="container-fluid">you have been disconnected from the server</div>'
+        $('#question').after '<div class="container-fluid">you have been disconnected from the server</div>'
         
     ping = ->
         ws.send('ping')
+        
+    getNextWord = ->
+        ws.send JSON.Stringify ({
+            room:@name,
+            msgContent: {
+                category:'word'
+            }
+        })
