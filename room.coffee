@@ -14,7 +14,7 @@ class Room
         @distribution = @default_distribution
         @qid = 0x000000000 # first tossup ever, not actually science tho
         @q = new Question (@qid)
-        @speed = 120 # time between words
+        @speed = 600 # time between words - please set default to 160 or so, as this is for power testing
         
     @htmlEncode = (text) -> # beware, messy regexes ahead
         rx = [
