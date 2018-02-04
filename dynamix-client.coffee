@@ -75,7 +75,7 @@ $(document).ready ->
             ), 120
 
     ws.onmessage = (event) ->
-        console.log JSON.Stringify event.data
+        console.log JSON.stringify event.data
         return if event.data == 'pong'
         return if JSON.parse(event.data).room != room
         x = JSON.parse(event.data).msgContent
@@ -96,11 +96,11 @@ $(document).ready ->
             y = x.users;
             x = '<span style="font-style: italic;">' + x.person + ' was kicked from the room</span>'
         else if x.category == 'word'
-            @question.append x.value 
+            $('#question').append x.value 
             x = '#eof#'
             
         else if x.category == 'next'
-            @question.empty
+            $('#question').empty
             x = '#eof#'
             
         $('#question').after '<div class="container-fluid">' + x + '</div>' if x != '#eof#'
