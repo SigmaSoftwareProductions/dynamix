@@ -53,7 +53,8 @@ class Room
             @q = new Question (@qid)
             self = this
             clearInterval
-            setInterval () -> 
+            setInterval () ->
+                return '#eof#' if self.word > self.q.text.length 
                 res = if self.word < self.q.text.length then self.q.text[self.word] else '#eof#' 
                 self.wss.broadcast JSON.stringify {room:self.name, msgContent:{category:'word', value:res}}
                 self.word++
