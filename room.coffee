@@ -52,10 +52,12 @@ class Room
             @qid = Question.getNextQuestionId()
             @q = new Question (@qid)
             clearInterval
-            setInterval -> 
-                @sendNextWord()
+            setInterval () -> 
+                res = if @word < @q.text.length then @q.text[@word] else '#eof#' 
+                @wss.broadcast JSON.stringify {room:@name, msgContent:{category:'word', value:res}}
+                clearInterval if res == '#eof#'
             , @speed
-            res = {room:@name, next:'question', msgContent:{category:"next", q:@q, speed:@speed}}
+            res = {room:@name, next:'question', msgContent:{category:"next", speed:@speed}}
         @wss.broadcast JSON.stringify res 
         return res
 
@@ -66,9 +68,6 @@ class Room
         @people.splice @people.indexOf(person), 1 if (@people.indexOf(person) != -1)
         
     sendNextWord: () ->
-        res = if @word < @q.text.length then @q.text[@word] else '#eof#' 
-        @wss.broadcast JSON.stringify {room:@name, msgContent:{category:'word', value:res}}
-        clearInterval if res == '#eof#'
         return res
         
 exports.Room = Room if exports?
