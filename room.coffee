@@ -7,13 +7,14 @@ class Room
         @name = args.name
         @access = args.status
         @owner = args.owner
+        @wss = args.wss # this is somewhat messy
         @people = [];
         @default_distribution = {"Science": 20, "History": 20, "Literature": 15, "Art": 15, "Religion + Myth": 10, "Geography": 5, "Philosophy + Social Sci": 10, "Trash": 5 }
         @point_system = {"Power": 15, "Normal": 10, "Neg": -5}
         @distribution = @default_distribution
         @qid = 0x000000000 # first tossup ever, not actually science tho
         @q = new Question (@qid)
-        @word = 0
+        @speed = 120 # time between words
         
     @htmlEncode = (text) -> # beware, messy regexes ahead
         rx = [
@@ -27,38 +28,44 @@ class Room
         return text
 
     handle: (msg) ->
+        res = ''
         for k, v of msg
             v = Room.htmlEncode v
         if msg.category == 'greeting'
             @addPerson(msg.person)
-            return {room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
-        else if msg.category == 'word'
-            @word++
-            return {room:@name, msgContent:{category:'word', value:@q.text[word]}} if word != @q.text.length
-            return {room:@name, msgContent:{category:'word', value:'%#eof#%'}} 
+            res = {room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
         else if msg.category == 'farewell'
             @removePerson(msg.person)
             console.log 'removing ' + msg.person
             console.log @people
-            return {room:@name, msgContent:{category:"exit", person:msg.person, users:@people}}
+            res = {room:@name, msgContent:{category:"exit", person:msg.person, users:@people}}
         else if msg.category == 'name change'
             @removePerson(msg.old)
             @addPerson(msg.value)
-            return {room:@name, msgContent:{category:"name change", old: msg.old, value: msg.value, users:@people}} 
+            res = {room:@name, msgContent:{category:"name change", old: msg.old, value: msg.value, users:@people}} 
         else if msg.category == 'buzz'
-            return {room:@name, msgContent:{category:"buzz", value:msg.value, ver:msg.match, person:msg.person}} 
+            res = {room:@name, msgContent:{category:"buzz", value:msg.value, ver:msg.match, person:msg.person}} 
         else if msg.category == 'chat'
-            return {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
+            res = {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
         else if msg.category == "next"
             @word = 0
             @qid = Question.getNextQuestionId()
             @q = new Question (@qid)
-            return {room:@name, msgContent:{category:"next", value:"shouldn't be read"}} 
+            clearInterval
+            setInterval sendNextWord, @speed
+            res = {room:@name, next:'question', msgContent:{category:"next", q:@q, speed:@speed}}
+        @wss.broadcast res 
 
     addPerson: (person) ->
         @people.push person
   	
     removePerson: (person) ->
         @people.splice @people.indexOf(person), 1 if (@people.indexOf(person) != -1)
-
+        
+    sendNextWord: () ->
+        res = if @word < @q.text.length then @q.text[@word] else '#eof#' 
+        @wss.broadcast {room:room, msgContent:{category:'word', value:res}}
+        clearInterval if res == '#eof#'
+        return res
+        
 exports.Room = Room if exports?

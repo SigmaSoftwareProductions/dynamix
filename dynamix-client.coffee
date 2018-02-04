@@ -75,16 +75,11 @@ $(document).ready ->
             ), 120
 
     ws.onmessage = (event) ->
+        console.log JSON.Stringify event.data
         return if event.data == 'pong'
         return if JSON.parse(event.data).room != room
         x = JSON.parse(event.data).msgContent
-        if x.category == 'you have been chosen'
-            setInterval getNextWord, speed
-            x = null
-        else if x.category == 'word'
-            $('#question').append x.value
-            x = null
-        else if x.category == 'chat'
+        if x.category == 'chat'
             x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value
         else if x.category == 'buzz'
             x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value + ' ' + x.ver
@@ -100,8 +95,15 @@ $(document).ready ->
         else if x.category == 'kick'
             y = x.users;
             x = '<span style="font-style: italic;">' + x.person + ' was kicked from the room</span>'
+        else if x.category == 'word'
+            @question.append x.value 
+            x = '#eof#'
             
-        $('#question').after '<div class="container-fluid">' + x + '</div>' if x?
+        else if x.category == 'next'
+            @question.empty
+            x = '#eof#'
+            
+        $('#question').after '<div class="container-fluid">' + x + '</div>' if x != '#eof#'
         if y?
             $('#users').empty()
             $('#users').append 'users'
@@ -115,13 +117,5 @@ $(document).ready ->
     ws.onclose = (event) ->
         $('#question').after '<div class="container-fluid">you have been disconnected from the server</div>'
         
-    ping = ->
-        ws.send('ping')
-        
-    getNextWord = ->
-        ws.send JSON.Stringify ({
-            room:@name,
-            msgContent: {
-                category:'word'
-            }
-        })
+    ping = () ->
+        ws.send('ping')    
