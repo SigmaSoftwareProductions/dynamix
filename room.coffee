@@ -55,6 +55,7 @@ class Room
             setInterval sendNextWord, @speed
             res = {room:@name, next:'question', msgContent:{category:"next", q:@q, speed:@speed}}
         @wss.broadcast JSON.stringify res 
+        return res
 
     addPerson: (person) ->
         @people.push person
