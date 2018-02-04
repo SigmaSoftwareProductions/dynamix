@@ -52,7 +52,9 @@ class Room
             @qid = Question.getNextQuestionId()
             @q = new Question (@qid)
             clearInterval
-            setInterval -> (@sendNextWord()), @speed
+            setInterval -> 
+                @sendNextWord()
+            , @speed
             res = {room:@name, next:'question', msgContent:{category:"next", q:@q, speed:@speed}}
         @wss.broadcast JSON.stringify res 
         return res
