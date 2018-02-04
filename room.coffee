@@ -51,7 +51,7 @@ class Room
             @word = 0
             @qid = Question.getNextQuestionId()
             @q = new Question (@qid)
-            console.log 'is ' + this instanceof Room
+            console.log this instanceof Room
             self = this
             clearInterval
             setInterval () ->
