@@ -44,7 +44,7 @@ class Room
             @addPerson(msg.value)
             res = {room:@name, msgContent:{category:"name change", old: msg.old, value: msg.value, users:@people}} 
         else if msg.category == 'buzz'
-            res = {room:@name, msgContent:{category:"buzz", value:msg.value, ver:msg.match, person:msg.person}} 
+            res = {room:@name, msgContent:{category:"buzz", value:msg.value, ver:@q.match(msg.value, @word), person:msg.person}} 
         else if msg.category == 'chat'
             res = {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
         else if msg.category == "next"
