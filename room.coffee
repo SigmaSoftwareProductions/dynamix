@@ -51,7 +51,7 @@ class Room
             @word = 0
             @qid = Question.getNextQuestionId()
             @q = new Question (@qid)
-            console.log 'q is ' + JSON.stringify @q
+            console.log 'q is ' + JSON.stringify @q.match
             self = this
             clearInterval
             setInterval () ->
