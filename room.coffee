@@ -65,7 +65,7 @@ class Room
         
     sendNextWord: () ->
         res = if @word < @q.text.length then @q.text[@word] else '#eof#' 
-        @wss.broadcast {room:@name, msgContent:{category:'word', value:res}}
+        @wss.broadcast JSON.stringify {room:@name, msgContent:{category:'word', value:res}}
         clearInterval if res == '#eof#'
         return res
         
