@@ -1,5 +1,5 @@
-{Person} = require "./person"
-{Question} = require "./question"
+Person = require "./person"
+Question = require "./question"
 
 class Room
 
