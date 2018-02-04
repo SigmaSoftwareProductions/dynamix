@@ -49,7 +49,8 @@ class Room
         else if msg.category == 'chat'
             res = {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
         else if msg.category == 'pause'
-            @pauseRead = true;
+            @pauseRead = true
+            console.log 'pausing read'
         else if msg.category == "next"
             @word = 0
             @qid = Question.getNextQuestionId()
@@ -58,7 +59,7 @@ class Room
             self = this
             clearInterval
             setInterval () ->
-                return 'pause' if @pauseRead 
+                return 'pause' if self.pauseRead 
                 return '#eof#' if self.word > self.q.text.length 
                 res = if self.word < self.q.text.length then self.q.text[self.word] else '#eof#' 
                 self.wss.broadcast JSON.stringify {room:self.name, msgContent:{category:'word', value:res+' '}}
