@@ -51,7 +51,7 @@ class Room
             @word = 0
             @qid = Question.getNextQuestionId()
             @q = new Question (@qid)
-            console.log 'room.removePerson is ' + JSON.stringify @removePerson
+            console.log 'room is ' + typeof this
             self = this
             clearInterval
             setInterval () ->
