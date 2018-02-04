@@ -51,6 +51,7 @@ class Room
             @word = 0
             @qid = Question.getNextQuestionId()
             @q = new Question (@qid)
+            console.log 'q is a ' + typeof @q
             self = this
             clearInterval
             setInterval () ->
@@ -69,8 +70,5 @@ class Room
   	
     removePerson: (person) ->
         @people.splice @people.indexOf(person), 1 if (@people.indexOf(person) != -1)
-        
-    sendNextWord: () ->
-        return res
         
 exports.Room = Room if exports?
