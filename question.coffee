@@ -26,7 +26,7 @@ class Question
         @category = question.category
         @powerloc = question.powerloc
 		
-    @getQuestion = (id) ->
+    @getQuestion: (id) ->
         return {
             id: id, 
             text: 'the answer to this question is entropy. also accept gibbs free energy, with only gibbs free required. prompt on gibbs. enthalpy is to be rejected. this question was at the 2020 entropy invitational. power stops before entropy is said.', 
@@ -39,10 +39,10 @@ class Question
             powerloc: 6
         }
     
-    @getNextQuestionId = (distribution) ->
+    @getNextQuestionId: (distribution) ->
         return 0x000000000
     
-    match = (buzz, word) ->
+    match: (buzz, word) ->
         res = ""
         res = "power" if @mins.includes buzz and word < @powerloc 
         res = "power" if @answers.includes buzz and word < @powerloc
