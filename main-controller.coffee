@@ -17,6 +17,7 @@ rooms = []
 names = []
 
 wss.broadcast = (data) ->
+    console.log 'broadcasting ' + data
     wss.clients.forEach (ws) ->
         if (ws.readyState == wsx.OPEN)
             ws.send(data)
