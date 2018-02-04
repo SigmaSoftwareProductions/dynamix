@@ -53,6 +53,12 @@ $(document).ready ->
             # do nothing! yay
     
         else if event.which == 32
+            ws.send JSON.stringify ({
+                room:room
+                msgContent:{
+                    category:'pause'
+                }
+            })
             $('#question').after '<div class="container-fluid input"><input type="text" placeholder="buzz" id="buzzbox" class="form-control"></div>'
             setTimeout (->
                 $('#buzzbox').focus()

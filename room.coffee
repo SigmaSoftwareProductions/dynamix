@@ -14,6 +14,7 @@ class Room
         @distribution = @default_distribution
         @qid = 0x000000000 # first tossup ever, not actually science tho
         @q = new Question (@qid)
+        @pauseRead = false
         @speed = 600 # time between words - please set default to 160 or so, as this is for power testing
         
     @htmlEncode = (text) -> # beware, messy regexes ahead
@@ -47,6 +48,8 @@ class Room
             res = {room:@name, msgContent:{category:"buzz", value:msg.value, ver:@q.match(msg.value, @word), person:msg.person}} 
         else if msg.category == 'chat'
             res = {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
+        else if msg.category == 'pause'
+            @pauseRead = true;
         else if msg.category == "next"
             @word = 0
             @qid = Question.getNextQuestionId()
@@ -55,6 +58,7 @@ class Room
             self = this
             clearInterval
             setInterval () ->
+                return 'pause' if @pauseRead 
                 return '#eof#' if self.word > self.q.text.length 
                 res = if self.word < self.q.text.length then self.q.text[self.word] else '#eof#' 
                 self.wss.broadcast JSON.stringify {room:self.name, msgContent:{category:'word', value:res+' '}}
