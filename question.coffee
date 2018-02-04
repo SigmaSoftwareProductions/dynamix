@@ -56,10 +56,6 @@ class Question
         res = "neg" if res == "" && word < @text.length
         res = "incorrect" if res == "" && word == @text.length
         return res
-        
-        
-        
-	
 
 exports.Question = Question if exports?
 		
