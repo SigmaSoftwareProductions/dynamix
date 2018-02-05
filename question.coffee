@@ -43,6 +43,7 @@ class Question
         return 0x000000000
     
     match: (buzz, word) ->
+        console.log 'matching "' + buzz + '" at word number ' wod
         return "cp" if @mins.includes buzz and word < @powerloc 
         return "cp" if @answers.includes buzz and word < @powerloc
         return "ci" if @mins.includes buzz and word < @text.length and word >= @powerloc
