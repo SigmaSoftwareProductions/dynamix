@@ -43,7 +43,6 @@ class Question
         return 0x000000000
     
     match: (buzz, word) ->
-        res = ""
         res = "power" if @mins.includes buzz and word < @powerloc 
         res = "power" if @answers.includes buzz and word < @powerloc
         res = "correct interrupt" if @mins.includes buzz and word < @text.length and word >= @powerloc
@@ -53,8 +52,8 @@ class Question
         res = "prompt" if @prompts.includes buzz
         res = "neg" if @rejects.includes buzz 
         res = "incorrect" if @rejects.includes buzz
-        res = "neg" if res == "" && word < @text.length
-        res = "incorrect" if res == "" && word == @text.length
+        res = "neg" if !res? && word < @text.length
+        res = "incorrect" if !res? && word == @text.length
         return res
 
 exports.Question = Question if exports?
