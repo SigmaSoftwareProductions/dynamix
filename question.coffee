@@ -43,17 +43,18 @@ class Question
         return 0x000000000
     
     match: (buzz, word) ->
-        "cp" if @mins.includes buzz and word < @powerloc 
-        "cp" if @answers.includes buzz and word < @powerloc
-        "ci" if @mins.includes buzz and word < @text.length and word >= @powerloc
-        "ci" if @answers.includes buzz and word < @text.length and word >= @powerloc
-        "cn" if @mins.includes buzz
-        "cn" if @answers.includes buzz
-        "p" if @prompts.includes buzz
-        "ii" if @rejects.includes buzz and word < @text.length 
-        "in" if @rejects.includes buzz
-        "ii" if !res? && word < @text.length
-        "in" if !res? && word == @text.length
+        return
+            "cp" if @mins.includes buzz and word < @powerloc 
+            "cp" if @answers.includes buzz and word < @powerloc
+            "ci" if @mins.includes buzz and word < @text.length and word >= @powerloc
+            "ci" if @answers.includes buzz and word < @text.length and word >= @powerloc
+            "cn" if @mins.includes buzz
+            "cn" if @answers.includes buzz
+            "p" if @prompts.includes buzz
+            "ii" if @rejects.includes buzz and word < @text.length 
+            "in" if @rejects.includes buzz
+            "ii" if !res? && word < @text.length
+            "in" if !res? && word == @text.length
 
 exports.Question = Question if exports?
 		
