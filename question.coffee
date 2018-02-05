@@ -43,18 +43,17 @@ class Question
         return 0x000000000
     
     match: (buzz, word) ->
-        res = "power" if @mins.includes buzz and word < @powerloc 
-        res = "power" if @answers.includes buzz and word < @powerloc
-        res = "correct interrupt" if @mins.includes buzz and word < @text.length and word >= @powerloc
-        res = "correct interrupt" if @answers.includes buzz and word < @text.length and word >= @powerloc
-        res = "correct" if @mins.includes buzz and word == @text.length
-        res = "correct" if @answers.includes buzz and word == @text.length
-        res = "prompt" if @prompts.includes buzz
-        res = "neg" if @rejects.includes buzz 
-        res = "incorrect" if @rejects.includes buzz
-        res = "neg" if !res? && word < @text.length
-        res = "incorrect" if !res? && word == @text.length
-        return res
+        "cp" if @mins.includes buzz and word < @powerloc 
+        "cp" if @answers.includes buzz and word < @powerloc
+        "ci" if @mins.includes buzz and word < @text.length and word >= @powerloc
+        "ci" if @answers.includes buzz and word < @text.length and word >= @powerloc
+        "cn" if @mins.includes buzz
+        "cn" if @answers.includes buzz
+        "p" if @prompts.includes buzz
+        "ii" if @rejects.includes buzz and word < @text.length 
+        "in" if @rejects.includes buzz
+        "ii" if !res? && word < @text.length
+        "in" if !res? && word == @text.length
 
 exports.Question = Question if exports?
 		
