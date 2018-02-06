@@ -3,7 +3,7 @@ app = express()
 port = process.env.PORT || 2000
 
 app.get '/', (request, response) ->
-  response.send 'hi'
+  response.sendFile __dirname+"/homepage.html"
 
 app.get '/teapot', (request, response) ->
   response.sendStatus 418
