@@ -8,7 +8,7 @@ class Room
         @access = args.status
         @owner = args.owner
         @wss = args.wss # this is somewhat messy
-        @people = [];
+        @people = {}
         @default_distribution = {"Science": 20, "History": 20, "Literature": 15, "Art": 15, "Religion + Myth": 10, "Geography": 5, "Philosophy + Social Sci": 10, "Trash": 5 }
         @point_system = {"Power": 15, "Normal": 10, "Neg": -5}
         @distribution = @default_distribution
@@ -31,7 +31,7 @@ class Room
     handle: (msg) ->
         res = ''
         for k, v of msg
-            v = Room.htmlEncode v
+            msg[k] = Room.htmlEncode v
         if msg.category == 'greeting'
             @addPerson(msg.person)
             res = {room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
@@ -72,9 +72,9 @@ class Room
         return res
 
     addPerson: (person) ->
-        @people.push person
+        @people.person = 0
   	
     removePerson: (person) ->
-        @people.splice @people.indexOf(person), 1 if (@people.indexOf(person) != -1)
+        delete @people.person if @people.person?
         
 exports.Room = Room if exports?
