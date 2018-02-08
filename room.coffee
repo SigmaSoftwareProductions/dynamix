@@ -72,7 +72,7 @@ class Room
         return res
 
     addPerson: (person) ->
-        @people.person = 0
+        @people[person] = 0
   	
     removePerson: (person) ->
         delete @people.person if @people.person?
