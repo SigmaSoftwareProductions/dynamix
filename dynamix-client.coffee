@@ -1,5 +1,4 @@
 $(document).ready ->
-    start = false
     room = window.location.pathname.substring(1)
     try
         name = JSON.parse(document.cookie).username
@@ -10,45 +9,7 @@ $(document).ready ->
             name = 'comrade popov'
     speed = 120 # time distance between two words
     ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
-    $('#namebox').val name
-
-    $(document).keypress ->
-        
-        if name == ''
-            name = 'comrade popov'
-
-        if event.which == 13
-            if document.activeElement.id == 'chatbox'
-                sendchat()
-      
-            else if document.activeElement.id == 'buzzbox'
-                sendbuzz()
-      
-            else
-                start = true
-                openchat()
-            
-            $('.input').remove() if !start?
-            $('body').focus()
     
-        else if document.activeElement.tagName != 'BODY'
-            # do nothing! yay
-    
-        else if event.which == 32
-            read_toggle()
-            openbuzz()
-    
-        else if event.which == 110
-            next()
-            
-        else if event.which == 47 || event.which == 99
-            openchat()
-            
-    $('#chat-clicky').click (openchat())
-    $('#next-clicky').click (next())
-    $('#toggle-click').click (toggle())
-    $('#buzz-click').click (openbuzz())
-            
     sendbuzz = () ->
         ws.send JSON.stringify({
             room: room
@@ -61,7 +22,6 @@ $(document).ready ->
         $('#buzzbox').remove()
             
     sendchat = () ->
-        start = false
         ws.send JSON.stringify({
             room: room,
             msgContent: {
@@ -148,3 +108,38 @@ $(document).ready ->
         
     ping = () ->
         ws.send('ping')    
+
+    $(document).keypress ->
+        
+        if name == ''
+            name = 'comrade popov'
+
+        if event.which == 13
+            if document.activeElement.id == 'chatbox'
+                sendchat()
+      
+            else if document.activeElement.id == 'buzzbox'
+                sendbuzz()
+      
+            else
+                openchat()
+                
+            $('body').focus()
+    
+        else if document.activeElement.tagName != 'BODY'
+            # do nothing! yay
+    
+        else if event.which == 32
+            toggle()
+            openbuzz()
+    
+        else if event.which == 110
+            next()
+            
+        else if event.which == 47 || event.which == 99
+            openchat()
+            
+    $('#chat-clicky').click (openchat())
+    $('#next-clicky').click (next())
+    $('#toggle-click').click (toggle())
+    $('#buzz-click').click (openbuzz())
