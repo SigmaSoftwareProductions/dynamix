@@ -9,7 +9,7 @@ class Room
         @owner = args.owner
         @wss = args.wss # this is somewhat messy
         @people = {}
-        @default_distribution = {"Science": 20, "History": 20, "Literature": 15, "Art": 15, "Religion + Myth": 10, "Geography": 5, "Philosophy + Social Sci": 10, "Trash": 5 }
+        @default_distribution = {'sci': 22, 'history': 19, 'lit': 17, 'art': 17, 'philsoc': 10, 'relmyth': 8, 'geo': 4, 'trash': 3 }
         @point_system = {"Power": 15, "Normal": 10, "Neg": -5}
         @distribution = @default_distribution
         @qid = 0x000000000 # first tossup ever, not actually science tho
@@ -49,8 +49,8 @@ class Room
             @pauseRead = false
         else if msg.category == 'chat'
             res = {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
-        else if msg.category == 'pause'
-            @pauseRead = true
+        else if msg.category == 'toggle'
+            @pauseRead = !@pauseread
             console.log 'pausing read'
         else if msg.category == "next"
             @word = 0

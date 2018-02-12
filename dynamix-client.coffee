@@ -1,5 +1,5 @@
 $(document).ready ->
-
+    start = false
     room = window.location.pathname.substring(1)
     try
         name = JSON.parse(document.cookie).username
@@ -10,8 +10,7 @@ $(document).ready ->
             name = 'comrade popov'
     speed = 120 # time distance between two words
     ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
-    $('#right').prepend '<ul class="list-group" id="users">users</ul>'
-    $('#right').prepend '<input type="text" placeholder="name" id="namebox" class="form-control">'
+    $('#namebox').val name
 
     $(document).keypress ->
         
@@ -19,66 +18,89 @@ $(document).ready ->
             name = 'comrade popov'
 
         if event.which == 13
-            if document.getElementById('chatbox') != null
-                ws.send JSON.stringify({
-                    room: room,
-                    msgContent: {
-                        category: 'chat',
-                        value: document.getElementById('chatbox').value,
-                        person: name
-                    }
-                })
-                $('#chatbox').remove()
+            if document.activeElement.id == 'chatbox'
+                sendchat()
       
-            else if document.getElementById('buzzbox') != null
-                ws.send JSON.stringify({
-                    room: room
-                    msgContent: {
-                        person: name
-                        category: 'buzz'
-                        value: document.getElementById('buzzbox').value
-                    }
-                })
-                $('#buzzbox').remove()
+            else if document.activeElement.id == 'buzzbox'
+                sendbuzz()
       
             else
-                oname = name
-                name = document.getElementById('namebox').value
-                document.cookie = JSON.stringify({username:name})
-                ws.send(JSON.stringify({room:room, msgContent:{category:"name change", value:name, old:oname}}))
-            $('.input').remove()
+                start = true
+                openchat()
+            
+            $('.input').remove() if !start?
             $('body').focus()
     
         else if document.activeElement.tagName != 'BODY'
             # do nothing! yay
     
         else if event.which == 32
-            ws.send JSON.stringify ({
-                room:room
-                msgContent:{
-                    category:'pause'
-                }
-            })
-            $('#question').after '<div class="container-fluid input"><input type="text" placeholder="buzz" id="buzzbox" class="form-control"></div>'
-            setTimeout (->
-                $('#buzzbox').focus()
-            ), 120
+            read_toggle()
+            openbuzz()
     
         else if event.which == 110
-            ws.send JSON.stringify({
-                room: room
-                msgContent: {
-                    person: name
-                    category: 'next'
-                    value: 'this is for sure not the correct answer'
+            next()
+            
+        else if event.which == 47 || event.which == 99
+            openchat()
+            
+    $('#chat-clicky').click (openchat())
+    $('#next-clicky').click (next())
+    $('#toggle-click').click (toggle())
+    $('#buzz-click').click (openbuzz())
+            
+    sendbuzz = () ->
+        ws.send JSON.stringify({
+            room: room
+            msgContent: {
+                person: name
+                category: 'buzz'
+                value: document.getElementById('buzzbox').value
                 }
             })
+        $('#buzzbox').remove()
             
-        else if event.which == 47
-            $('#question').after '<div class="container-fluid input"><input type="text" placeholder="chat" id="chatbox" class="form-control"></div>'
-            setTimeout (->
-                $('#chatbox').focus()
-            ), 120
+    sendchat = () ->
+        start = false
+        ws.send JSON.stringify({
+            room: room,
+            msgContent: {
+                category: 'chat',
+                value: document.getElementById('chatbox').value,
+                person: name
+            }
+        })
+        $('#chatbox').remove()
+            
+    openchat = () ->
+        $('#question').after '<div class="container-fluid input"><input type="text" placeholder="chat" id="chatbox" class="form-control"></div>'
+        setTimeout (->
+            $('#chatbox').focus()
+        ), 120
+            
+    openbuzz = () ->
+        $('#question').after '<div class="container-fluid input"><input type="text" placeholder="buzz" id="buzzbox" class="form-control"></div>'
+        setTimeout (->
+            $('#buzzbox').focus()
+        ), 120
+    
+    next = () ->
+        ws.send JSON.stringify({
+            room: room
+            msgContent: {
+                person: name
+                category: 'next'
+                value: 'this is for sure not the correct answer'
+            }
+        })
+
+    toggle = () ->
+        ws.send JSON.stringify ({
+            room:room
+            msgContent:{
+                category:'toggle'
+            }
+        })
 
     ws.onmessage = (event) ->
         console.log JSON.stringify event.data
@@ -112,13 +134,14 @@ $(document).ready ->
         $('#question').after '<div class="container-fluid">' + x + '</div>' if x != '#eof#'
         if y?
             $('#users').empty()
-            $('#users').append 'users'
-            for user in y
-                $('#users').append '<li class="list-group-item">'+user+'</li>'
+            i = 1
+            for user, score in y
+                $('#users').append '<tr><th scope="row">'+i'</th><td>'+user+'</td><td>'+score+'</td></tr>'
+                i++
 
     ws.onopen = (event) ->
         ws.send(JSON.stringify({greeting:'hello world!', room:room, msgContent:{person:name, category:'greeting'}}))
-        pinger = setInterval ping, 45000
+        pinger = setInterval ping, 40000
         
     ws.onclose = (event) ->
         $('#question').after '<div class="container-fluid">you have been disconnected from the server</div>'
