@@ -10,7 +10,8 @@ div {
 }
 #buttons {
     width: auto;
-    height: 4%;
+    height: 6%;
+    margin: 0px
 }
 #right {
     width: 22%;
@@ -40,5 +41,11 @@ input {
     margin: 0px;
 }
 button {
-    margin: 0px 10px 0px 10px;
+    margin: 0px 3px 0px 3px;
+}
+#chat-clicky {
+    margin: 0px 0px 0px 3px;
+}
+#buzz-clicky {
+    margin: 0px 3px 0px 0px;
 }

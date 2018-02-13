@@ -50,8 +50,8 @@ class Room
         else if msg.category == 'chat'
             res = {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
         else if msg.category == 'toggle'
-            @pauseRead = !@pauseread
-            console.log 'pausing read'
+            @pauseRead = not @pauseread
+            console.log 'read? ' + @pauseread
         else if msg.category == "next"
             @word = 0
             @qid = Question.getNextQuestionId()

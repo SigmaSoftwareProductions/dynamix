@@ -108,6 +108,11 @@ $(document).ready ->
         
     ping = () ->
         ws.send('ping')    
+        
+    $('#chat-clicky').on 'click', -> openchat()
+    $('#next-clicky').on 'click', -> next()
+    $('#toggle-clicky').on 'click', -> toggle()
+    $('#buzz-clicky').on 'click', -> openbuzz()
 
     $(document).keypress ->
         
@@ -138,8 +143,3 @@ $(document).ready ->
             
         else if event.which == 47 || event.which == 99
             openchat()
-            
-    $('#chat-clicky').click (openchat())
-    $('#next-clicky').click (next())
-    $('#toggle-click').click (toggle())
-    $('#buzz-click').click (openbuzz())
