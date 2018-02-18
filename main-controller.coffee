@@ -1,6 +1,7 @@
 console.log 'online'
 
 {Room} = require './room'
+{Person} = require './person'
 wsx = require 'ws'
 mongodb = require 'mongodb'
 mongoose = require 'mongoose'

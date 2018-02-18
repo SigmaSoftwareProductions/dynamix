@@ -28,3 +28,4 @@ class Person
             throw err if err?
             res = {username:person.username, password:person.password, team:person.team}
         
+exports.Person = Person if exports?
