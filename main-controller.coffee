@@ -42,7 +42,7 @@ wss.on 'connection', (ws) ->
                 sessions[name] = []
             sessions[name].push msg.session
         if (msg.auth?)
-            res = Person.auth (msg.username, msg.password)
+            res = Person.auth msg.username, msg.password
             ws.send {username:msg.username, auth:res}
             return
         res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
