@@ -15,6 +15,7 @@ console.log "wss online on port " + port
 
 rooms = []
 names = []
+sessions = {}
 
 wss.broadcast = (data) ->
     console.log 'broadcasting ' + data
@@ -34,11 +35,17 @@ wss.on 'connection', (ws) ->
         if (msg.greeting? && names.indexOf(msg.room) == -1)
             rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party", wss:wss})) # maybe the first person there should own it? idk
             names.push(msg.room)
-        name = msg.msgContent.person if (msg.greeting?)
-        name = msg.msgContent.value if (msg.msgContent.old?)
-        room = msg.room if (msg.greeting?)    
+        if (msg.greeting?)
+            name = msg.msgContent.person
+            room = msg.room
+            if (!sessions[name]?)
+                sessions[name] = []
+            sessions[name].push msg.session
+        if (msg.auth?)
+            res = Person.auth (msg.username, msg.password)
+            ws.send {username:msg.username, auth:res}
+            return
         res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
-        ws.close() if res.kick?
         
     ws.on 'close', () ->
         console.log 'conn closed to ' + name

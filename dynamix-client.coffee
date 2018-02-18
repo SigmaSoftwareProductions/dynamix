@@ -1,6 +1,13 @@
 $(document).ready ->
     room = window.location.pathname.substring(1)
     try
+        session = JSON.parse(document.cookie).session
+        login = true
+    catch error
+        session = Math.floor Math.random()*(Math.pow 10, 10)
+        login = false
+
+    try
         name = JSON.parse(document.cookie).username
     catch error
         name = 'comrade popov'
