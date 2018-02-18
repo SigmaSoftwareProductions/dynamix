@@ -17,7 +17,7 @@ class Person
         
     # @addNewPerson: (username, password, team) ->
     
-    @auth (username, password) ->
+    @auth: (username, password) ->
         hashedpassword = crypto.createHash('sha512').update(password).digest('hex')
         user = Person.getPerson username
         return user.password == hashedpassword
