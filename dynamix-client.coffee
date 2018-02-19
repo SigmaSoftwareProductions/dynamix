@@ -112,7 +112,7 @@ $(document).ready ->
     $('#next-clicky').on 'click', -> next()
     $('#toggle-clicky').on 'click', -> toggle()
     $('#buzz-clicky').on 'click', -> openbuzz()
-    $('#signin').on 'click', -> window.location.href = 'dynamix.herokuapp.com/signin'
+    $('#signin').on 'click', -> window.location.href = 'signin'
 
     $(document).keypress ->
         
