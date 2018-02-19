@@ -24,8 +24,9 @@ class Person
         
     @getPerson: (username) ->
         res = ''
-        Person.findOne { 'username': username }, 'username password team', (err, person) ->
+        person.findOne { 'username': username }, 'username password team', (err, person) ->
             throw err if err?
             res = {username:person.username, password:person.password, team:person.team}
+        return res
         
 exports.Person = Person if exports?
