@@ -44,7 +44,7 @@ wss.on 'connection', (ws) ->
             sessions[name].push msg.session
         if (msg.auth?)
             res = Person.auth msg.username, msg.password
-            ws.send {username:msg.username, auth:res}
+            ws.send JSON.stringify {username:msg.username, auth:res}
             return
         res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
         
