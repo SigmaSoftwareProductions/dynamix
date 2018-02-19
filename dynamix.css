@@ -45,6 +45,8 @@ button {
 }
 #signin {
     float: right;
+    float: top:
+    margin: 10px;
 }
 #chat-clicky {
     margin: 0px 0px 0px 3px;
