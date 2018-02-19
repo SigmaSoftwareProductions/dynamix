@@ -36,7 +36,7 @@ class Person
             console.log res
         console.log res
         while res.username == 'err'
-        
+            void 0
         return res
         
 exports.Person = Person if exports?
