@@ -31,8 +31,9 @@ class Person
         res = ''
         person.findOne { 'username': username }, 'username password team', (err, user) ->
             res = {username:username, password:'no, sorry, this person doesnt exist', team:username} if err?
-            res = {username:user.username, password:user.password, team:person.team}
+            res = user
             console.log user
+        console.log res
         return res
         
 exports.Person = Person if exports?
