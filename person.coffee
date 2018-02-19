@@ -1,4 +1,4 @@
-mdb = require 'mongodb'
+crypto = require 'crypto'
 mongoose = require 'mongoose'
 mongoose.connect('mongodb://dynamix:dynamix@ds153577.mlab.com:53577/dynamix')
 personSchema = new mongoose.Schema {
