@@ -19,6 +19,8 @@ class Person
     
     @auth: (username, password) ->
         hashedpassword = crypto.createHash('sha512').update(password).digest('hex')
+        console.log hashedpassword
+        console.log crypto.createHash('sha512').update('AEP-X CV').digest('hex')
         user = Person.getPerson username
         return user.password == hashedpassword
         
