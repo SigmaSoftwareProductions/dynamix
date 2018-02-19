@@ -20,27 +20,14 @@ class Person
         
     # @addNewPerson: (username, password, team) ->
     
-    @auth: (username, password) ->
+    @auth: (username, password, cb) ->
         hashedpassword = crypto.createHash('sha512').update(password).digest('hex')
-        user = Person.getPerson(username)
-        console.log user
-        console.log hashedpassword
-        if (user.password == hashedpassword)
-            return true
-        else
-            return false
-        return false
-        
-    @getPerson: (username) ->
-        res = {username:'err', password:'err', team:'err'}
-        person.findOne { 'username': username }, 'username password team', (err, user) ->
-            res = {username:username, password:'no, sorry, this person doesnt exist', team:username} if err?
-            res = user
-            console.log res
-        console.log res
-        while !res.id?
-            do_nothing()
-        console.log res
-        return res
+        res = false
+        cursor = person.findOne({ 'username': username }).cursor()
+        cursor.on 'data', (user) ->
+            if user.password == hashedpassword
+                res = true
+        cursor.on 'close', () ->
+            cb (res)
         
 exports.Person = Person if exports?
