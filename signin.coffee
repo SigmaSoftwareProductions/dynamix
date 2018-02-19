@@ -1,10 +1,20 @@
 $(document).ready ->
     ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
-    $('#submit').click = () ->
-        ws.send ({
+    $('#submit').on 'click', ->
+        ws.send ( JSON.stringify {
             auth:'auth please!', 
             username:document.getElementById('username').value, 
             password:document.getElementById('password').value
         })
+        return
     ws.onmessage = (event) ->
-        alert event.data
+        x = JSON.parse event.data
+        if x.room?
+            return
+        if (x.auth)
+            alert 'succesful!'
+            session = Math.floor(Math.random()*1000000)
+            ws.send JSON.stringify {add_session:true, user:document.getElementById('username').value, session:session}
+            document.cookie = "{'username':" + document.getElementById('username').value+ ",session:" + session + "}"
+        return
+    return

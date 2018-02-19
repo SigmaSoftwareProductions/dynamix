@@ -2,18 +2,16 @@ $(document).ready ->
     room = window.location.pathname.substring(1)
     try
         session = JSON.parse(document.cookie).session
+        name = JSON.parse(document.cookie).username
+        $('#login').text(name)
         login = true
     catch error
-        session = Math.floor Math.random()*(Math.pow 10, 10)
         login = false
-
-    try
-        name = JSON.parse(document.cookie).username
-    catch error
-        name = 'comrade popov'
+        name = 'guest'
     finally
         if name == ''
             name = 'comrade popov'
+            
     speed = 120 # time distance between two words
     ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
     
@@ -84,18 +82,12 @@ $(document).ready ->
         else if x.category == 'exit'
             y = x.users
             x = '<span style="font-style: italic;">' + x.person + ' left the room</span>'
-        else if x.category == 'name change'
-            y = x.users
-            x = '<span style="font-style: italic;">' + x.old + ' changed name to ' + x.value + '</span>'
-        else if x.category == 'kick'
-            y = x.users;
-            x = '<span style="font-style: italic;">' + x.person + ' was kicked from the room</span>'
         else if x.category == 'word'
             $('#question').append x.value 
             x = '#eof#'
             
         else if x.category == 'next'
-            $('#question').empty
+            $('#question').empty()
             x = '#eof#'
             
         $('#question').after '<div class="container-fluid">' + x + '</div>' if x != '#eof#'

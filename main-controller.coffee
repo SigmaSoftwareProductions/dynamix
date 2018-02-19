@@ -41,10 +41,15 @@ wss.on 'connection', (ws) ->
             room = msg.room
             if (!sessions[name]?)
                 sessions[name] = []
-            sessions[name].push msg.session
+            sessions[name].push msg.session if sessions.indexOf(name) == -1
         if (msg.auth?)
             res = Person.auth msg.username, msg.password, (res) ->
                 ws.send JSON.stringify {username:msg.username, auth:res} # this is awesome! works seamlessly! async programming still sucks tho
+            return
+        if (msg.add_session?)
+            if (!sessions[name]?)
+                sessions[name] = []
+            sessions[name].push msg.session if sessions.indexOf(name) == -1
             return
         res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
         
