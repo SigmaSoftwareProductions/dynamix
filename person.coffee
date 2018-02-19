@@ -33,6 +33,7 @@ class Person
         person.findOne { 'username': username }, 'username password team', (err, user) ->
             res = {username:username, password:'no, sorry, this person doesnt exist', team:username} if err?
             res = user
+            console.log res
         console.log res
         return res
         
