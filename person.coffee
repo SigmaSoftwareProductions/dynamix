@@ -25,7 +25,7 @@ class Person
     @getPerson: (username) ->
         res = ''
         person.findOne { 'username': username }, 'username password team', (err, person) ->
-            throw err if err?
+            res = {username:username, password:'no, sorry, this person doesnt exist', team:username} if err?
             res = {username:person.username, password:person.password, team:person.team}
         return res
         
