@@ -38,8 +38,9 @@ class Person
             res = user
             console.log res
         console.log res
-        while res.username == 'err'
+        while !res.id?
             do_nothing()
+        console.log res
         return res
         
 exports.Person = Person if exports?
