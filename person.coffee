@@ -21,8 +21,6 @@ class Person
         hashedpassword = crypto.createHash('sha512').update(password).digest('hex')
         user = Person.getPerson(username)
         console.log user
-        console.log hashedpassword
-        console.log user.password
         if (user.password == hashedpassword)
             return true
         else
@@ -31,10 +29,10 @@ class Person
         
     @getPerson: (username) ->
         res = ''
-        person.findOne { 'username': username }, 'username password team', (err, person) ->
+        person.findOne { 'username': username }, 'username password team', (err, user) ->
             res = {username:username, password:'no, sorry, this person doesnt exist', team:username} if err?
-            res = {username:person.username, password:person.password, team:person.team}
-        console.log res
+            res = {username:user.username, password:user.password, team:person.team}
+            console.log user
         return res
         
 exports.Person = Person if exports?
