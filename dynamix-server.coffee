@@ -16,6 +16,12 @@ app.get '/jquery-3.2.1.js', (request, response) ->
 
 app.get '/dynamix.css', (request, response) ->
   response.sendFile __dirname+"/dynamix.css"
+  
+app.get '/signin', (request, response) ->
+  response.sendFile __dirname+"/signin.html"
+  
+app.get '/signin.js', (request, response) ->
+  response.sendFile __dirname+"/signin.js"
 
 app.get '/:room', (request, response) ->
   response.sendFile __dirname+"/neilufi.html"
