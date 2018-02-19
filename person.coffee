@@ -20,7 +20,13 @@ class Person
     @auth: (username, password) ->
         hashedpassword = crypto.createHash('sha512').update(password).digest('hex')
         user = Person.getPerson username
-        return user.password == hashedpassword
+        console.log hashedpassword
+        console.log user.password
+        if (user.password == hashedpassword)
+            return true
+        else
+            return false
+        return false
         
     @getPerson: (username) ->
         res = ''

@@ -49,5 +49,4 @@ wss.on 'connection', (ws) ->
         res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
         
     ws.on 'close', () ->
-        console.log 'conn closed to ' + name
-        res = rooms[names.indexOf(room)].handle({category:"farewell", person:name}) 
+        res = rooms[names.indexOf(room)].handle({category:"farewell", person:name}) if name != "what is a string that will never be a name?"
