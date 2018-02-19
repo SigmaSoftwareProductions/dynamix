@@ -8,6 +8,9 @@ personSchema = new mongoose.Schema {
 }, {collection:'users'}
 person = mongoose.model('person', personSchema)
 
+do_nothing = () ->
+    return
+
 class Person
     constructor: (args) ->
         @username = args.username
@@ -36,7 +39,7 @@ class Person
             console.log res
         console.log res
         while res.username == 'err'
-            void 0
+            do_nothing()
         return res
         
 exports.Person = Person if exports?
