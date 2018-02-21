@@ -1,5 +1,7 @@
 $(document).ready ->
     room = window.location.pathname.substring(1)
+    alert document.cookie
+    alert JSON.parse document.cookie
     try
         session = JSON.parse(document.cookie).session
         name = JSON.parse(document.cookie).username
