@@ -58,14 +58,16 @@ class Room
             console.log @q instanceof Question
             self = this
             clearInterval
-            setInterval () ->
-                return 'pause' if self.pauseRead 
-                return '#eof#' if self.word > self.q.text.length 
-                res = if self.word < self.q.text.length then self.q.text[self.word] else '#eof#' 
-                self.wss.broadcast JSON.stringify {room:self.name, msgContent:{category:'word', value:res+' '}}
-                self.word++
-                self.clearInterval if res == '#eof#'
-            , @speed
+            Question.getQuestion @qid, (question) ->
+                self.q = question
+                setInterval () ->
+                    return 'pause' if self.pauseRead 
+                    return '#eof#' if self.word > self.q.text.length 
+                    res = if self.word < self.q.text.length then self.q.text[self.word] else '#eof#' 
+                    self.wss.broadcast JSON.stringify {room:self.name, msgContent:{category:'word', value:res+' '}}
+                    self.word++
+                    self.clearInterval if res == '#eof#'
+                , @speed
             res = {room:@name, next:'question', msgContent:{category:"next", speed:@speed}}
         @wss.broadcast JSON.stringify res 
         return res
