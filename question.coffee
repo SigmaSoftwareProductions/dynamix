@@ -3,7 +3,7 @@ Schema = mongoose.Schema
 
 qschema = new Schema ({
     id: Number,
-    text: Array,
+    text: String,
     mins: Array,
     answers: Array,
     prompts: Array,
