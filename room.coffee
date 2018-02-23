@@ -54,8 +54,6 @@ class Room
         else if msg.category == "next"
             @word = 0
             @qid = Question.getNextQuestionId()
-            @q = new Question (@qid)
-            console.log @q instanceof Question
             self = this
             clearInterval
             Question.getQuestion @qid, (question) ->
