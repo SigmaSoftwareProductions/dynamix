@@ -58,7 +58,7 @@ class Room
             clearInterval
             Question.getQuestion @qid, (question) ->
                 console.log question
-                self.q = question
+                self.q = new Question(question)
                 text = self.q.text.split ' '
                 setInterval () ->
                     return 'pause' if self.pauseRead 
