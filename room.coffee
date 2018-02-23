@@ -60,10 +60,11 @@ class Room
             clearInterval
             Question.getQuestion @qid, (question) ->
                 self.q = question
+                text = self.q.text.split ' '
                 setInterval () ->
                     return 'pause' if self.pauseRead 
                     return '#eof#' if self.word > self.q.text.length 
-                    res = if self.word < self.q.text.length then self.q.text[self.word] else '#eof#' 
+                    res = if self.word < text.length then text[self.word] else '#eof#' 
                     self.wss.broadcast JSON.stringify {room:self.name, msgContent:{category:'word', value:res+' '}}
                     self.word++
                     self.clearInterval if res == '#eof#'
