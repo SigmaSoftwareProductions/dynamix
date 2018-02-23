@@ -13,7 +13,7 @@ class Room
         @point_system = {"Power": 15, "Normal": 10, "Neg": -5}
         @distribution = @default_distribution
         @qid = 0x000000000 # first tossup ever, not actually science tho
-        @q = new Question (@qid)
+        @q = 'not yet!'
         @pauseRead = false
         @speed = 600 # time between words - please set default to 160 or so, as this is for power testing
         
