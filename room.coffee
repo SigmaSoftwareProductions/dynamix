@@ -59,6 +59,7 @@ class Room
             self = this
             clearInterval
             Question.getQuestion @qid, (question) ->
+                console.log question
                 self.q = question
                 text = self.q.text.split ' '
                 setInterval () ->
