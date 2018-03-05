@@ -53,7 +53,7 @@ class Room
             @pauseRead = not @pauseRead
         else if msg.category == "next"
             @word = 0
-            @qid = Question.getNextQuestionId()
+            @qid = Question.getNextQuestionId(@distribution)
             self = this
             clearInterval
             Question.getQuestion @qid, (question) ->
