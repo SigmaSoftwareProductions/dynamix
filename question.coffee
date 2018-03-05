@@ -71,6 +71,7 @@ class Question
     @getNextQuestionId: (d) -> # d for distribution
         res = 0
         x = Math.floor(Math.random()*100)
+        console.log x
         if (x >= 100-d.sci) 
             res = 0x000000000
         else if (x > 100-d.sci-d.hist)
