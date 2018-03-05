@@ -9,7 +9,7 @@ class Room
         @owner = args.owner
         @wss = args.wss # this is somewhat messy
         @people = {}
-        @default_distribution = {'sci': 22, 'history': 19, 'lit': 17, 'art': 17, 'philsoc': 10, 'relmyth': 8, 'geo': 4, 'trash': 3 }
+        @default_distribution = {sci: 22, history: 19, lit: 17, art: 17, philsoc: 10, relmyth: 8, geo: 4, trash: 3 }
         @point_system = {"Power": 15, "Normal": 10, "Neg": -5}
         @distribution = @default_distribution
         @qid = 0x000000000 # first tossup ever, not actually science tho

@@ -67,22 +67,28 @@ class Question
             
         cursor.on 'close', () ->
             cb(q)
-        
-        return {
-            id: id, 
-            text: 'the answer to this question is entropy. also accept gibbs free energy, with only gibbs free required. prompt on gibbs. enthalpy is to be rejected. this question was at the 2020 entropy invitational. power stops before entropy is said.', 
-            mins: ['entropy', 'gibbs free'],
-            answers: ['entropy', 'gibbs free energy'],
-            prompts: ['gibbs'],
-            rejects: ['enthalpy'],
-            tournament: ['2020 Entropy Invitational'],
-            category: 'Starter Question'
-            powerloc: 6
-        }
     
-    @getNextQuestionId: (distribution) ->
-        return 0x000000000
-    
+    @getNextQuestionId: (d) -> # d for distribution
+        res = 0
+        x = Math.floor(Math.random()*100)
+        if (x >= 100-d.sci) 
+            res = 0x000000000
+        else if (x > 100-d.sci-d.hist)
+            res = 0x010000000
+        else if (x > 100-d.sci-d.hist-d.lit)
+            res = 0x020000000
+        else if (x > 100-d.sci-d.hist-d.lit-d.art)
+            res = 0x030000000
+        else if (x > 100-d.sci-d.hist-d.lit-d.art-d.philsoc)
+            res = 0x040000000
+        else if (x > 100-d.sci-d.hist-d.lit-d.art-d.philsoc-d.relmyth)
+            res = 0x050000000
+        else if (x > 100-d.sci-d.hist-d.lit-d.art-d.philsoc-d.relmyth-d.geo)
+            res = 0x060000000
+        else if (x > 100-d.sci-d.hist-d.lit-d.art-d.philsoc-d.relmyth-d.geo-d.trash)
+            res = 0x070000000
+        return res
+            
     match: (buzz, word) ->
         console.log 'matching "' + buzz + '" at word number ' + word
         return "cp" if @mins.includes buzz and word < @powerloc 
