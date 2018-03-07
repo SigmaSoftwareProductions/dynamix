@@ -37,6 +37,7 @@ class Question
     
     @getNextQuestionId: (d) -> # d for distribution
         x = Math.floor(Math.random()*100)
+        console.log x
         if (x > 100-d.sci) 
             res = 0x000000000
         else if (x > 100-d.sci-d.history)
@@ -51,7 +52,7 @@ class Question
             res = 0x050000000
         else if (x > 100-d.sci-d.history-d.lit-d.art-d.philsoc-d.relmyth-d.geo)
             res = 0x060000000
-        else if (x > 100-d.sci-d.history-d.lit-d.art-d.philsoc-d.relmyth-d.geo-d.trash)
+        else if (x >= 100-d.sci-d.history-d.lit-d.art-d.philsoc-d.relmyth-d.geo-d.trash)
             res = 0x070000000
         console.log 'generated id of ' + res
         return res
