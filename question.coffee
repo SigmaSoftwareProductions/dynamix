@@ -36,10 +36,12 @@ class Question
             cb(q)
     
     @getNextQuestionId: (d) -> # d for distribution
-        console.log d
         x = Math.floor(Math.random()*100)
-        y = 100-d.sci-d.hist
-        console.log typeof y
+        console.log x
+        console.log x >= 100-d.sci
+        console.log x > 100-d.sci-d.hist
+        console.log x > 100-d.sci-d.hist-d.lit
+        console.log 
         if (x >= 100-d.sci) 
             res = 0x000000000
         else if (x > 100-d.sci-d.hist)
