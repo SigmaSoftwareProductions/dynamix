@@ -25,40 +25,7 @@ class Question
         @powerloc = question.powerloc
 		
     @getQuestion: (id, cb) ->
-        category = 'idk'
-        if (id < 0x010000000)
-            category = 'tossups.sci'
-        else if (id < 0x020000000)
-            category = 'tossups.history'
-        else if (id < 0x030000000)
-            category = 'tossups.lit'
-        else if (id < 0x040000000)
-            category = 'tossups.art'
-        else if (id < 0x050000000)
-            category = 'tossups.philsoc'
-        else if (id < 0x060000000)
-            category = 'tossups.relmyth'
-        else if (id < 0x070000000)
-            category = 'tossups.geo'
-        else if (id < 0x080000000)
-            category = 'tossups.trash'
-        else if (id < 0x110000000)
-            category = 'bonus.sci'
-        else if (id < 0x120000000)
-            category = 'bonus.history'
-        else if (id < 0x130000000)
-            category = 'bonus.lit'
-        else if (id < 0x140000000)
-            category = 'bonus.art'
-        else if (id < 0x150000000)
-            category = 'bonus.philsoc'
-        else if (id < 0x160000000)
-            category = 'bonus.relmyth'
-        else if (id < 0x170000000)
-            category = 'bonus.geo'
-        else if (id < 0x180000000)
-            category = 'bonus.trash'
-            
+        category = 'tossups'
         themodel = mongoose.model(category, qschema, category)
         cursor = themodel.findOne({id:id}).cursor()
         q = null
@@ -88,6 +55,7 @@ class Question
             res = 0x060000000
         else if (x > 100-d.sci-d.hist-d.lit-d.art-d.philsoc-d.relmyth-d.geo-d.trash)
             res = 0x070000000
+        console.log 'generated id of ' + res
         return res
             
     match: (buzz, word) ->
