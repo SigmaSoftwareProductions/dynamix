@@ -38,9 +38,7 @@ class Question
     @getNextQuestionId: (d) -> # d for distribution
         x = Math.floor(Math.random()*100)
         console.log x
-        console.log 100-d.sci
-        console.log 100-d.sci-d.hist
-        console.log 100-d.sci-d.hist-d.lit
+        console.log "######"+typeof d.hist"######"
         console.log 
         if (x > 100-d.sci) 
             res = 0x000000000
