@@ -37,24 +37,21 @@ class Question
     
     @getNextQuestionId: (d) -> # d for distribution
         x = Math.floor(Math.random()*100)
-        y=typeof d.hist
-        console.log "######"+y+"######"
-        console.log 
         if (x > 100-d.sci) 
             res = 0x000000000
-        else if (x > 100-d.sci-d.hist)
+        else if (x > 100-d.sci-d.history)
             res = 0x010000000
-        else if (x > 100-d.sci-d.hist-d.lit)
+        else if (x > 100-d.sci-d.history-d.lit)
             res = 0x020000000
-        else if (x > 100-d.sci-d.hist-d.lit-d.art)
+        else if (x > 100-d.sci-d.history-d.lit-d.art)
             res = 0x030000000
-        else if (x > 100-d.sci-d.hist-d.lit-d.art-d.philsoc)
+        else if (x > 100-d.sci-d.history-d.lit-d.art-d.philsoc)
             res = 0x040000000
-        else if (x > 100-d.sci-d.hist-d.lit-d.art-d.philsoc-d.relmyth)
+        else if (x > 100-d.sci-d.history-d.lit-d.art-d.philsoc-d.relmyth)
             res = 0x050000000
-        else if (x > 100-d.sci-d.hist-d.lit-d.art-d.philsoc-d.relmyth-d.geo)
+        else if (x > 100-d.sci-d.history-d.lit-d.art-d.philsoc-d.relmyth-d.geo)
             res = 0x060000000
-        else if (x > 100-d.sci-d.hist-d.lit-d.art-d.philsoc-d.relmyth-d.geo-d.trash)
+        else if (x > 100-d.sci-d.history-d.lit-d.art-d.philsoc-d.relmyth-d.geo-d.trash)
             res = 0x070000000
         console.log 'generated id of ' + res
         return res
