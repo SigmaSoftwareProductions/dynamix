@@ -36,11 +36,11 @@ class Question
             cb(q)
     
     @getNextQuestionId: (d) -> # d for distribution
+        console.log d
         res = 0
         x = Math.floor(Math.random()*100)
         console.log x
         if (x >= 100-d.sci) 
-            console.log 'xsrfer'
             res = 0x000000000
         else if (x > 100-d.sci-d.hist)
             res = 0x010000000
