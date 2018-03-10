@@ -16,7 +16,7 @@ console.log "wss online on port " + port
 
 rooms = []
 names = []
-sessions = {}
+sessions = {'guest': 0}
 
 wss.broadcast = (data) ->
     console.log 'broadcasting ' + data
@@ -40,8 +40,9 @@ wss.on 'connection', (ws) ->
             name = msg.msgContent.person
             room = msg.room
             if (!sessions[name]?)
-                sessions[name] = []
-            sessions[name].push msg.session if sessions[name].indexOf(name) == -1
+                ws.close()
+            if (sessions[name].indexOf(msg.session) == -1)
+                ws.close()
         if (msg.auth?)
             res = Person.auth msg.username, msg.password, (res) ->
                 ws.send JSON.stringify {username:msg.username, auth:res} # this is awesome! works seamlessly! async programming still sucks tho

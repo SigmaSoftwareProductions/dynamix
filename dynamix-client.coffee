@@ -1,15 +1,15 @@
 $(document).ready ->
     room = window.location.pathname.substring(1)
-    alert document.cookie
-    alert JSON.parse document.cookie
     try
         session = JSON.parse(document.cookie).session
         name = JSON.parse(document.cookie).username
         $('#login').text(name)
         login = true
     catch error
+        alert error
         login = false
         name = 'guest'
+        session = 0
     finally
         if name == ''
             name = 'comrade popov'
@@ -101,7 +101,7 @@ $(document).ready ->
                 i++
 
     ws.onopen = (event) ->
-        ws.send(JSON.stringify({greeting:'hello world!', room:room, msgContent:{person:name, category:'greeting'}}))
+        ws.send(JSON.stringify({greeting:'hello world!', session: session, room:room, msgContent:{person:name, category:'greeting'}}))
         pinger = setInterval ping, 40000
         
     ws.onclose = (event) ->
