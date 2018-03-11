@@ -48,6 +48,7 @@ wss.on 'connection', (ws) ->
                 ws.send JSON.stringify {username:msg.username, auth:res} # this is awesome! works seamlessly! async programming still sucks tho
             return
         if (msg.add_session?)
+            name = msg.user
             if (!sessions[name]?)
                 sessions[name] = []
             sessions[name].push msg.session if sessions[name].indexOf(name) == -1
