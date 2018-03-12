@@ -14,7 +14,7 @@ port = process.env.PORT || 2020
 wss = new wsx.Server({port: port})
 console.log "wss online on port " + port
 
-rooms = []
+rooms = [new Room ({name:'', status:'szpecial', owner:"entropy", wss:wss})]
 names = []
 sessions = {'guest': 0}
 
@@ -26,7 +26,7 @@ wss.broadcast = (data) ->
 
 wss.on 'connection', (ws) ->
     name = "what is a string that will never be a name?"
-    room = "what is a string that will never be a room?"
+    room = ""
     ws.on 'message', (msg) ->
         if msg == 'ping'
             ws.send('pong')
