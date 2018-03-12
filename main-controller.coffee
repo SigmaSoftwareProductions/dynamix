@@ -15,7 +15,7 @@ wss = new wsx.Server({port: port})
 console.log "wss online on port " + port
 
 rooms = [new Room ({name:'', status:'szpecial', owner:"entropy", wss:wss})]
-names = []
+names = [""]
 sessions = {'guest': 0}
 
 wss.broadcast = (data) ->
