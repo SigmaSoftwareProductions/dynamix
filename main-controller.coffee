@@ -28,11 +28,11 @@ wss.on 'connection', (ws) ->
     name = "what is a string that will never be a name?"
     room = "what is a string that will never be a room?"
     ws.on 'message', (msg) ->
-        console.log msg if not msg.auth? # sneaky sneaky
         if msg == 'ping'
             ws.send('pong')
             return   
         msg = JSON.parse msg
+        console.log msg if not msg.auth? # sneaky sneaky
         if (msg.greeting? && names.indexOf(msg.room) == -1)
             rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party", wss:wss})) # maybe the first person there should own it? idk
             names.push(msg.room)
@@ -52,7 +52,9 @@ wss.on 'connection', (ws) ->
             if (!sessions[name]?)
                 sessions[name] = []
             sessions[name].push msg.session if sessions[name].indexOf(name) == -1
+            
             return
+
         res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
         
     ws.on 'close', () ->
