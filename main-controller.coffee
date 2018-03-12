@@ -53,9 +53,8 @@ wss.on 'connection', (ws) ->
             if (!sessions[name]?)
                 sessions[name] = []
             sessions[name].push msg.session if sessions[name].indexOf(name) == -1
-            
             return
-        else 
+        if (!msg.add_session?)
             res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
         
     ws.on 'close', () ->
