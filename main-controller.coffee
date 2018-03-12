@@ -56,6 +56,7 @@ wss.on 'connection', (ws) ->
             return
         if (!msg.add_session?)
             res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
+        return
         
     ws.on 'close', () ->
         res = rooms[names.indexOf(room)].handle({category:"farewell", person:name}) if name != "what is a string that will never be a name?"
