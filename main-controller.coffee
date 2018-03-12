@@ -37,6 +37,7 @@ wss.on 'connection', (ws) ->
             rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party", wss:wss})) # maybe the first person there should own it? idk
             names.push(msg.room)
         if (msg.greeting?)
+            console.log sessions
             name = msg.msgContent.person
             room = msg.room
             if (!sessions[name]?)
