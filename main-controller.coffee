@@ -40,7 +40,7 @@ wss.on 'connection', (ws) ->
             console.log sessions
             name = msg.msgContent.person
             room = msg.room
-            if (!sessions[name]?)
+            if (not sessions[name]?)
                 ws.close()
             if (sessions[name].indexOf(msg.session) == -1)
                 ws.close()
