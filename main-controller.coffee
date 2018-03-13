@@ -42,6 +42,7 @@ wss.on 'connection', (ws) ->
             room = msg.room
             if (not sessions[name]?)
                 ws.close()
+                return
             if (sessions[name].indexOf(msg.session) == -1)
                 ws.close()
         if (msg.auth?)
