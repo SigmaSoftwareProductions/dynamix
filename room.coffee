@@ -36,7 +36,7 @@ class Room
             msg[k] = Room.htmlEncode v
         if msg.category == 'greeting'
             @addPerson(msg.person)
-            res = {room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
+            res = {room:@name, msgContent:{category:"entry", person:msg.person, users:JSON.stringify(@people)}} 
         else if msg.category == 'farewell'
             @removePerson(msg.person)
             console.log 'removing ' + msg.person
