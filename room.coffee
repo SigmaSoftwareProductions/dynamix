@@ -74,6 +74,7 @@ class Room
 
     addPerson: (person) ->
         @people[person] = 0
+        console.log @people
   	
     removePerson: (person) ->
         delete @people.person if @people.person?
