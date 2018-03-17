@@ -40,11 +40,10 @@ wss.on 'connection', (ws) ->
             console.log sessions
             name = msg.msgContent.person
             room = msg.room
-            if (not sessions[name]?)
+            if (sessions[name].indexOf(msg.session) == -1 or not sessions[name]?)
+                ws.send("error - invalid credentials. please log in again.")
                 ws.close()
                 return
-            if (sessions[name].indexOf(msg.session) == -1)
-                ws.close()
         if (msg.auth?)
             res = Person.auth msg.username, msg.password, (res) ->
                 ws.send JSON.stringify {username:msg.username, auth:res} # this is awesome! works seamlessly! async programming still sucks tho
