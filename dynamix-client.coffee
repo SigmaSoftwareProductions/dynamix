@@ -94,11 +94,12 @@ $(document).ready ->
             
         $('#question').after '<div class="container-fluid">' + x + '</div>' if x != '#eof#'
         if y?
-            $('#users').empty()
-            i = 1
-            for user, score in y
-                $('#users').append '<tr><th scope="row">'+i'</th><td>'+user+'</td><td>'+score+'</td></tr>'
-                i++
+            alert y
+#             $('#users').empty()
+#             i = 1
+#             for user, score in y
+#                 $('#users').append '<tr><th scope="row">'+i'</th><td>'+user+'</td><td>'+score+'</td></tr>'
+#                 i++
 
     ws.onopen = (event) ->
         ws.send(JSON.stringify({greeting:'hello world!', session: session, room:room, msgContent:{person:name, category:'greeting'}}))
