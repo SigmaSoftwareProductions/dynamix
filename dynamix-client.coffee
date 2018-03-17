@@ -93,7 +93,7 @@ $(document).ready ->
             
         $('#question').after '<div class="container-fluid">' + x + '</div>' if x != '#eof#'
         if y?
-            alert (JSON.parse (y))
+            alert (y)
 #             $('#users').empty()
 #             i = 1
 #             for user, score in y

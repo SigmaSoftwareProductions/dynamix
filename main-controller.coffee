@@ -41,7 +41,7 @@ wss.on 'connection', (ws) ->
             name = msg.msgContent.person
             room = msg.room
             if (sessions[name].indexOf(msg.session) == -1 or not sessions[name]?)
-                ws.send("error - invalid credentials. please log in again.")
+                ws.send("error - invalid credentials. please sign in again")
                 ws.close()
                 return
         if (msg.auth?)
