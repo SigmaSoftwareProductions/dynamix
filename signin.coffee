@@ -15,6 +15,8 @@ $(document).ready ->
             alert 'succesful!'
             session = Math.floor(Math.random()*1000000)
             ws.send JSON.stringify {add_session:true, user:document.getElementById('username').value, session:session}
-            document.cookie = "{'username':" + document.getElementById('username').value+ ",session:" + session + "}"
+            futurecookie = {username:document.getElementById('username').value, session:session}
+            document.cookie = JSON.stringify futurecookie
+            document.location.href = document.referrer
         return
     return
