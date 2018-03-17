@@ -41,7 +41,7 @@ class Room
             @removePerson(msg.person)
             console.log 'removing ' + msg.person
             console.log @people
-            res = {room:@name, msgContent:{category:"exit", person:msg.person, users:@people}}
+            res = {room:@name, msgContent:{category:"exit", person:msg.person, users:JSON.stringify(@people)}}
         else if msg.category == 'name change'
             @removePerson(msg.old)
             @addPerson(msg.value)

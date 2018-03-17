@@ -6,7 +6,6 @@ $(document).ready ->
         $('#login').text(name)
         login = true
     catch error
-        alert error
         login = false
         name = 'guest'
         session = 0
@@ -94,7 +93,7 @@ $(document).ready ->
             
         $('#question').after '<div class="container-fluid">' + x + '</div>' if x != '#eof#'
         if y?
-            alert y
+            alert (JSON.parse (y))
 #             $('#users').empty()
 #             i = 1
 #             for user, score in y
