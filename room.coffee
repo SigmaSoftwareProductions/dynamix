@@ -10,7 +10,7 @@ class Room
         @wss = args.wss # this is somewhat messy
         @people = {}
         @default_distribution = {sci: 22, history: 19, lit: 17, art: 17, philsoc: 10, relmyth: 8, geo: 4, trash: 3}
-        @point_system = {"Power": 15, "Normal": 10, "Neg": -5}
+        @point_system = {"cp": 15, "ci": 10, "cn": 10, "ii": -5, "in": 0}
         @distribution = @default_distribution
         @qid = 0x000000000 # first tossup ever, not actually science tho
         @q = 'not yet!'
@@ -47,7 +47,9 @@ class Room
             @addPerson(msg.value)
             res = {room:@name, msgContent:{category:"name change", old: msg.old, value: msg.value, users:@people}} 
         else if msg.category == 'buzz'
-            res = {room:@name, msgContent:{category:"buzz", value:msg.value, ver:@q.match(msg.value, @word), person:msg.person}} 
+            ver = @q.match(msg.value, @word)
+            @people[msg.person] += @point_system[ver] 
+            res = {room:@name, msgContent:{category:"buzz", value:msg.value, ver:ver, person:msg.person, users:@people}}
             @pauseRead = false
         else if msg.category == 'chat'
             res = {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
