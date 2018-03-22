@@ -76,6 +76,6 @@ class Room
         @people[person] = 0
   	
     removePerson: (person) ->
-        delete @people.person
+        @people.person = undefined
         
 exports.Room = Room if exports?
