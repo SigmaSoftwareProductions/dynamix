@@ -59,12 +59,12 @@ class Room
             @word = 0
             @qid = Question.getNextQuestionId(@distribution)
             self = this
-            clearInterval ()
+            clearInterval
             Question.getQuestion self.qid, (question) ->
                 console.log self.qid
                 console.log question
                 self.q = new Question(question)
-                clearInterval ()
+                clearInterval
                 setInterval () ->
                     return 'pause' if self.pauseRead 
                     return '#eof#' if self.word > self.q.text.length 
