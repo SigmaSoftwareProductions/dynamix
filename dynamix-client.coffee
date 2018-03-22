@@ -76,6 +76,7 @@ $(document).ready ->
         if x.category == 'chat'
             x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value
         else if x.category == 'buzz'
+            y = x.users
             x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value + ' ' + x.ver
         else if x.category == 'entry'
             y = x.users
