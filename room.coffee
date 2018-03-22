@@ -77,7 +77,7 @@ class Room
         return
   	
     removePerson: (person) ->
-        delete @people.person
+        delete @people[person]
         return
         
 exports.Room = Room if exports?
