@@ -74,8 +74,10 @@ class Room
 
     addPerson: (person) ->
         @people[person] = 0
+        return
   	
     removePerson: (person) ->
         delete @people.person
+        return
         
 exports.Room = Room if exports?
