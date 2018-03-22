@@ -96,8 +96,9 @@ $(document).ready ->
             y = JSON.parse y
             $('.user').remove()
             i = 1
-            for user, score in y
-                $('#users').append '<tr class="user"><th scope="row">'+i'</th><td>'+user+'</td><td>'+score+'</td></tr>'
+            for user, score of y
+                alert (" a user! yay ")
+                $('#users').append '<tr class="user"><th scope="row">'+i+'</th><td>'+user+'</td><td>'+score+'</td></tr>'
                 i++
 
     ws.onopen = (event) ->
