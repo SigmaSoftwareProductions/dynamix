@@ -40,7 +40,7 @@ wss.on 'connection', (ws) ->
             console.log sessions
             name = msg.msgContent.person
             room = msg.room
-            if (sessions[name].indexOf(msg.session) == -1 or not sessions[name]?)
+            if (not sessions[name]? or sessions[name].indexOf(msg.session) == -1)
                 ws.send("error - invalid credentials. please sign in again")
                 ws.close()
                 return
