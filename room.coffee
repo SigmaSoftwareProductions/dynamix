@@ -16,6 +16,7 @@ class Room
         @q = 'not yet!'
         @pauseRead = false
         @speed = 600 # time between words - please set default to 160 or so, as this is for power testing
+        @interval = null # will be set when setInterval is first called
         
     @htmlEncode = (text) -> # beware, messy regexes ahead
         rx = [
@@ -59,21 +60,16 @@ class Room
             @word = 0
             @qid = Question.getNextQuestionId(@distribution)
             self = this
-            interval = null
             Question.getQuestion self.qid, (question) ->
-                console.log self.qid
-                console.log question
                 self.q = new Question(question)
-                clearInterval(interval)
-                console.log JSON.stringify interval
-                console.log('@speed: ' + self.speed)
-                interval = setInterval () ->
+                clearInterval(self.interval)
+                self.interval = setInterval () ->
                     return 'pause' if self.pauseRead 
                     return '#eof#' if self.word > self.q.text.length 
                     res = if self.word < self.q.text.length then self.q.text[self.word] else '#eof#' 
                     self.wss.broadcast JSON.stringify {room:self.name, msgContent:{category:'word', value:res+' '}}
                     self.word++
-                    clearInterval(interval) if res == '#eof#'
+                    clearInterval(self.interval) if res == '#eof#'
                     return
                 , self.speed
             res = {room:@name, next:'question', msgContent:{category:"next", speed:@speed}}
