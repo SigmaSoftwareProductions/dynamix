@@ -63,15 +63,15 @@ class Room
                 console.log self.qid
                 console.log question
                 self.q = new Question(question)
-                clearInterval(x) if x?
+                clearInterval(interval) if interval?
                 console.log('@speed: ' + self.speed)
-                x = setInterval () ->
+                interval = setInterval () ->
                     return 'pause' if self.pauseRead 
                     return '#eof#' if self.word > self.q.text.length 
                     res = if self.word < self.q.text.length then self.q.text[self.word] else '#eof#' 
                     self.wss.broadcast JSON.stringify {room:self.name, msgContent:{category:'word', value:res+' '}}
                     self.word++
-                    clearInterval(x) if res == '#eof#'
+                    clearInterval(interval) if res == '#eof#'
                     return
                 , self.speed
             res = {room:@name, next:'question', msgContent:{category:"next", speed:@speed}}
