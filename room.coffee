@@ -65,6 +65,7 @@ class Room
                 console.log question
                 self.q = new Question(question)
                 clearInterval(interval)
+                console.log JSON.stringify interval
                 console.log('@speed: ' + self.speed)
                 interval = setInterval () ->
                     return 'pause' if self.pauseRead 
