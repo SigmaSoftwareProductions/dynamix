@@ -32,7 +32,7 @@ wss.on 'connection', (ws) ->
             ws.send('pong')
             return   
         msg = JSON.parse msg
-        console.log msg if not msg.auth? # sneaky sneaky
+        console.log msg if not msg.password? # sneaky sneaky
         if (msg.greeting? && names.indexOf(msg.room) == -1)
             rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party", wss:wss})) # maybe the first person there should own it? idk
             names.push(msg.room)
@@ -45,8 +45,8 @@ wss.on 'connection', (ws) ->
                 ws.close()
                 return
         if (msg.auth?)
-            res = Person.auth msg.username, msg.password, (validauth) ->
-                ws.send JSON.stringify {username:msg.username, auth:validauth} # this is awesome! works seamlessly! async programming still sucks tho
+            res = Person.auth msg.username, msg.password, (res) ->
+                ws.send JSON.stringify {username:msg.username, auth:res} # this is awesome! works seamlessly! async programming still sucks tho
             return
         if (msg.createUser?) 
             Person.createUser msg.username, msg.password, msg.team
