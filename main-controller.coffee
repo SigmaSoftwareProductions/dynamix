@@ -45,6 +45,7 @@ wss.on 'connection', (ws) ->
                 ws.close()
                 return
         if (msg.auth?)
+            console.log 'authing!'
             res = Person.auth msg.username, msg.password, (res) ->
                 ws.send JSON.stringify {username:msg.username, auth:res} # this is awesome! works seamlessly! async programming still sucks tho
             return
