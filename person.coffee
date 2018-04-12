@@ -40,7 +40,7 @@ class Person
         console.log password
         console.log hashedpassword
         res = false
-        cursor = person.findOne({ 'username': username }).cursor()
+        cursor = person.findOne({ 'name': username }).cursor()
         cursor.on 'data', (user) ->
             console.log user.password
             console.log hashedpassword
