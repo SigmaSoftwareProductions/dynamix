@@ -2,6 +2,7 @@ crypto = require 'crypto'
 mongoose = require 'mongoose'
 mongoose.connect('mongodb://dynamix:dynamix@ds153577.mlab.com:53577/dynamix')
 personSchema = new mongoose.Schema {
+    id: Number
     name: String,
     password: String, # this is hashed, don't worry xD
     team: String
@@ -18,11 +19,23 @@ class Person
         @team = args.team # this might be irrelevant, but good to leave it in
         @session = args.session
         
-    # @addNewPerson: (username, password, team) ->
+    @createUser: (username, password, team) ->
+        person.count {}, (err, count) ->
+            userInfo = {
+                        id:count,
+                        name:username, 
+                        password:crypto.createHash('sha512').update(password).digest('hex'),
+                        team:team
+                       }
+            userInstance = new person(userInfo)
+            userInfo.save (err) ->
+                throw err if err
+                return
+            return   
+        return
     
     @auth: (username, password, cb) ->
         hashedpassword = crypto.createHash('sha512').update(password).digest('hex')
-        console.log hashedpassword
         res = false
         cursor = person.findOne({ 'username': username }).cursor()
         cursor.on 'data', (user) ->

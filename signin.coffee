@@ -7,6 +7,16 @@ $(document).ready ->
             password:document.getElementById('password').value
         })
         return
+        
+    $('#create').on 'click', ->
+        ws.send ( JSON.stringify {
+            createUser:'hi', 
+            username:document.getElementById('username-create').value, 
+            password:document.getElementById('password-create').value,
+            team:document.getElementById('team-create').value
+        })
+        return
+        
     ws.onmessage = (event) ->
         x = JSON.parse event.data
         if x.room?

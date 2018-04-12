@@ -45,8 +45,11 @@ wss.on 'connection', (ws) ->
                 ws.close()
                 return
         if (msg.auth?)
-            res = Person.auth msg.username, msg.password, (res) ->
-                ws.send JSON.stringify {username:msg.username, auth:res} # this is awesome! works seamlessly! async programming still sucks tho
+            res = Person.auth msg.username, msg.password, (validauth) ->
+                ws.send JSON.stringify {username:msg.username, auth:validauth} # this is awesome! works seamlessly! async programming still sucks tho
+            return
+        if (msg.createUser?) 
+            Person.createUser msg.username, msg.password, msg.team
             return
         if (msg.add_session?)
             name = msg.user
