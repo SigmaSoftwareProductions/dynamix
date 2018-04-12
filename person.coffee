@@ -28,7 +28,7 @@ class Person
                         team:team
                        }
             userInstance = new person(userInfo)
-            userInfo.save (err) ->
+            userInstance.save (err) ->
                 throw err if err
                 return
             return   
