@@ -39,6 +39,8 @@ class Person
         res = false
         cursor = person.findOne({ 'username': username }).cursor()
         cursor.on 'data', (user) ->
+            console.log user.password
+            console.log hashedpassword
             if user.password == hashedpassword
                 res = true
         cursor.on 'close', () ->
