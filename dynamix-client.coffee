@@ -190,5 +190,8 @@ $(document).ready ->
             
         else if event.which == 47 || event.which == 99
             openchat()
-        
+            
+        else if event.which == 99
+            sendconfig()
+            
         return
