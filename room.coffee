@@ -10,7 +10,7 @@ class Room
         @wss = args.wss # this is somewhat messy
         @people = {}
         @default_distribution = {sci: 22, history: 19, lit: 17, art: 17, philsoc: 10, relmyth: 8, geo: 4, trash: 3}
-        @point_system = {"cp": 15, "ci": 10, "cn": 10, "ii": -5, "in": 0}
+        @ruleset = {"cp": 15, "ci": 10, "cn": 10, "ii": -5, "in": 0}
         @distribution = @default_distribution
         @qid = 0x000000000 # first tossup ever, not actually science tho
         @q = 'not yet!'
@@ -43,13 +43,17 @@ class Room
             console.log 'removing ' + msg.person
             console.log @people
             res = {room:@name, msgContent:{category:"exit", person:msg.person, users:JSON.stringify(@people)}}
+        else if msg.category == 'config'
+            # please implement permission controls!
+            @setConfig msg.config
+            res = {room:@name, msgContent:msg}
         else if msg.category == 'name change'
             @removePerson(msg.old)
             @addPerson(msg.value)
             res = {room:@name, msgContent:{category:"name change", old: msg.old, value: msg.value, users:@people}} 
         else if msg.category == 'buzz'
             ver = @q.match(msg.value, @word)
-            @people[msg.person] += @point_system[ver] 
+            @people[msg.person] += @ruleset[ver] 
             res = {room:@name, msgContent:{category:"buzz", value:msg.value, ver:ver, person:msg.person, users:@people}}
             @pauseRead = false
         else if msg.category == 'chat'
@@ -75,6 +79,53 @@ class Room
             res = {room:@name, next:'question', msgContent:{category:"next", speed:@speed}}
         @wss.broadcast JSON.stringify res 
         return res
+
+    setConfig: (config) ->
+        # this one is a big concern, might crash the server if something goes null
+        isProperFormat = @checkConfig (config)
+        if (not isProperFormat)
+            @wss.broadcast JSON.stringify {room:@name,msgContent:{category:'info-error',value:'improper config format'}}
+            return
+        @distribution = config.distribution
+        @speed = config.speed
+        @ruleset = config.ruleset
+        @wss.broadcast JSON.stringify {room:@name,msgContent:{category:'config',config:config}}
+        return
+        
+    checkConfig: (config) ->
+        # this isnt the method you want to read
+        if (not (config.speed? and config.speed >= 0))
+            return false
+        if (not config.ruleset?)
+            return false
+        if (not (config.ruleset.cp? and config.ruleset.cp >= 0))
+            return false
+        if (not (config.ruleset.ci? and config.ruleset.ci >= 0))
+            return false
+        if (not (config.ruleset.cn? and config.ruleset.cn >= 0))
+            return false
+        if (not (config.ruleset.ii?))
+            return false
+        if (not (config.ruleset.in?))
+            return false
+        if (not (config.distrubution.sci? and config.distribution.sci >= 0))
+            return false
+        if (not (config.distrubution.hist? and config.distribution.hist >= 0))
+            return false
+        if (not (config.distrubution.lit? and config.distribution.lit >= 0))
+            return false
+        if (not (config.distrubution.art? and config.distribution.art >= 0))
+            return false
+        if (not (config.distrubution.relmyth? and config.distribution.relmyth >= 0))
+            return false
+        if (not (config.distrubution.philsoc? and config.distribution.philsoc >= 0))
+            return false
+        if (not (config.distrubution.geo? and config.distribution.geo >= 0))
+            return false
+        if (not (config.distrubution.trash? and config.distribution.trash >= 0))
+            return false
+        # u made it pal
+        return true
 
     addPerson: (person) ->
         @people[person] = 0

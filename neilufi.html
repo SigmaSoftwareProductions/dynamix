@@ -1,48 +1,73 @@
 <!doctype html>
 <html>
-	<head>
-		<title>
-			Dynamix
-		</title>
-		<script
-  src="https://code.jquery.com/jquery-3.3.1.js"
-  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
-		<script src="dynamix-client.js">
-		</script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-		<link rel="stylesheet" href="dynamix.css">
-		<link rel="icon" href="favicon.ico">
-	</head>
-	<body>
-        <div id="top">
-		<p><span style="font-size: 36px;">dynamix</span> virtual quizbowl environment</p>
-		<button id="signin" class="btn btn-outline-info">signin<button>
-		</div>
-		<div id="right">
+
+<head>
+    <title>
+        Dynamix
+    </title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="dynamix-client.js">
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dynamix.css">
+    <link rel="icon" href="favicon.ico">
+</head>
+
+<body>
+    <div id="top">
+        <div id="toptext"><p><span style="font-size: 36px;">dynamix</span> virtual quizbowl environment</p></div>
+        <div id="signindiv">
+        <button id="signin" class="btn btn-outline-info">signin</button>
+        </div>
+    </div>
+    <div id="world-div">
+        <div id="right">
             <div id="around" class="card">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Score</th>
-                    </tr>
-                </thead>
-                <tbody id="users">                
-                </tbody>
-            </table>
+                <table class="table" id="users">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users">
+                    </tbody>
+                </table>
+            </div>
+            <div id="distribution-config" class="card">
+                <p>Percentage of Science Questions: </p><input type="text" id="dsci">
+                <p>Percentage of History Questions: </p><input type="text" id="dhist">
+                <p>Percentage of Lit Questions: </p><input type="text" id="dlit">
+                <p>Percentage of Art Questions: </p><input type="text" id="dart">
+                <p>Percentage of Relmyth Questions: </p><input type="text" id="dphilsoc">
+                <p>Percentage of Philsoc Questions: </p><input type="text" id="drelmyth">
+                <p>Percentage of Geo Questions: </p><input type="text" id="dgeo">
+                <p>Percentage of Trash Questions: </p><input type="text" id="dtrash">
+            </div>
+            <div id="ruleset-config" class="card">
+                <p>Points for Power: </p><input type="text" id="cp">
+                <p>Points for Correct Int: </p><input type="text" id="ci">
+                <p>Points for Correct at End: </p><input type="text" id="cn">
+                <p>Points for Neg: </p><input type="text" id="ii">
+                <p>Points for Wrong at End: </p><input type="text" id="in">
+            </div>
+            <div id="misc-config" class="card">
+                <p>Time Between Words (ms): </p><input type="text" id="speed">
+                <!-- add more config stuff here later -->
             </div>
         </div>
-		<div id="main">
-		    <div id="buttons">
-		        <button type="button" class="btn btn-outline-primary" id="chat-clicky">chat</button>
-		        <button type="button" class="btn btn-outline-success" id="next-clicky">next</button>
-		        <button type="button" class="btn btn-outline-warning" id="toggle-clicky">toggle</button>
-		        <button type="button" class="btn btn-outline-danger" id="buzz-clicky">buzz</button>
-		    </div>
+        <div id="fatso">
+            <div id="buttons">
+                <button type="button" class="btn btn-outline-primary" id="chat-clicky">chat</button>
+                <button type="button" class="btn btn-outline-success" id="next-clicky">next</button>
+                <button type="button" class="btn btn-outline-warning" id="toggle-clicky">toggle</button>
+                <button type="button" class="btn btn-outline-danger" id="buzz-clicky">buzz</button>
+            </div>
             <div id="question" class="jumbotron">
             </div>
-		</div>
-	</body>
+        </div>
+    </div>
+</body>
+
 </html>
