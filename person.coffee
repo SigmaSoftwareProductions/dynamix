@@ -36,14 +36,9 @@ class Person
     
     @auth: (username, password, cb) ->
         hashedpassword = crypto.createHash('sha512').update(password).digest('hex')
-        console.log username
-        console.log password
-        console.log hashedpassword
         res = false
         cursor = person.findOne({ 'name': username }).cursor()
         cursor.on 'data', (user) ->
-            console.log user.password
-            console.log hashedpassword
             if user.password == hashedpassword
                 res = true
         cursor.on 'close', () ->

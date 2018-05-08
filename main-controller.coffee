@@ -37,11 +37,10 @@ wss.on 'connection', (ws) ->
             rooms.push(new Room ({name:msg.room, status:"standard", owner:"communist party", wss:wss})) # maybe the first person there should own it? idk
             names.push(msg.room)
         if (msg.greeting?)
-            console.log sessions
             name = msg.msgContent.person
             room = msg.room
             if (not sessions[name]? or sessions[name].indexOf(msg.session) == -1)
-                ws.send("error - invalid credentials. please sign in again")
+                ws.send("error - invalid credentials. please sign in again") # make @info style
                 ws.close()
                 return
         if (msg.auth?)

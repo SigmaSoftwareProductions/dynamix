@@ -30,7 +30,6 @@ class Room
         return text
 
     handle: (msg) ->
-        console.log 'msg found as ' + msg
         if (@access == "szpecial")
             return
         res = ''
@@ -41,8 +40,6 @@ class Room
             res = {room:@name, msgContent:{category:"entry", person:msg.person, users:JSON.stringify(@people)}} 
         else if msg.category == 'farewell'
             @removePerson(msg.person)
-            console.log 'removing ' + msg.person
-            console.log @people
             res = {room:@name, msgContent:{category:"exit", person:msg.person, users:JSON.stringify(@people)}}
         else if msg.category == 'config'
             # please implement permission controls!
@@ -90,7 +87,6 @@ class Room
         @distribution = config.distribution
         @speed = config.speed
         @ruleset = config.ruleset
-        console.log JSON.stringify 
         @wss.broadcast JSON.stringify {room:@name,msgContent:{category:'config',config:config}}
         return
         
