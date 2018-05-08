@@ -30,6 +30,7 @@ class Room
         return text
 
     handle: (msg) ->
+        console.log 'msg found as ' + msg
         if (@access == "szpecial")
             return
         res = ''
@@ -89,6 +90,7 @@ class Room
         @distribution = config.distribution
         @speed = config.speed
         @ruleset = config.ruleset
+        console.log JSON.stringify 
         @wss.broadcast JSON.stringify {room:@name,msgContent:{category:'config',config:config}}
         return
         
