@@ -1,6 +1,6 @@
 crypto = require 'crypto'
 mongoose = require 'mongoose'
-mongoose.connect('mongodb://dynamix:dynamix@ds153577.mlab.com:53577/dynamix')
+mongoose.connect(process.env.DB)
 personSchema = new mongoose.Schema {
     id: Number
     name: String,

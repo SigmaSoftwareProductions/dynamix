@@ -5,12 +5,12 @@ class Room
 
     constructor: (args) ->
         @name = args.name
-        @access = args.status
+        @access = args.access
         @owner = args.owner
         @wss = args.wss # this is somewhat messy
         @people = {}
         @default_distribution = {sci: 22, history: 19, lit: 17, art: 17, philsoc: 10, relmyth: 8, geo: 4, trash: 3}
-        @ruleset = {"cp": 15, "ci": 10, "cn": 10, "ii": -5, "in": 0}
+        @ruleset = {"power": 15, "int": 10, "correct": 10, "neg": -5, "wrong": 0, "num_tu":0, "half-length":0, "bonus":false, "bounceback":false}  
         @distribution = @default_distribution
         @qid = 0x000000000 # first tossup ever, not actually science tho
         @q = 'not yet!'
@@ -30,8 +30,6 @@ class Room
         return text
 
     handle: (msg) ->
-        if (@access == "szpecial")
-            return
         res = ''
         for k, v of msg
             msg[k] = Room.htmlEncode v

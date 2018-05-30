@@ -31,6 +31,7 @@ class Question
         q = null
         cursor.on 'data', (question) ->
             q = question
+            console.log question
             
         cursor.on 'close', () ->
             cb(q)
