@@ -34,7 +34,7 @@ wss.on 'connection', (ws) ->
         msg = JSON.parse msg
         console.log 'msg received as ' + msg if not msg.password? # sneaky sneaky
         if (msg.greeting? && names.indexOf(msg.room) == -1)
-            rooms.push(new Room ({name:msg.room, access:0x, owner:"communist party", wss:wss})) # maybe the first person there should own it? idk
+            rooms.push(new Room ({name:msg.room, access:0xF31, owner:msg.msgContent.person, wss:wss})) # maybe the first person there should own it? idk
             names.push(msg.room)
         if (msg.greeting?)
             name = msg.msgContent.person
