@@ -125,14 +125,14 @@ $(document).ready ->
         
     render = (msg, pos) ->
         if messages.length == 0
-            $("#message-container").prepend("<div id=\"msg-0\""JSON.stringify(msg)"</div>")
+            $("#message-container").prepend "<div id=\"msg-0\"" + JSON.stringify(msg) + "</div>"
             return
         else if pos == messages.length - 1
-            $('#message-container').prepend("<div id=\"msg-#{ pos }\""JSON.stringify(msg)"</div>")
+            $('#message-container').prepend "<div id=\"msg-#{ pos }\"" + JSON.stringify(msg) + "</div>"
             return
         for id in [pos, messages.length -1]
-            $("#msg-#{ id }").prop('id', "msg-#{ id + 1 }")
-        $("#msg-#{ pos + 1 }").before("<div id=\"msg-#{ pos }\""JSON.stringify(msg)"</div>")
+            $("#msg-#{ id }").prop 'id', "msg-#{ id + 1 }"
+        $("#msg-#{ pos + 1 }").before "<div id=\"msg-#{ pos }\"" + JSON.stringify(msg) + "</div>"
         return
     
     renderQuestionMsg = (msg) ->
