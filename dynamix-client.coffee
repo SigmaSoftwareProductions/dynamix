@@ -125,7 +125,7 @@ $(document).ready ->
         
     render = (msg, pos) ->
         if messages.length == 0
-            $('#message-container').prepend("<div id=\"msg-0\""JSON.stringify(msg)"</div>")
+            $("#message-container").prepend("<div id=\"msg-0\""JSON.stringify(msg)"</div>")
             return
         else if pos == messages.length - 1
             $('#message-container').prepend("<div id=\"msg-#{ pos }\""JSON.stringify(msg)"</div>")
@@ -176,8 +176,8 @@ $(document).ready ->
         return
         
     ping = () ->
-        ws.send('ping')   
-        return 
+        ws.send('ping')
+        return
         
     $('#chat-clicky').on 'click', -> openchat()
     $('#next-clicky').on 'click', -> next()
