@@ -23,7 +23,7 @@ class Room
         @interval = null # will be set when setInterval is first called
         @current_buzzer = null
         @ongoing_buzz = false
-        """
+        ###
             about access permissions:
             kinda like a chmod code, but in hexadec
             first digit - owner (owner is the uid, not uname. default the first dude there)
@@ -35,7 +35,7 @@ class Room
                 4 for regulating invited users
                 8 for changing room settings (distribution, ruleset, etc) 
             only owner can change room permissions.
-        """
+        ###
         
     @htmlEncode = (text) -> # beware, messy regexes ahead
         rx = [

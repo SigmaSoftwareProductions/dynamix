@@ -123,25 +123,47 @@ $(document).ready ->
         ws.send (JSON.stringify (config_obj))
         return
         
-    render = (msg) ->
-        if msg.config?
-            #shit
+    render = (msg, pos) ->
+        if messages.length == 0
+            $('#messages').prepend("<div id=\"msg-0\""JSON.stringify(msg)"</div>")
+            return
+        else if pos == messages.length - 1
+            $('#messages').prepend("<div id=\"msg-#{ pos }\""JSON.stringify(msg)"</div>")
+            return
+        for id in [pos, messages.length -1]
+            $("#msg-#{ id }").prop('id', "msg-#{ id + 1 }")
+        $("#msg-#{ pos + 1 }").before("<div id=\"msg-#{ pos }\""JSON.stringify(msg)"</div>")
+        return
+    
+    renderQuestionMsg = (msg) ->
+        if msg.category == 'word'
+            $('#question').append msg.value
+        else
+            $('#question').val('')
         
-
     ws.onmessage = (event) ->
         console.log JSON.stringify event.data
         return if event.data == 'pong'
         z = JSON.parse(event.data)
         return if z.room != room
-        messages.push z
-        messages.sort (a, b) ->
-            a.timestamp -b.timestamp
-        x = z.msgContent
-        $('#fatso').empty()
-        messages.sort (a, b) -> 
-            return a.timestamp-b.timestamp
-        for msg in messages
-            render (msg.msgContent)
+        if z.msgContent.category == 'word' or z.msgContent.category == 'next'
+            renderQuestionMsg z.msgContent
+            return
+        pos = 0 # the position to add the msg at
+        if messages.length == 0
+            messages.push z
+            pos = 0
+        else if z.timestamp <= messages[0].timestamp
+            messages.shift z
+            pos = 0
+        else if z.timestamp >= messages[messages.length -1].timestamp
+            pos = (messages.push z) - 1
+        else
+            for msgid in [1, messages.length - 2]
+                if (messages[msgid].timestamp <= z.timestamp and messages[msgid+1].timestamp >= z.timestamp)
+                    messages.splice msgid, 0, z # goddamn js arrays are stupid
+                    pos = msgid
+        render z.msgContent, pos
         return
 
     ws.onopen = (event) ->
