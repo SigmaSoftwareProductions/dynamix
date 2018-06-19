@@ -9,14 +9,33 @@ class Room
         @owner = args.owner
         @wss = args.wss # this is somewhat messy
         @people = {}
-        @default_distribution = {sci: 22, history: 19, lit: 17, art: 17, philsoc: 10, relmyth: 8, geo: 4, trash: 3}
-        @ruleset = {"power": 15, "int": 10, "correct": 10, "neg": -5, "wrong": 0, "num_tu":0, "half-length":0, "bonus":false, "bounceback":false}  
+        @default_distributions = { 
+            dynamix:{sci: 20, history: 20, lit: 20, art: 20, philsoc: 10, relmyth: 5, geogen: 5, trash: 0},
+            acf:{sci: 21, history: 21, lit: 20, art: 13, philsoc: 8, relmyth: 9, geogen: 4, trash: 4},
+            pace:{sci: 20, history: 20, lit: 20, art: 15, philsoc: 8, relmyth: 10, geogen: 7, trash: 0}
+        }
+        @ruleset = {"power": 15, "int": 10, "correct": 10, "neg": -5, "wrong": 0, "num_tu":0, "bonus":false, "bounceback":false}  
         @distribution = @default_distribution
         @qid = 0x000000000 # first tossup ever, not actually science tho
         @q = 'not yet!'
         @pauseRead = false
         @speed = 600 # time between words - please set default to 160 or so, as this is for power testing
         @interval = null # will be set when setInterval is first called
+        @current_buzzer = null
+        @ongoing_buzz = false
+        """
+            about access permissions:
+            kinda like a chmod code, but in hexadec
+            first digit - owner (owner is the uid, not uname. default the first dude there)
+            second digit - invites (people specifically invited to the room)
+            third digit - everyone
+            digits:
+                1 for being able to view the room
+                2 for being able to play
+                4 for regulating invited users
+                8 for changing room settings (distribution, ruleset, etc) 
+            only owner can change room permissions.
+        """
         
     @htmlEncode = (text) -> # beware, messy regexes ahead
         rx = [
@@ -43,15 +62,19 @@ class Room
             # please implement permission controls!
             @setConfig msg.config
             res = {room:@name, msgContent:msg}
-        else if msg.category == 'name change'
-            @removePerson(msg.old)
-            @addPerson(msg.value)
-            res = {room:@name, msgContent:{category:"name change", old: msg.old, value: msg.value, users:@people}} 
-        else if msg.category == 'buzz'
+        else if msg.category == 'buzzinit'
+            res = {room:@name, msgContent:{category:"buzzinit", ver:ver, person:msg.person, users:@people}}
+            @current_buzzer = msg.person
+            @pauseRead= true
+            @ongoing_buzz = true
+        else if msg.category == 'buzzfinish'
+            if @current_buzzer != msg.person or @ongoing_read == false
+                return
             ver = @q.match(msg.value, @word)
             @people[msg.person] += @ruleset[ver] 
             res = {room:@name, msgContent:{category:"buzz", value:msg.value, ver:ver, person:msg.person, users:@people}}
             @pauseRead = false
+            @ongoing_buzz = false
         else if msg.category == 'chat'
             res = {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
         else if msg.category == 'toggle'
@@ -75,7 +98,7 @@ class Room
             res = {room:@name, next:'question', msgContent:{category:"next", speed:@speed}}
         @wss.broadcast JSON.stringify res 
         return res
-
+        
     setConfig: (config) ->
         # this one is a big concern, might crash the server if something goes null
         isProperFormat = @checkConfig (config)

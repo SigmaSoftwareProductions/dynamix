@@ -1,5 +1,6 @@
 $(document).ready ->
     room = window.location.pathname.substring(1)
+    messages = []
     try
         session = JSON.parse(document.cookie).session
         name = JSON.parse(document.cookie).username
@@ -18,6 +19,7 @@ $(document).ready ->
     
     sendbuzz = () ->
         ws.send JSON.stringify({
+            timestamp: new Date(),
             room: room
             msgContent: {
                 person: name
@@ -25,11 +27,13 @@ $(document).ready ->
                 value: document.getElementById('buzzbox').value
                 }
             })
-        $('#buzzbox').remove()
+        $('#buzzbox').val('')
+        $('#buzzbox').hide()
         return
             
     sendchat = () ->
         ws.send JSON.stringify({
+            timestamp: new Date(),
             room: room,
             msgContent: {
                 category: 'chat',
@@ -37,25 +41,35 @@ $(document).ready ->
                 person: name
             }
         })
-        $('#chatbox').remove()
+        $('#chatbox').val('')
+        $('#chatbox').hide()
         return
             
     openchat = () ->
-        $('#question').after '<div class="container-fluid input"><input type="text" placeholder="chat" id="chatbox" class="form-control"></div>'
+        $('#chatbox').show()
         setTimeout (->
             $('#chatbox').focus()
-        ), 120
+        ), 30
         return
             
     openbuzz = () ->
-        $('#question').after '<div class="container-fluid input"><input type="text" placeholder="buzz" id="buzzbox" class="form-control"></div>'
+        $('#buzzbox').show()
         setTimeout (->
             $('#buzzbox').focus()
-        ), 120
+        ), 30
+        ws.send JSON.stringify({
+            timestamp: new Date()
+            room: room
+            msgContent: {
+                person:name
+                category:'buzzinit'
+            }
+        })
         return
     
     next = () ->
         ws.send JSON.stringify({
+            timestamp: new Date()
             room: room
             msgContent: {
                 person: name
@@ -67,6 +81,7 @@ $(document).ready ->
 
     toggle = () ->
         ws.send JSON.stringify ({
+            timestamp: new Date(),
             room:room
             msgContent:{
                 category:'toggle'
@@ -75,7 +90,7 @@ $(document).ready ->
         return
         
     sendconfig = () ->
-        ws.send JSON.stringify ({
+        config_obj = {
             # spaghetti code lmao
             # checks for proper format are performed on server side,
             # so don't get smart.
@@ -103,43 +118,30 @@ $(document).ready ->
                     }
                 }
             }
-        })
+        }
+        console.log JSON.stringify config_obj
+        ws.send (JSON.stringify (config_obj))
         return
+        
+    render = (msg) ->
+        if msg.config?
+            #shit
         
 
     ws.onmessage = (event) ->
         console.log JSON.stringify event.data
         return if event.data == 'pong'
-        return if JSON.parse(event.data).room != room
-        x = JSON.parse(event.data).msgContent
-        if x.category == 'chat'
-            x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value
-        else if x.category == 'buzz'
-            y = x.users
-            x = '<span style="font-weight: bold;">' + x.person + '</span> ' + x.value + ' ' + x.ver
-        else if x.category == 'entry'
-            y = x.users
-            x = '<span style="font-style: italic;">' + x.person + ' joined the room</span>'
-        else if x.category == 'exit'
-            y = x.users
-            x = '<span style="font-style: italic;">' + x.person + ' left the room</span>'
-        else if x.category == 'word'
-            $('#question').append x.value 
-            x = '#eof#'
-            
-        else if x.category == 'next'
-            $('#question').empty()
-            x = '#eof#'
-            
-        $('#question').after '<div class="container-fluid">' + x + '</div>' if x != '#eof#'
-        if y?
-            y = JSON.parse y
-            $('.user').remove()
-            i = 1
-            for user, score of y
-                alert (" a user! yay ")
-                $('#users').append '<tr class="user"><th scope="row">'+i+'</th><td>'+user+'</td><td>'+score+'</td></tr>'
-                i++
+        z = JSON.parse(event.data)
+        return if z.room != room
+        messages.push z
+        messages.sort (a, b) ->
+            a.timestamp -b.timestamp
+        x = z.msgContent
+        $('#fatso').empty()
+        messages.sort (a, b) -> 
+            return a.timestamp-b.timestamp
+        for msg in messages
+            render (msg.msgContent)
         return
 
     ws.onopen = (event) ->
@@ -182,13 +184,12 @@ $(document).ready ->
             # do nothing! yay
     
         else if event.which == 32
-            toggle()
             openbuzz()
     
         else if event.which == 110
             next()
             
-        else if event.which == 47 || event.which == 99
+        else if event.which == 47
             openchat()
             
         else if event.which == 99
