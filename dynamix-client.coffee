@@ -130,7 +130,7 @@ $(document).ready ->
         else if pos == messages.length - 1
             $('#message-container').prepend "<div id=\"msg-#{ pos }\"" + JSON.stringify(msg) + "</div>"
             return
-        for id in [pos, messages.length -1]
+        for id in [pos...messages.length -1]
             $("#msg-#{ id }").prop 'id', "msg-#{ id + 1 }"
         $("#msg-#{ pos + 1 }").before "<div id=\"msg-#{ pos }\"" + JSON.stringify(msg) + "</div>"
         return
@@ -159,7 +159,7 @@ $(document).ready ->
         else if z.timestamp >= messages[messages.length-1].timestamp
             pos = (messages.push z) - 1
         else
-            for msgid in [1, messages.length-2]
+            for msgid in [1...messages.length-2]
                 if (messages[msgid].timestamp <= z.timestamp and messages[msgid+1].timestamp >= z.timestamp)
                     messages.splice msgid, 0, z # goddamn js arrays are stupid
                     pos = msgid
@@ -167,7 +167,7 @@ $(document).ready ->
         return
 
     ws.onopen = (event) ->
-        ws.send(JSON.stringify({greeting:'hello world!', session: session, room:room, msgContent:{person:name, category:'greeting'}}))
+        ws.send(JSON.stringify({timestamp: new Date(), greeting:'hello world!', session: session, room:room, msgContent:{person:name, category:'greeting'}}))
         pinger = setInterval ping, 40000
         return
         

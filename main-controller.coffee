@@ -33,6 +33,9 @@ wss.on 'connection', (ws) ->
             return   
         msg = JSON.parse msg
         console.log 'msg received as ' + JSON.stringify msg if not msg.password? # sneaky sneaky
+        if (!msg.timestamp?)
+            ws.send 'your message needs a timestamp dude!'
+            return
         if (msg.greeting? && names.indexOf(msg.room) == -1)
             rooms.push(new Room ({name:msg.room, access:0xF71, owner:msg.msgContent.person, wss:wss})) # maybe the first person there should own it? idk
             names.push(msg.room)
@@ -56,8 +59,7 @@ wss.on 'connection', (ws) ->
             if (!sessions[name]?)
                 sessions[name] = []
             sessions[name].push msg.session if sessions[name].indexOf(name) == -1
-            return
-            
+            return           
         if (!msg.add_session?)
             res = rooms[names.indexOf(msg.room)].handle(msg.msgContent, msg.timestamp)
         return
