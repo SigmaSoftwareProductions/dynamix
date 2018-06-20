@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
-
+mongoose.connect(process.env.DB)
 schema = new Schema({
     category: String,
     subcategory: String,
