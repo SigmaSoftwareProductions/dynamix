@@ -47,8 +47,8 @@ class Question
         else
             category = 'error'
         model = mongoose.model(type, schema, type) # the first is the name , the last is the collection. :|
-        model.aggregate.match({category:type}).sample(1).exec(cb)
-    
+        model.aggregate().match({category:type}).sample(1).exec(cb)
+        return
             
     match: (buzz, word) ->
         console.log 'matching "' + buzz + '" at word number ' + word
