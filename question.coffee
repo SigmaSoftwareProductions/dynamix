@@ -1,8 +1,7 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
-qschema = new Schema ({
-    id: Number,
+schema = new Schema ({
     text: String,
     mins: Array,
     answers: Array,
@@ -10,7 +9,7 @@ qschema = new Schema ({
     rejects: Array,
     tournament: String,
     powerloc: Number # 0 if no power, otherwise corresponds to before nth word
-})
+}, { collection: "tossups" })
 
 class Question
     constructor: (question) ->
@@ -24,39 +23,32 @@ class Question
         @category = question.category
         @powerloc = question.powerloc
 		
-    @getQuestion: (id, cb) ->
-        category = 'tossups'
-        themodel = mongoose.model(category, qschema, category)
-        cursor = themodel.findOne({id:id}).cursor()
-        q = null
-        cursor.on 'data', (question) ->
-            q = question
-            console.log question
-            
-        cursor.on 'close', () ->
-            cb(q)
-    
-    @getNextQuestionId: (d) -> # d for distribution
+    @getQuestion: (d, cb) ->
+        type = 'tossups'
+        category = 'error'
         x = Math.floor(Math.random()*100)
         console.log x
         if (x > 100-d.sci) 
-            res = 0x000000000
+            category = 'sci'
         else if (x > 100-d.sci-d.history)
-            res = 0x010000000
+            category = 'history'
         else if (x > 100-d.sci-d.history-d.lit)
-            res = 0x020000000
+            category = 'lit'
         else if (x > 100-d.sci-d.history-d.lit-d.art)
-            res = 0x030000000
+            category = 'art'
         else if (x > 100-d.sci-d.history-d.lit-d.art-d.philsoc)
-            res = 0x040000000
+            category = 'philsoc'
         else if (x > 100-d.sci-d.history-d.lit-d.art-d.philsoc-d.relmyth)
-            res = 0x050000000
-        else if (x > 100-d.sci-d.history-d.lit-d.art-d.philsoc-d.relmyth-d.geo)
-            res = 0x060000000
-        else if (x >= 100-d.sci-d.history-d.lit-d.art-d.philsoc-d.relmyth-d.geo-d.trash)
-            res = 0x070000000
-        console.log 'generated id of ' + res
-        return res
+            category = 'relmyth'
+        else if (x > 100-d.sci-d.history-d.lit-d.art-d.philsoc-d.relmyth-d.geogen)
+            category = 'geogen'
+        else if (x >= 100-d.sci-d.history-d.lit-d.art-d.philsoc-d.relmyth-d.geogen-d.trash)
+            category = 'trash'
+        else
+            category = 'error'
+        model = mongoose.model(type, schema)
+        model.aggregate.match({category:type}).sample(1).exec(cb)
+    
             
     match: (buzz, word) ->
         console.log 'matching "' + buzz + '" at word number ' + word

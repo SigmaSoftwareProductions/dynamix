@@ -16,7 +16,6 @@ class Room
         }
         @ruleset = {"power": 15, "int": 10, "correct": 10, "neg": -5, "wrong": 0, "num_tu":0, "bonus":false, "bounceback":false}  
         @distribution = @default_distribution.dynamix
-        @qid = 0x000000000 # first tossup ever, not actually science tho
         @q = 'not yet!'
         @pauseRead = false
         @speed = 600 # time between words - please set default to 160 or so, as this is for power testing
@@ -26,7 +25,7 @@ class Room
         ###
             about access permissions:
             kinda like a chmod code, but in hexadec
-            first digit - owner (owner is the uid, not uname. default the first dude there)
+            first digit - owner (default the first dude there)
             second digit - invites (people specifically invited to the room)
             third digit - everyone
             digits:
@@ -80,24 +79,26 @@ class Room
         else if msg.category == 'toggle'
             @pauseRead = not @pauseRead
         else if msg.category == "next"
-            @word = 0
-            @qid = Question.getNextQuestionId(@distribution)
-            self = this
-            Question.getQuestion self.qid, (question) ->
-                self.q = new Question(question)
-                clearInterval(self.interval)
-                self.interval = setInterval () ->
-                    return 'pause' if self.pauseRead 
-                    return '#eof#' if self.word > self.q.text.length 
-                    res = if self.word < self.q.text.length then self.q.text[self.word] else '#eof#' 
-                    self.wss.broadcast JSON.stringify {room:self.name, msgContent:{category:'word', value:res+' '}}
-                    self.word++
-                    clearInterval(self.interval) if res == '#eof#'
-                    return
-                , self.speed
-            res = {room:@name, next:'question', msgContent:{category:"next", speed:@speed}}
+            res = @next()
         @wss.broadcast JSON.stringify res 
         return res
+        
+    next: () ->
+        @word = 0
+        self = this
+        Question.getQuestion @distribution, (question) ->
+            self.q = new Question(question)
+            clearInterval(self.interval)
+            self.interval = setInterval () ->
+                return 'pause' if self.pauseRead 
+                return '#eof#' if self.word > self.q.text.length 
+                res = if self.word < self.q.text.length then self.q.text[self.word] else '#eof#' 
+                self.wss.broadcast JSON.stringify {room:self.name, msgContent:{category:'word', value:res+' '}}
+                self.word++
+                clearInterval(self.interval) if res == '#eof#'
+                return
+            , self.speed
+        return {room:@name, next:'question', msgContent:{category:"next", speed:@speed}}
         
     setConfig: (config) ->
         # this one is a big concern, might crash the server if something goes null
