@@ -49,7 +49,7 @@ class Question
             category = 'error'
         console.log category
         model = mongoose.model(type, schema, type) # the first is the name , the last is the collection. :|
-        model.aggregate().match({"category":category}).exec(cb)
+        model.aggregate().match({"category":category}).sample(1).exec(cb)
         return
             
     match: (buzz, word) ->

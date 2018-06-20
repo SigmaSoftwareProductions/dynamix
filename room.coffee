@@ -89,7 +89,8 @@ class Room
     next: () ->
         @word = 0
         self = this
-        Question.getQuestion @distribution, (err, question) ->
+        Question.getQuestion @distribution, (err, questions) ->
+            question = questions[0]
             console.log 'err ' + err
             console.log 'q ' + JSON.stringify question
             self.q = new Question(question)
