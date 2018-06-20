@@ -90,6 +90,8 @@ class Room
         @word = 0
         self = this
         Question.getQuestion @distribution, (err, question) ->
+            console.log 'err ' + err
+            console.log 'q ' + JSON.stringify question
             self.q = new Question(question)
             clearInterval(self.interval)
             self.interval = setInterval () ->
