@@ -15,7 +15,7 @@ class Room
             pace:{sci: 20, history: 20, lit: 20, art: 15, philsoc: 8, relmyth: 10, geogen: 7, trash: 0}
         }
         @ruleset = {"power": 15, "int": 10, "correct": 10, "neg": -5, "wrong": 0, "num_tu":0, "bonus":false, "bounceback":false}  
-        @distribution = @default_distribution.dynamix
+        @distribution = @default_distributions.dynamix
         @q = 'not yet!'
         @pauseRead = false
         @speed = 600 # time between words - please set default to 160 or so, as this is for power testing
