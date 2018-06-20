@@ -68,7 +68,7 @@ class Room
             @current_buzzer = msg.person
             @pauseRead= true
             @ongoing_buzz = true
-        else if msg.category == 'buzzfinish'
+        else if msg.category == 'buzz'
             if @current_buzzer != msg.person or @ongoing_read == false
                 return
             ver = @q.match(msg.value, @word)
