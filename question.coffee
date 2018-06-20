@@ -29,7 +29,6 @@ class Question
         type = 'tossups'
         category = 'error'
         x = Math.floor(Math.random()*100)
-        console.log x
         if (x > 100-d.sci) 
             category = 'sci'
         else if (x > 100-d.sci-d.history)
@@ -48,6 +47,7 @@ class Question
             category = 'trash'
         else
             category = 'error'
+        console.log category
         model = mongoose.model(type, schema, type) # the first is the name , the last is the collection. :|
         cursor = model.aggregate().match({"category":category}).sample(1).cursor({batchSize:50}).exec()
         cursor.each(cb)
