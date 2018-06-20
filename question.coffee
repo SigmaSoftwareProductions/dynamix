@@ -1,6 +1,7 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 mongoose.connect(process.env.DB)
+
 schema = new Schema({
     category: String,
     subcategory: String,
@@ -47,6 +48,8 @@ class Question
             category = 'trash'
         else
             category = 'error'
+        console.log category
+        console.log type
         model = mongoose.model(type, schema, type) # the first is the name , the last is the collection. :|
         cursor = model.aggregate().match({category:type}).sample(1).cursor({batchSize:50}).exec()
         cursor.each(cb)
