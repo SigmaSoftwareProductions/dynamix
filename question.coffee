@@ -48,12 +48,9 @@ class Question
             category = 'trash'
         else
             category = 'error'
-        console.log category
-        console.log type
         model = mongoose.model(type, schema, type) # the first is the name , the last is the collection. :|
-        # cursor = model.aggregate().match({category:type}).sample(1).cursor({batchSize:50}).exec()
-        # cursor.each(cb)
-        model.findOne({"category":category}, cb)
+        cursor = model.aggregate().match({"category":category}).sample(1).cursor({batchSize:50}).exec()
+        cursor.each(cb)
         return
             
     match: (buzz, word) ->
