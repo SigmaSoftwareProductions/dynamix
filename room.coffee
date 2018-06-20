@@ -51,6 +51,8 @@ class Room
         res = ''
         for k, v of msg
             msg[k] = Room.htmlEncode v
+        if (!timestamp?)
+            timestamp = new Date()
         if msg.category == 'greeting'
             @addPerson(msg.person)
             res = {timestamp:timestamp, room:@name, msgContent:{category:"entry", person:msg.person, users:JSON.stringify(@people)}} 
