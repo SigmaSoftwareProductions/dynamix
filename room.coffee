@@ -86,7 +86,7 @@ class Room
     next: () ->
         @word = 0
         self = this
-        Question.getQuestion @distribution, (question) ->
+        Question.getQuestion @distribution, (err, question) ->
             self.q = new Question(question)
             clearInterval(self.interval)
             self.interval = setInterval () ->

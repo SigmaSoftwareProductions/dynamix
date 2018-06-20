@@ -32,7 +32,7 @@ wss.on 'connection', (ws) ->
             ws.send('pong')
             return   
         msg = JSON.parse msg
-        console.log 'msg received as ' + msg if not msg.password? # sneaky sneaky
+        console.log 'msg received as ' + JSON.stringify msg if not msg.password? # sneaky sneaky
         if (msg.greeting? && names.indexOf(msg.room) == -1)
             rooms.push(new Room ({name:msg.room, access:0xF71, owner:msg.msgContent.person, wss:wss})) # maybe the first person there should own it? idk
             names.push(msg.room)
