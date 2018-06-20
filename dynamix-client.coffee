@@ -156,10 +156,10 @@ $(document).ready ->
         else if z.timestamp <= messages[0].timestamp
             messages.shift z
             pos = 0
-        else if z.timestamp >= messages[messages.length -1].timestamp
+        else if z.timestamp >= messages[messages.length-1].timestamp
             pos = (messages.push z) - 1
         else
-            for msgid in [1, messages.length - 2]
+            for msgid in [1, messages.length-2]
                 if (messages[msgid].timestamp <= z.timestamp and messages[msgid+1].timestamp >= z.timestamp)
                     messages.splice msgid, 0, z # goddamn js arrays are stupid
                     pos = msgid

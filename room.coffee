@@ -47,22 +47,22 @@ class Room
             text=text.replace r[0], r[1]
         return text
 
-    handle: (msg) ->
+    handle: (msg, timestamp) ->
         res = ''
         for k, v of msg
             msg[k] = Room.htmlEncode v
         if msg.category == 'greeting'
             @addPerson(msg.person)
-            res = {room:@name, msgContent:{category:"entry", person:msg.person, users:JSON.stringify(@people)}} 
+            res = {timestamp:timestamp, room:@name, msgContent:{category:"entry", person:msg.person, users:JSON.stringify(@people)}} 
         else if msg.category == 'farewell'
             @removePerson(msg.person)
-            res = {room:@name, msgContent:{category:"exit", person:msg.person, users:JSON.stringify(@people)}}
+            res = {timestamp:timestamp, room:@name, msgContent:{category:"exit", person:msg.person, users:JSON.stringify(@people)}}
         else if msg.category == 'config'
             # please implement permission controls!
             @setConfig msg.config
-            res = {room:@name, msgContent:msg}
+            res = {timestamp:timestamp, room:@name, msgContent:msg}
         else if msg.category == 'buzzinit'
-            res = {room:@name, msgContent:{category:"buzzinit", ver:ver, person:msg.person, users:@people}}
+            res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit", ver:ver, person:msg.person, users:@people}}
             @current_buzzer = msg.person
             @pauseRead= true
             @ongoing_buzz = true
@@ -71,15 +71,16 @@ class Room
                 return
             ver = @q.match(msg.value, @word)
             # @people[msg.person] += @ruleset[ver] 
-            res = {room:@name, msgContent:{category:"buzz", value:msg.value, ver:ver, person:msg.person, users:@people}}
+            res = {timestamp:timestamp, room:@name, msgContent:{category:"buzz", value:msg.value, ver:ver, person:msg.person, users:@people}}
             @pauseRead = false
             @ongoing_buzz = false
         else if msg.category == 'chat'
-            res = {room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
+            res = {timestamp:timestamp, room:@name, msgContent:{category:"chat", value:msg.value, person:msg.person}}
         else if msg.category == 'toggle'
             @pauseRead = not @pauseRead
         else if msg.category == "next"
             res = @next()
+            res.timestamp = timestamp
         @wss.broadcast JSON.stringify res 
         return res
         
