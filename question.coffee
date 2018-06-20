@@ -1,27 +1,27 @@
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
-schema = new Schema ({
-    text: String,
-    mins: Array,
-    answers: Array,
-    prompts: Array,
-    rejects: Array,
+schema = new Schema({
+    category: String,
+    subcategory: String,
+    difficulty: String,
     tournament: String,
-    powerloc: Number # 0 if no power, otherwise corresponds to before nth word
+    question: String,
+    source: String,
+    num: Number,
+    year: Number,
+    answer: String,
+    seen: Number,
+    type: String,
+    round: String
 })
 
 class Question
     constructor: (question) ->
-        @id = question.id
-        @text = question.text.split ' '
-        @mins = question.mins
-        @answers = question.answers
-        @prompts = question.prompts
-        @rejects = question.rejects
+        @text = question.question.split ' '
+        @answer = question.answer
         @tournament = question.tournament
         @category = question.category
-        @powerloc = question.powerloc
 		
     @getQuestion: (d, cb) ->
         type = 'tossups'
@@ -51,18 +51,7 @@ class Question
         return
             
     match: (buzz, word) ->
-        console.log 'matching "' + buzz + '" at word number ' + word
-        return "cp" if @mins.includes buzz and word < @powerloc 
-        return "cp" if @answers.includes buzz and word < @powerloc
-        return "ci" if @mins.includes buzz and word < @text.length and word >= @powerloc
-        return "ci" if @answers.includes buzz and word < @text.length and word >= @powerloc
-        return "cn" if @mins.includes buzz
-        return "cn" if @answers.includes buzz
-        return "p" if @prompts.includes buzz
-        return "ii" if @rejects.includes buzz and word < @text.length 
-        return "in" if @rejects.includes buzz
-        return "ii" if word < @text.length
-        return "in" if word == @text.length
+        return @answer
 
 exports.Question = Question if exports?
 		

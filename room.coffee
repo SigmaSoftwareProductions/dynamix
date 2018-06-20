@@ -70,7 +70,7 @@ class Room
             if @current_buzzer != msg.person or @ongoing_read == false
                 return
             ver = @q.match(msg.value, @word)
-            @people[msg.person] += @ruleset[ver] 
+            # @people[msg.person] += @ruleset[ver] 
             res = {room:@name, msgContent:{category:"buzz", value:msg.value, ver:ver, person:msg.person, users:@people}}
             @pauseRead = false
             @ongoing_buzz = false
