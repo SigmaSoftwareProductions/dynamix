@@ -9,7 +9,7 @@ schema = new Schema ({
     rejects: Array,
     tournament: String,
     powerloc: Number # 0 if no power, otherwise corresponds to before nth word
-}, { collection: "tossups" })
+})
 
 class Question
     constructor: (question) ->
@@ -46,7 +46,7 @@ class Question
             category = 'trash'
         else
             category = 'error'
-        model = mongoose.model(type, schema)
+        model = mongoose.model(type, schema, type) # the first is the name , the last is the collection. :|
         model.aggregate.match({category:type}).sample(1).exec(cb)
     
             
