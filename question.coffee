@@ -49,8 +49,7 @@ class Question
             category = 'error'
         console.log category
         model = mongoose.model(type, schema, type) # the first is the name , the last is the collection. :|
-        cursor = model.aggregate().match({"category":category}).sample(1).cursor({batchSize:1}).exec()
-        cursor.each(cb)
+        model.aggregate().match({"category":category}).exec(cb)
         return
             
     match: (buzz, word) ->
