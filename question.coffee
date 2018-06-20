@@ -18,6 +18,7 @@ schema = new Schema({
 
 class Question
     constructor: (question) ->
+        console.log JSON.stringify question
         @text = question.question.split ' '
         @answer = question.answer
         @tournament = question.tournament
