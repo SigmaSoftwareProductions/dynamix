@@ -59,7 +59,7 @@ wss.on 'connection', (ws) ->
             return
             
         if (!msg.add_session?)
-            res = rooms[names.indexOf(msg.room)].handle(msg.msgContent)
+            res = rooms[names.indexOf(msg.room)].handle(msg.msgContent, msg.timestamp)
         return
         
     ws.on 'close', () ->
