@@ -48,7 +48,7 @@ class Question
         else
             category = 'error'
         model = mongoose.model(type, schema, type) # the first is the name , the last is the collection. :|
-        cursor = model.aggregate().match({category:type}).sample(1).cursor({batchSize:50})
+        cursor = model.aggregate().match({category:type}).sample(1).cursor({batchSize:50}).exec()
         cursor.each(cb)
         return
             
