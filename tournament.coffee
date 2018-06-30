@@ -47,4 +47,4 @@ class Tournament
         tournamentModel = mongoose.model('tournament', tournamentSchema, 'tournaments') # collection = tournaments
         tournamentModel.findOne({name:name}, cb) # hopefully if tournament doesn't exist returns null
         
-    
+exports.Tournament = Tournament if exports?
