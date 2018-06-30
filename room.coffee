@@ -4,6 +4,11 @@
 class Room
 
     constructor: (args) ->
+        # check if room is in db
+        # if not, make a default style room
+        # else, set this room to that room
+        # old rooms should expire after @expire number of days
+        @expire = 7
         @name = args.name
         @access = args.access
         @owner = args.owner
@@ -64,8 +69,12 @@ class Room
             @setConfig msg.config
             res = {timestamp:timestamp, room:@name, msgContent:msg}
         else if msg.category == 'buzzinit'
-            res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit", ver:ver, person:msg.person, users:@people}}
-            @current_buzzer = msg.person
+            if not @ongoing_buzz or @buzz_time > timestamp
+                @buzz_time = timestamp
+                res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit-approved", person:msg.person, users:@people}}
+                @current_buzzer = msg.person
+            else 
+                res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit-denied", person:msg.person, users:@people}}
             @pauseRead= true
             @ongoing_buzz = true
         else if msg.category == 'buzz'

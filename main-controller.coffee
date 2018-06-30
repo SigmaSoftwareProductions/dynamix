@@ -2,12 +2,17 @@ console.log 'online'
 
 {Room} = require './room'
 {Person} = require './person'
+{Tournament} = require './tournament'
 wsx = require 'ws'
 mongodb = require 'mongodb'
 mongoose = require 'mongoose'
 crypto = require 'crypto'
 util = require 'util'
 http = require 'http'
+
+Tournament.getTournament 'nothing',(err, tourney)->
+    console.log tourney
+
 
 port = process.env.PORT || 2020
 
