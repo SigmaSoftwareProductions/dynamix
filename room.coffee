@@ -23,7 +23,7 @@ class Room
         @distribution = @default_distributions.dynamix
         @q = 'not yet!'
         @pauseRead = false
-        @speed = 140 # time between words - please set default to 160 or so, as this is for power testing
+        @speed = 0 # time between words - please set default to 160 or so, as this is for power testing
         @interval = null # will be set when setInterval is first called
         @current_buzzer = null
         @ongoing_buzz = false
