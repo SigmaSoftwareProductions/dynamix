@@ -108,7 +108,7 @@ class Room
                 return 'pause' if self.pauseRead 
                 return '#eof#' if self.word > self.q.text.length 
                 res = if self.word < self.q.text.length then self.q.text[self.word] else '#eof#' 
-                self.wss.broadcast JSON.stringify {room:self.name, msgContent:{category:'word', value:res+' '}}
+                self.wss.broadcast JSON.stringify {timestamp: new Date(), room:self.name, msgContent:{category:'word', value:res+' '}}
                 self.word++
                 clearInterval(self.interval) if res == '#eof#'
                 return
@@ -124,7 +124,7 @@ class Room
         @distribution = config.distribution
         @speed = config.speed
         @ruleset = config.ruleset
-        @wss.broadcast JSON.stringify {room:@name,msgContent:{category:'config',config:config}}
+        @wss.broadcast JSON.stringify {timestamp: new Date(), room:@name,msgContent:{category:'config',config:config}}
         return
         
     checkConfig: (config) ->
