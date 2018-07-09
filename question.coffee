@@ -1,4 +1,5 @@
 mongoose = require 'mongoose'
+checker = require './checker'
 Schema = mongoose.Schema
 mongoose.connect(process.env.DB)
 
@@ -50,10 +51,18 @@ class Question
         console.log category
         model = mongoose.model(type, schema, type) # the first is the name , the last is the collection. :|
         model.aggregate().match({"category":category}).sample(1).exec(cb)
-        return
             
     match: (buzz, word) ->
-        return @answer
+        checked = checker.check this, buzz, word
+        if checked == 1 and word < @text.length - 1
+            return "neg"
+        else if checked == 1
+            return "wrong"
+        else if word < @text.length - 1
+            return "int"
+        else
+            return "correct"
+            
 
 exports.Question = Question if exports?
 		
