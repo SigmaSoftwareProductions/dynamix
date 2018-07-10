@@ -2,9 +2,9 @@
 
 class TeamRoom extends Room
     constructor = (args) ->
-        super (args)
         @team1 = args.team1
         @team2 = args.team2
+        super args
         
     setTeams = (team1, team2) ->
         @team1 = team1
