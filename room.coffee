@@ -63,7 +63,7 @@ class Room
             res = {timestamp:timestamp, room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
         else if msg.category == 'farewell'
             @removePerson(msg.person)
-            res = {timestamp:timestamp, room:@name, msgContent:{category:"exit", person:msg.person, users:JSON.@people}}
+            res = {timestamp:timestamp, room:@name, msgContent:{category:"exit", person:msg.person, users:@people}}
         else if msg.category == 'config'
             # please implement permission controls!
             @setConfig msg.config
