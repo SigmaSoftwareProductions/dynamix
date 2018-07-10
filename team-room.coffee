@@ -18,10 +18,16 @@ class TeamRoom extends Room
             timestamp = new Date()
         if msg.category == 'greeting'
             @addPerson(msg.person)
-            res = {timestamp:timestamp, room:@name, msgContent:{category:"entry", person:msg.person, users:{team1.name: team1.points, team2.name: team2.points}}} 
+            teams = {}
+            teams[team1.name]=team1.points
+            teams[team2.name]=team2.points
+            res = {timestamp:timestamp, room:@name, msgContent:{category:"entry", person:msg.person, users:teams}} 
         else if msg.category == 'farewell'
             @removePerson(msg.person)
-            res = {timestamp:timestamp, room:@name, msgContent:{category:"exit", person:msg.person,  users:{team1.name: team1.points, team2.name: team2.points}}}
+            teams = {}
+            teams[team1.name]=team1.points
+            teams[team2.name]=team2.points
+            res = {timestamp:timestamp, room:@name, msgContent:{category:"exit", person:msg.person, users:teams}}
         else if msg.category == 'config'
             # please implement permission controls!
             @setConfig msg.config
@@ -36,10 +42,16 @@ class TeamRoom extends Room
                 for player in player_team.players
                     @already_buzzed.push player
                 @buzz_time = timestamp
-                res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit-approved", person:msg.person,  users:{team1.name: team1.points, team2.name: team2.points}}}
+                teams = {}
+                teams[team1.name]=team1.points
+                teams[team2.name]=team2.points
+                res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit-approved", person:msg.person, users:teams}}
                 @current_buzzer = msg.person
             else 
-                res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit-denied", person:msg.person, users:{team1.name: team1.points, team2.name: team2.points}}}
+                teams = {}
+                teams[team1.name]=team1.points
+                teams[team2.name]=team2.points
+                res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit-denied", person:msg.person, users:teams}}
             @pauseRead= true
             @ongoing_buzz = true
         else if msg.category == 'buzz'
@@ -55,7 +67,10 @@ class TeamRoom extends Room
             console.log ver
             console.log @ruleset[ver]
             console.log @people
-            res = {timestamp:timestamp, room:@name, msgContent:{category:"buzz", value:msg.value, ver:ver, person:msg.users:{team1.name: team1.points, team2.name: team2.points}}}
+            teams = {}
+            teams[team1.name]=team1.points
+            teams[team2.name]=team2.points
+            res = {timestamp:timestamp, room:@name, msgContent:{category:"buzz", value:msg.value, ver:ver, person:msg.person, users:teams}}
             @pauseRead = false
             @ongoing_buzz = false
         else if msg.category == 'chat'
