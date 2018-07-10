@@ -23,7 +23,7 @@ class Room
         @distribution = @default_distributions.dynamix
         @q = 'not yet!'
         @pauseRead = false
-        @speed = 0 # time between words - please set default to 160 or so, as this is for power testing
+        @speed = 120 # time between words - please set default to 160 or so, as this is for power testing
         @interval = null # will be set when setInterval is first called
         @current_buzzer = null
         @ongoing_buzz = false
@@ -60,10 +60,10 @@ class Room
             timestamp = new Date()
         if msg.category == 'greeting'
             @addPerson(msg.person)
-            res = {timestamp:timestamp, room:@name, msgContent:{category:"entry", person:msg.person, users:JSON.stringify(@people)}} 
+            res = {timestamp:timestamp, room:@name, msgContent:{category:"entry", person:msg.person, users:@people}} 
         else if msg.category == 'farewell'
             @removePerson(msg.person)
-            res = {timestamp:timestamp, room:@name, msgContent:{category:"exit", person:msg.person, users:JSON.stringify(@people)}}
+            res = {timestamp:timestamp, room:@name, msgContent:{category:"exit", person:msg.person, users:JSON.@people}}
         else if msg.category == 'config'
             # please implement permission controls!
             @setConfig msg.config
