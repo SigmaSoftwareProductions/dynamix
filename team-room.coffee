@@ -4,7 +4,27 @@ class TeamRoom extends Room
     constructor = (args) ->
         @team1 = args.team1
         @team2 = args.team2
-        super args
+        @expire = 7
+        @name = args.name
+        @access = args.access
+        @owner = args.owner
+        @wss = args.wss # this is somewhat messy
+        @people = {}
+        @default_distributions = { 
+            dynamix:{sci: 20, history: 20, lit: 20, art: 20, philsoc: 10, relmyth: 5, geogen: 5, trash: 0},
+            acf:{sci: 21, history: 21, lit: 20, art: 13, philsoc: 8, relmyth: 9, geogen: 4, trash: 4},
+            pace:{sci: 20, history: 20, lit: 20, art: 15, philsoc: 8, relmyth: 10, geogen: 7, trash: 0}
+        }
+        @ruleset = {"power": 15, "int": 10, "correct": 10, "neg": -5, "wrong": 0, "num_tu":0, "bonus":false, "bounceback":false}  
+        @distribution = @default_distributions.dynamix
+        @q = 'not yet!'
+        @pauseRead = false
+        @speed = 120 # time between words - please set default to 160 or so, as this is for power testing
+        @interval = null # will be set when setInterval is first called
+        @current_buzzer = null
+        @ongoing_buzz = false
+        @multiple_buzzes = false
+        @already_buzzed = []
         
     setTeams = (team1, team2) ->
         @team1 = team1
