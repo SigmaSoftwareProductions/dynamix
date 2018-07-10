@@ -10,10 +10,6 @@ crypto = require 'crypto'
 util = require 'util'
 http = require 'http'
 
-Tournament.getTournament 'nothing',(err, tourney)->
-    console.log tourney
-
-
 port = process.env.PORT || 2020
 
 wss = new wsx.Server({port: port})
@@ -32,6 +28,7 @@ wss.broadcast = (data) ->
 wss.on 'connection', (ws) ->
     name = "what is a string that will never be a name?"
     room = ""
+    type = 0 # 0 -> std, 1 -> team
     ws.on 'message', (msg) ->
         if msg == 'ping'
             ws.send('pong')
@@ -41,6 +38,12 @@ wss.on 'connection', (ws) ->
         if (msg.greeting? && names.indexOf(msg.room) == -1)
             rooms.push(new Room ({name:msg.room, access:0xF71, owner:msg.msgContent.person, wss:wss})) # maybe the first person there should own it? idk
             names.push(msg.room)
+        if (msg.changeRoomType?)
+            if type == 0
+                rooms.splice names.indexOf(room), 1, new Room ({name:room, access:0xF71, owner:msg.msgContent.person, wss:wss, team1:new Team(msg.team1ppl, msg.team1), team2:new Team(msg.team2ppl, msg.team2)})
+            else 
+                rooms.splice names.indexOf(room), 1, new Room ({name:msg.room, access:0xF71, owner:msg.msgContent.person, wss:wss})
+            return
         if (msg.greeting?)
             name = msg.msgContent.person
             room = msg.room

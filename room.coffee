@@ -27,6 +27,8 @@ class Room
         @interval = null # will be set when setInterval is first called
         @current_buzzer = null
         @ongoing_buzz = false
+        @multiple_buzzes = false
+        @already_buzzed = []
         ###
             about access permissions:
             kinda like a chmod code, but in hexadec
@@ -45,7 +47,7 @@ class Room
         rx = [
             [/&/g, '&amp;']
             [/</g, '&lt;']
-            [new RegExp("'", 'g'), '"']
+            [new RegExp("'", 'g'), '&#39;']
             [new RegExp('"', 'g'), '&quot;']
         ]
         for r in rx
@@ -69,7 +71,8 @@ class Room
             @setConfig msg.config
             res = {timestamp:timestamp, room:@name, msgContent:msg}
         else if msg.category == 'buzzinit'
-            if not @ongoing_buzz or @buzz_time > timestamp
+            if not @ongoing_buzz or @buzz_time > timestamp or @already_buzzed.indexOf(msg.person) == -1
+                @already_buzzed.push msg.person
                 @buzz_time = timestamp
                 res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit-approved", person:msg.person, users:@people}}
                 @current_buzzer = msg.person
@@ -99,6 +102,7 @@ class Room
         return res
         
     next: () ->
+        @already_buzzed = []
         @word = 0
         self = this
         Question.getQuestion @distribution, (err, questions) ->

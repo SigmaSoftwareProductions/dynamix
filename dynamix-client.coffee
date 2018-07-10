@@ -1,6 +1,8 @@
 $(document).ready ->
     room = window.location.pathname.substring(1)
     messages = []
+    $('#buzzbox').hide()
+    $('#chatbox').hide()
     try
         session = JSON.parse(document.cookie).session
         name = JSON.parse(document.cookie).username
@@ -14,7 +16,7 @@ $(document).ready ->
         if name == ''
             name = 'comrade popov'
             
-    speed = 120 # time distance between two words
+    speed = 120
     ws = new WebSocket('wss://dynamix-coordinator.herokuapp.com')
     
     sendbuzz = () ->
@@ -49,6 +51,7 @@ $(document).ready ->
         $('#chatbox').show()
         setTimeout (->
             $('#chatbox').focus()
+            window.scrollTo 0, 0
         ), 30
         return
             
@@ -56,6 +59,7 @@ $(document).ready ->
         $('#buzzbox').show()
         setTimeout (->
             $('#buzzbox').focus()
+            window.scrollTo 0, 0
         ), 30
         ws.send JSON.stringify({
             timestamp: new Date()
@@ -89,72 +93,75 @@ $(document).ready ->
         })
         return
         
-    sendconfig = () ->
-        config_obj = {
-            # spaghetti code lmao
-            # checks for proper format are performed on server side,
-            # so don't get smart.
-            room:room,
-            msgContent:{
-                category:'config',
-                config:{
-                    speed:document.getElementById('speed').value,
-                    ruleset:{
-                        cp:document.getElementById('cp').value,
-                        ci:document.getElementById('ci').value,
-                        cn:document.getElementById('cn').value,
-                        ii:document.getElementById('ii').value,
-                        in:document.getElementById('in').value
-                    },
-                    distribution:{
-                        sci:document.getElementById('dsci').value,
-                        hist:document.getElementById('dhist').value,
-                        lit:document.getElementById('dlit').value,
-                        art:document.getElementById('dart').value,
-                        relmyth:document.getElementById('drelmyth').value,
-                        philsoc:document.getElementById('dphilsoc').value,
-                        geo:document.getElementById('dgeo').value,
-                        trash:document.getElementById('dtrash').value
-                    }
-                }
-            }
-        }
-        console.log JSON.stringify config_obj
-        ws.send (JSON.stringify (config_obj))
-        return
+    renderUsers = (users) ->
+        $('#users').empty()
+        rank = 1
+        for max of users
+            for user of users
+                if users.user > users.max
+                    max = user
+            $('#users').append('<tr><td>'+rank+'</td><td>'+max+'</td><td>'+users[max]+'</td></tr>')
+            delete users[max]
+            users[rank+10000000]=-999999999-rank # guaranteed to be a low score
         
     render = (msg, pos) ->
-        if messages.length == 0
-            $("#message-container").prepend "<div id=\"msg-0\">" + JSON.stringify(msg) + "</div>"
+        console.log pos
+        if msg.users?
+            renderUsers msg.users
+        if ['next', 'word'].indexOf(msg.category) != -1
+            messages.splice pos, 1 # we don't want individual words taking up space
+            if msg.category == 'word'
+                $('#question').append msg.value
+                return
+            else if msg.category == 'next'
+                $('#question').text ''
+                return
+            # stuff!
             return
-        else if pos == messages.length - 1
-            $('#message-container').prepend "<div id=\"msg-#{ pos }\">" + JSON.stringify(msg) + "</div>"
+        else
+            message_value = '' # the final rendered form
+            if msg.category == 'chat'
+                message_value = '<b>' + msg.person + '</b> ' + msg.value
+            else if msg.category == 'buzzinit-approved'
+                message_value = '<em>' + msg.person + " buzzed</em>"
+            else if msg.category == 'buzz'
+                if msg.ver == "wrong"
+                    message_value = '<b><font color="#ff9900">' + msg.person + '</font></b> ' + msg.value
+                else if msg.ver == "neg"
+                    message_value = '<b><font color="#dc143c">' + msg.person + '</font></b> ' + msg.value
+                else if msg.ver == "correct"
+                    message_value = '<b><font color="#3e89b4">' + msg.person + '</font></b> ' + msg.value
+                else if msg.ver == "int"
+                    message_value = '<b><font color="#3eb489">' + msg.person + '</font></b> ' + msg.value
+            else if msg.category == 'entry'
+                message_value = '--- <b>' + msg.person + '</b> entered the room</div>'
+            else
+                message_value = JSON.stringify msg
+            if messages.length == 0
+                $("#message-container").prepend "<div id=\"msg-0\" class=\"container-fluid\">" + message_value + "</div>"
+                return
+            else if pos == messages.length - 1
+                $('#message-container').prepend "<div id=\"msg-#{ pos }\" class=\"container-fluid\">" + message_value + "</div>"
+                return
+            else
+                for id in [pos...messages.length-1]
+                    $("#msg-#{ id }").prop 'id', "msg-#{ id + 1 }"
+                $("#msg-#{ pos + 1 }").before "<div id=\"msg-#{ pos }\" class=\"container-fluid\">" + message_value + "</div>"
+                return
             return
-        for id in [pos...messages.length -1]
-            $("#msg-#{ id }").prop 'id', "msg-#{ id + 1 }"
-        $("#msg-#{ pos + 1 }").before "<div id=\"msg-#{ pos }\">" + JSON.stringify(msg) + "</div>"
         return
     
-    renderQuestionMsg = (msg) ->
-        if msg.category == 'word'
-            $('#question').append msg.value
-        else
-            $('#question').val('')
-        
     ws.onmessage = (event) ->
         console.log JSON.stringify event.data
         return if event.data == 'pong'
         z = JSON.parse(event.data)
         return if z.room != room
-        if z.msgContent.category == 'word' or z.msgContent.category == 'next'
-            renderQuestionMsg z.msgContent
-            return
         pos = 0 # the position to add the msg at
         if messages.length == 0
             messages.push z
             pos = 0
         else if z.timestamp <= messages[0].timestamp
-            messages.shift z
+            messages.unshift z
             pos = 0
         else if z.timestamp >= messages[messages.length-1].timestamp
             pos = (messages.push z) - 1
@@ -168,11 +175,11 @@ $(document).ready ->
 
     ws.onopen = (event) ->
         ws.send(JSON.stringify({timestamp: new Date(), greeting:'hello world!', session: session, room:room, msgContent:{person:name, category:'greeting'}}))
-        pinger = setInterval ping, 40000
+        pinger = setInterval ping, 30000
         return
         
     ws.onclose = (event) ->
-        $('#question').after '<div class="container-fluid">you have been disconnected from the server</div>'
+        $('#question').after '<div class="container-fluid"><em>you have been disconnected from the server</em></div>'
         return
         
     ping = () ->
