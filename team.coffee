@@ -6,4 +6,4 @@ class Team
         @players = people
         @points = 0
         
-exports.Team = Team if exports?
+exports.Team = Team if exports? 
