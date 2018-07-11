@@ -40,8 +40,10 @@ wss.on 'connection', (ws) ->
             rooms.push(new Room ({name:msg.room, access:0xF71, owner:msg.msgContent.person, wss:wss})) # maybe the first person there should own it? idk
             names.push(msg.room)
         if (msg.changeRoomType?)
-            console.log rooms
-            rooms.splice names.indexOf(room), 1, new TeamRoom ({name:room, access:0xF71, owner:msg.msgContent.person, wss:wss, team1:new Team(msg.team1ppl, msg.team1), team2:new Team(msg.team2ppl, msg.team2)})
+            newRoom = new TeamRoom ({name:room, access:0xF71, owner:msg.msgContent.person, wss:wss, team1:new Team(msg.team1ppl, msg.team1), team2:new Team(msg.team2ppl, msg.team2)})
+            console.log '***********'+newRoom+'**********************'
+            console.log names.indexOf(room)
+            rooms.splice names.indexOf(room), 1, newRoom
             console.log rooms
             return
         if (msg.greeting?)
