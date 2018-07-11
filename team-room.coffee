@@ -15,7 +15,7 @@ class TeamRoom extends Room
             acf:{sci: 21, history: 21, lit: 20, art: 13, philsoc: 8, relmyth: 9, geogen: 4, trash: 4},
             pace:{sci: 20, history: 20, lit: 20, art: 15, philsoc: 8, relmyth: 10, geogen: 7, trash: 0}
         }
-        @ruleset = {"power": 15, "int": 10, "correct": 10, "neg": -5, "wrong": 0, "num_tu":0, "bonus":false, "bounceback":false}  
+        @ruleset = {"power": 15, "int": 10, "correct": 10, "neg": -5, "wrong": 0, "num_tu":20, "bonus":false, "bounceback":false}  
         @distribution = @default_distributions.dynamix
         @q = 'not yet!'
         @pauseRead = false
@@ -65,12 +65,14 @@ class TeamRoom extends Room
                 teams = {}
                 teams[team1.name]=team1.points
                 teams[team2.name]=team2.points
+                console.log teams
                 res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit-approved", person:msg.person, users:teams}}
                 @current_buzzer = msg.person
             else 
                 teams = {}
                 teams[team1.name]=team1.points
                 teams[team2.name]=team2.points
+                console.log teams
                 res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit-denied", person:msg.person, users:teams}}
             @pauseRead= true
             @ongoing_buzz = true
@@ -84,12 +86,10 @@ class TeamRoom extends Room
                 player_team = @team1
             ver = @q.match(msg.value, @word)
             player_team.points += @ruleset[ver] 
-            console.log ver
-            console.log @ruleset[ver]
-            console.log @people
             teams = {}
             teams[team1.name]=team1.points
             teams[team2.name]=team2.points
+            console.log teams
             res = {timestamp:timestamp, room:@name, msgContent:{category:"buzz", value:msg.value, ver:ver, person:msg.person, users:teams}}
             @pauseRead = false
             @ongoing_buzz = false
