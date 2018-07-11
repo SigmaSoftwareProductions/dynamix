@@ -16,8 +16,8 @@ port = process.env.PORT || 2020
 wss = new wsx.Server({port: port})
 console.log "wss online on port " + port
 
-rooms = []
-names = []
+rooms = [new Room ({name:'', access:0, owner:"entropy", wss:wss})]
+names = [""]
 sessions = {"guest": [0]}
 
 wss.broadcast = (data) ->
@@ -31,6 +31,8 @@ wss.on 'connection', (ws) ->
     room = ""
     type = 0 # 0 -> std, 1 -> team
     ws.on 'message', (msg) ->
+        console.log rooms
+        console.log teams
         if msg == 'ping'
             ws.send('pong')
             return   
