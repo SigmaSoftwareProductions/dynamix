@@ -16,8 +16,8 @@ port = process.env.PORT || 2020
 wss = new wsx.Server({port: port})
 console.log "wss online on port " + port
 
-rooms = [new Room ({name:'', access:0, owner:"entropy", wss:wss})]
-names = [""]
+rooms = []
+names = []
 sessions = {"guest": [0]}
 
 wss.broadcast = (data) ->
