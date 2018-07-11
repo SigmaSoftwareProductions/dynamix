@@ -41,7 +41,7 @@ wss.on 'connection', (ws) ->
             names.push(msg.room)
         if (msg.changeRoomType?)
             newRoom = new TeamRoom ({name:room, access:0xF71, owner:msg.msgContent.person, wss:wss, team1:new Team(msg.team1ppl, msg.team1), team2:new Team(msg.team2ppl, msg.team2)})
-            console.log '***********'+newRoom+'**********************'
+            console.log '***********'+JSON.stringify(newRoom)+'**********************'
             console.log names.indexOf(room)
             rooms.splice names.indexOf(room), 1, newRoom
             console.log rooms
