@@ -1,5 +1,5 @@
 console.log 'online'
-
+{Team} = require './team'
 {Room} = require './room'
 {Person} = require './person'
 {Tournament} = require './tournament'
