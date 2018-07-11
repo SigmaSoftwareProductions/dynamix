@@ -32,7 +32,7 @@ wss.on 'connection', (ws) ->
     type = 0 # 0 -> std, 1 -> team
     ws.on 'message', (msg) ->
         console.log rooms
-        console.log teams
+        console.log names
         if msg == 'ping'
             ws.send('pong')
             return   
