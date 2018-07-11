@@ -31,8 +31,6 @@ wss.on 'connection', (ws) ->
     room = ""
     type = 0 # 0 -> std, 1 -> team
     ws.on 'message', (msg) ->
-        console.log rooms
-        console.log names
         if msg == 'ping'
             ws.send('pong')
             return   

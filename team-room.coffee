@@ -33,6 +33,8 @@ class TeamRoom extends Room
         @team2 = team2
         
     handle: (msg, timestamp) ->
+        console.log (typeof this)
+        console.log ("supposedly the team room handling method")
         res = ''
         for k, v of msg
             msg[k] = Room.htmlEncode v

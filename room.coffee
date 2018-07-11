@@ -55,6 +55,8 @@ class Room
         return text
 
     handle: (msg, timestamp) ->
+        console.log (typeof this)
+        console.log ("foobarbaz regular handling method!")
         res = ''
         for k, v of msg
             msg[k] = Room.htmlEncode v
