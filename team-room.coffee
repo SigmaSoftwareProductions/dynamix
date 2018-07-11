@@ -103,4 +103,4 @@ class TeamRoom extends Room
         @wss.broadcast JSON.stringify res 
         return res
         
-        
+exports.TeamRoom = TeamRoom if exports?        
