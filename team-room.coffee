@@ -2,6 +2,9 @@
 
 class TeamRoom extends Room
     constructor = (args) ->
+        console.log args
+        console.log args.teama
+        console.log args.teamb
         @team1 = args.teama
         @team2 = args.teamb
         @expire = 7
