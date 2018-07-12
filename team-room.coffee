@@ -1,7 +1,7 @@
 {Room} = require './room'
 
 class TeamRoom extends Room
-    constructor = (args) ->
+    constructor: (args) ->
         console.log args
         console.log args.teama
         console.log args.teamb
