@@ -27,14 +27,14 @@ class TeamRoom extends Room
         @ongoing_buzz = false
         @multiple_buzzes = false
         @already_buzzed = []
+        console.log 'my team 1 is ' + team1
+        console.log 'my team 2 is ' + team2 
         
     setTeams = (team1, team2) ->
         @team1 = team1
         @team2 = team2
         
     handle: (msg, timestamp) ->
-        console.log (typeof this)
-        console.log ("supposedly the team room handling method")
         res = ''
         for k, v of msg
             msg[k] = Room.htmlEncode v

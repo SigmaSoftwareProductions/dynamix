@@ -42,13 +42,11 @@ wss.on 'connection', (ws) ->
         if (msg.changeRoomType?)
             team1 = new Team(msg.team1ppl, msg.team1)
             team2 = new Team(msg.team2ppl, msg.team2)
-            console.log team1
-            console.log team2
+            console.log 'team 1 should be ' + team1
+            console.log 'team 2 should be ' + team2
             newRoom = new TeamRoom ({name:room, access:0xF71, owner:msg.msgContent.person, wss:wss, team1:new Team(msg.team1ppl, msg.team1), team2:new Team(msg.team2ppl, msg.team2)})
-            console.log names.indexOf(room)
             rooms.splice names.indexOf(room), 1
             rooms.splice names.indexOf(room), 0, newRoom
-            console.log rooms
             return
         if (msg.greeting?)
             name = msg.msgContent.person
