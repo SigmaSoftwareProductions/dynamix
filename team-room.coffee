@@ -21,14 +21,15 @@ class TeamRoom extends Room
         if msg.category == 'greeting'
             @addPerson(msg.person)
             teams = {}
-            teams[team1.name]=team1.points
-            teams[team2.name]=team2.points
+            teams = {}
+            teams[@team1.name]=@team1.points
+            teams[@team2.name]=@team2.points
             res = {timestamp:timestamp, room:@name, msgContent:{category:"entry", person:msg.person, users:teams}} 
         else if msg.category == 'farewell'
             @removePerson(msg.person)
             teams = {}
-            teams[team1.name]=team1.points
-            teams[team2.name]=team2.points
+            teams[@team1.name]=@team1.points
+            teams[@team2.name]=@team2.points
             res = {timestamp:timestamp, room:@name, msgContent:{category:"exit", person:msg.person, users:teams}}
         else if msg.category == 'config'
             # please implement permission controls!
@@ -47,14 +48,12 @@ class TeamRoom extends Room
                 teams = {}
                 teams[@team1.name]=@team1.points
                 teams[@team2.name]=@team2.points
-                console.log teams
                 res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit-approved", person:msg.person, users:teams}}
                 @current_buzzer = msg.person
             else 
                 teams = {}
-                teams[team1.name]=team1.points
-                teams[team2.name]=team2.points
-                console.log teams
+                teams[@team1.name]=@team1.points
+                teams[@team2.name]=@team2.points
                 res = {timestamp:timestamp, room:@name, msgContent:{category:"buzzinit-denied", person:msg.person, users:teams}}
             @pauseRead= true
             @ongoing_buzz = true
@@ -69,9 +68,8 @@ class TeamRoom extends Room
             ver = @q.match(msg.value, @word)
             player_team.points += @ruleset[ver] 
             teams = {}
-            teams[team1.name]=team1.points
-            teams[team2.name]=team2.points
-            console.log teams
+            teams[@team1.name]=@team1.points
+            teams[@team2.name]=@team2.points
             res = {timestamp:timestamp, room:@name, msgContent:{category:"buzz", value:msg.value, ver:ver, person:msg.person, users:teams}}
             @pauseRead = false
             @ongoing_buzz = false
