@@ -43,7 +43,8 @@ wss.on 'connection', (ws) ->
             team1 = new Team(msg.team1ppl, msg.team1)
             team2 = new Team(msg.team2ppl, msg.team2)
             args = {name:room, access:0xF71, owner:msg.msgContent.person, teama:new Team(msg.team1ppl, msg.team1), teamb:new Team(msg.team2ppl, msg.team2)}
-            console.log JSON.stringify(args)
+            console.log(JSON.stringify(args))
+            args.wss = wss
             newRoom = new TeamRoom (args)
             rooms.splice names.indexOf(room), 1
             rooms.splice names.indexOf(room), 0, newRoom
